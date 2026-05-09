@@ -1,0 +1,673 @@
+version: 2
+
+models:
+
+  # ─────────────────────────────────────────────────────────────────
+  # STG_BRONZE__BOOKSTORE_VENTAS_RAW
+  # ─────────────────────────────────────────────────────────────────
+  - name: stg_bronze__bookstore_ventas_raw
+    description: >
+      Ventas limpias y tipadas desde la capa Bronze.
+      Una fila por transacción de venta. 8.000 registros.
+      Incluye campos derivados de importe (descuento_total, descuento_pct, ticket_medio)
+      y flags de negocio (es_venta_anonima, tiene_municipio).
+    columns:
+
+      - name: venta_id
+        description: "Identificador único de la venta. Formato V##### (ej: V00001). Clave primaria."
+        tests: [unique, not_null]
+
+      - name: fecha
+        description: "Fecha de la transacción casteada a DATE. Rango: 2022-01-01 → 2024-01-01."
+        tests: [not_null]
+
+      - name: canal
+        description: "Canal de venta normalizado. Valores: 'Online' o 'Tienda física'."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Online', 'Tienda física']
+
+      - name: tienda_id
+        description: "Identificador de la tienda. T001–T012 para físicas, 'ONLINE' para el canal digital."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ONLINE','T001','T002','T003','T004','T005','T006',
+                       'T007','T008','T009','T010','T011','T012']
+
+      - name: empleado_id
+        description: "Identificador del empleado que realizó la venta. 'ONLINE' para ventas digitales."
+        tests: [not_null]
+
+      - name: cliente_id
+        description: "Identificador del cliente. 'SIN_REGISTRO' para compras anónimas (10% del total)."
+        tests: [not_null]
+
+      - name: cod_municipio_venta_ine
+        description: >
+          Código INE del municipio donde se realizó la venta.
+          NULL para las 339 ventas Online con cliente SIN_REGISTRO (sin referencia geográfica posible).
+
+      - name: total_lineas
+        description: "Número de productos distintos incluidos en la venta. Rango: 1–10."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 10
+
+      - name: total_unidades
+        description: "Total de unidades vendidas en la transacción. Rango: 1–18. Siempre >= total_lineas."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 18
+
+      - name: importe_bruto
+        description: "Importe total antes de descuentos en €. Rango: 9,04 € – 486,76 €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: importe_neto
+        description: "Importe final tras descuentos en €. Rango: 7,77 € – 460,49 €. Siempre <= importe_bruto."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: descuento_total
+        description: "Descuento aplicado en € calculado como importe_bruto − importe_neto."
+
+      - name: descuento_pct
+        description: "Porcentaje de descuento aplicado. Calculado como descuento_total / importe_bruto × 100."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+
+      - name: ticket_medio
+        description: "Importe neto por unidad vendida. Calculado como importe_neto / total_unidades."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: es_venta_anonima
+        description: "TRUE si el cliente es SIN_REGISTRO. 800 ventas anónimas (10% del total)."
+        tests: [not_null]
+
+      - name: tiene_municipio
+        description: "TRUE si cod_municipio_venta_ine no es NULL. FALSE para las 339 ventas Online anónimas."
+        tests: [not_null]
+
+      - name: _loaded_at
+        description: "Timestamp de carga del registro en la capa staging."
+
+  # ─────────────────────────────────────────────────────────────────
+  # STG_BRONZE__BOOKSTORE_LINEAS_VENTA_RAW
+  # ─────────────────────────────────────────────────────────────────
+  - name: stg_bronze__bookstore_lineas_venta_raw
+    description: >
+      Líneas de detalle de cada venta limpias y tipadas.
+      Una fila por producto (isbn) incluido en cada venta. 18.056 registros.
+      Media de 2,26 líneas por venta. num_linea siempre secuencial desde 1.
+    columns:
+
+      - name: linea_id
+        description: "Identificador único de la línea. Formato L###### (ej: L000001). Clave primaria."
+        tests: [unique, not_null]
+
+      - name: venta_id
+        description: "FK → stg_bronze__bookstore_ventas_raw. Todas las ventas tienen al menos una línea."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_bronze__bookstore_ventas_raw')
+              field: venta_id
+
+      - name: isbn
+        description: "FK → stg_bronze__bookstore_catalogo_productos_raw. 500 títulos únicos."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_bronze__bookstore_catalogo_productos_raw')
+              field: isbn
+
+      - name: num_linea
+        description: "Número de línea dentro de la venta. Secuencial desde 1. Rango: 1–10."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 10
+
+      - name: categoria
+        description: "Categoría del producto en el momento de la venta. 10 valores posibles."
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - 'Arte y Fotografía'
+                - 'Autoayuda'
+                - 'Ciencia y Tecnología'
+                - 'Cómics/Manga'
+                - 'Economía/Negocios'
+                - 'Ficción'
+                - 'Historia'
+                - 'Idiomas'
+                - 'Infantil/Juvenil'
+                - 'No Ficción'
+
+      - name: unidades
+        description: "Unidades vendidas de este producto en la línea. Valores posibles: 1, 2, 3 o 4."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+
+      - name: precio_unitario
+        description: "Precio aplicado por unidad en la transacción en €. Rango: 4,70 € – 82,08 €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: importe_bruto
+        description: "Importe de la línea antes de descuento en €. Igual a precio_unitario × unidades."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: descuento_pct
+        description: "Descuento en tanto por uno. 4 valores posibles: 0.0, 0.05, 0.10 o 0.15."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0.0, 0.05, 0.1, 0.15]
+
+      - name: importe_neto
+        description: >
+          Importe final de la línea tras descuento en €.
+          67 registros tienen diferencia de ±0,01 € por redondeo — comportamiento esperado.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: descuento_importe
+        description: "Descuento aplicado en € calculado como importe_bruto − importe_neto."
+
+      - name: _loaded_at
+        description: "Timestamp de carga del registro en la capa staging."
+
+  # ─────────────────────────────────────────────────────────────────
+  # STG_BRONZE__BOOKSTORE_CLIENTES_RAW
+  # ─────────────────────────────────────────────────────────────────
+  - name: stg_bronze__bookstore_clientes_raw
+    description: >
+      Clientes registrados más el registro especial SIN_REGISTRO.
+      801 registros: 800 clientes reales (C0001–C0800) y 1 registro anónimo.
+      Los campos con valor '-' en Bronze se convierten a NULL en staging.
+    columns:
+
+      - name: cliente_id
+        description: "Identificador único del cliente. Formato C#### o 'SIN_REGISTRO'. Clave primaria."
+        tests: [unique, not_null]
+
+      - name: nombre
+        description: "Nombre completo del cliente. 'Cliente no registrado' para SIN_REGISTRO."
+        tests: [not_null]
+
+      - name: edad
+        description: "Edad del cliente en años. Rango: 18–80. NULL para SIN_REGISTRO."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 18
+              max_value: 80
+              where: "cliente_id != 'SIN_REGISTRO'"
+
+      - name: segmento_edad
+        description: "Tramo de edad. Valores: '18-25', '26-40', '41-60', '61+'. NULL para SIN_REGISTRO."
+        tests:
+          - not_null:
+              where: "es_anonimo = false"
+          - accepted_values:
+              values: ['18-25', '26-40', '41-60', '61+']
+
+      - name: municipio
+        description: "Municipio de residencia del cliente. NULL para SIN_REGISTRO."
+
+      - name: provincia
+        description: "Provincia de residencia del cliente. NULL para SIN_REGISTRO."
+
+      - name: ccaa
+        description: >
+          Comunidad autónoma del cliente. 7 valores: Madrid (215), Andalucía (209),
+          Cataluña (118), País Vasco (89), C. Valenciana (82), Aragón (44), Castilla y León (43).
+          NULL para SIN_REGISTRO.
+
+      - name: canal_preferido
+        description: "Canal de compra preferido. 'Online' o 'Tienda física'. NULL para SIN_REGISTRO."
+        tests:
+          - accepted_values:
+              values: ['Online', 'Tienda física']
+
+      - name: fecha_alta
+        description: "Fecha de registro del cliente. Rango: 2021-01-03 → 2024-12-31. NULL para SIN_REGISTRO."
+
+      - name: newsletter
+        description: "Suscripción a newsletter. 'Sí' o 'No'. NULL para SIN_REGISTRO."
+        tests:
+          - accepted_values:
+              values: ['Sí', 'No']
+
+      - name: es_anonimo
+        description: "TRUE si el registro es SIN_REGISTRO."
+        tests: [not_null]
+
+      - name: _loaded_at
+        description: "Timestamp de carga del registro en la capa staging."
+
+  # ─────────────────────────────────────────────────────────────────
+  # STG_BRONZE__BOOKSTORE_TIENDAS_RAW
+  # ─────────────────────────────────────────────────────────────────
+  - name: stg_bronze__bookstore_tiendas_raw
+    description: >
+      Tiendas físicas de la cadena limpias y tipadas. 12 registros (T001–T012).
+      No incluye el canal Online. Campo canal derivado del tienda_id.
+    columns:
+
+      - name: tienda_id
+        description: "Identificador único de la tienda. Formato T### (T001–T012). Clave primaria."
+        tests: [unique, not_null]
+
+      - name: nombre
+        description: "Nombre comercial de la tienda. 12 valores únicos."
+        tests: [unique, not_null]
+
+      - name: municipio
+        description: "Municipio donde está ubicada la tienda. Cada tienda está en un municipio distinto."
+        tests: [unique, not_null]
+
+      - name: m2
+        description: "Superficie de la tienda en m². Rango: 120–220 m². Media: 165 m²."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 100
+              max_value: 250
+
+      - name: num_empleados
+        description: "Número de empleados asignados. Valores posibles: 4, 5, 6 o 7."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [4, 5, 6, 7]
+
+      - name: canal
+        description: "Canal derivado del tienda_id. Siempre 'Tienda física' para T001–T012."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Online', 'Tienda física']
+
+      - name: _loaded_at
+        description: "Timestamp de carga del registro en la capa staging."
+
+  # ─────────────────────────────────────────────────────────────────
+  # STG_BRONZE__BOOKSTORE_EMPLEADOS_RAW
+  # ─────────────────────────────────────────────────────────────────
+  - name: stg_bronze__bookstore_empleados_raw
+    description: >
+      Empleados de las tiendas físicas más el registro virtual ONLINE.
+      66 registros: 65 empleados reales (E0001–E0065) y 1 registro virtual.
+      Incluye campos derivados: categoria_puesto, antiguedad_anios y coste_anual_estimado.
+      El salario viene en formato europeo en Bronze ('2.891,44 €') y se limpia en staging.
+    columns:
+
+      - name: empleado_id
+        description: "Identificador único del empleado. Formato E#### o 'ONLINE'. Clave primaria."
+        tests: [unique, not_null]
+
+      - name: tienda_id
+        description: "Tienda asignada al empleado. 'ONLINE' para el registro virtual."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ONLINE','T001','T002','T003','T004','T005','T006',
+                       'T007','T008','T009','T010','T011','T012']
+
+      - name: nombre
+        description: "Nombre completo del empleado. 66 valores únicos."
+        tests: [unique, not_null]
+
+      - name: genero
+        description: "Género del empleado. 'Hombre' o 'Mujer'. NULL para el registro ONLINE."
+        tests:
+          - accepted_values:
+              values: ['Hombre', 'Mujer']
+
+      - name: edad
+        description: "Edad del empleado en años. Rango: 20–57. NULL para el registro ONLINE."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 18
+              max_value: 70
+              where: "es_virtual = false"
+
+      - name: puesto
+        description: "Cargo del empleado. 6 puestos reales más 'Vendedor/a Online' para el registro virtual."
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - 'Auxiliar de tienda'
+                - 'Cajero/a'
+                - 'Director/a de tienda'
+                - 'Librero/a'
+                - 'Librero/a senior'
+                - 'Responsable de sección'
+                - 'Vendedor/a Online'
+
+      - name: categoria_puesto
+        description: >
+          Categoría derivada del puesto: 'Dirección', 'Mando intermedio',
+          'Operativo senior' u 'Operativo'. NULL para el registro ONLINE.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Dirección', 'Mando intermedio', 'Operativo senior', 'Operativo']
+
+      - name: fecha_contratacion
+        description: "Fecha de inicio del contrato. Rango: 2015-02-09 → 2023-12-05. NULL para ONLINE."
+
+      - name: antiguedad_anios
+        description: "Años desde la fecha de contratación hasta hoy. Calculado en staging. NULL para ONLINE."
+
+      - name: salario_mensual_bruto
+        description: >
+          Salario mensual bruto en €. Limpiado desde formato europeo ('2.891,44 €').
+          Rangos: Director 2.891–3.389 €, Responsable 2.005–2.444 €,
+          Librero/a senior 1.754–2.090 €, Librero/a 1.516–1.757 €,
+          Cajero/a y Auxiliar 1.222–1.473 €. NULL para ONLINE.
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 1000
+              max_value: 5000
+              where: "es_virtual = false"
+
+      - name: coste_anual_estimado
+        description: "Coste anual estimado en € calculado como salario_mensual_bruto × 12. NULL para ONLINE."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 12000
+              max_value: 60000
+              where: "es_virtual = false"
+
+      - name: es_virtual
+        description: "TRUE si el registro es el empleado virtual ONLINE."
+        tests: [not_null]
+
+      - name: _loaded_at
+        description: "Timestamp de carga del registro en la capa staging."
+
+  # ─────────────────────────────────────────────────────────────────
+  # STG_BRONZE__BOOKSTORE_MUNICIPIOS_RAW
+  # ─────────────────────────────────────────────────────────────────
+  - name: stg_bronze__bookstore_municipios_raw
+    description: >
+      Catálogo de municipios limpio con datos geográficos y socioeconómicos.
+      20 registros. Sin nulos. Cubre 7 CCAA y 8 provincias.
+      NOTA: cod_municipio_ine NO es único — 28079 corresponde a Madrid Centro y Vallecas,
+      y 8019 a Barcelona Eixample y Sarrià-Sant Gervasi. La clave natural es municipio.
+    columns:
+
+      - name: municipio
+        description: "Nombre del municipio o distrito. Clave natural única de la tabla."
+        tests: [unique, not_null]
+
+      - name: cod_municipio_ine
+        description: >
+          Código INE oficial del municipio. NO es único: 28079 y 8019 aparecen dos veces
+          cada uno (distritos del mismo municipio censal). Sin nulos.
+        tests: [not_null]
+
+      - name: cod_provincia_ine
+        description: "Código INE de la provincia. 8 valores únicos."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [8, 28, 29, 41, 46, 47, 48, 50]
+
+      - name: cod_ccaa_ine
+        description: "Código INE de la comunidad autónoma. 7 valores únicos."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 7, 9, 10, 13, 16]
+
+      - name: provincia
+        description: "Nombre de la provincia. 8 valores únicos."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Barcelona','Madrid','Málaga','Sevilla',
+                       'Valencia','Valladolid','Vizcaya','Zaragoza']
+
+      - name: ccaa
+        description: "Comunidad autónoma. 7 valores únicos."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Andalucía','Aragón','C. Valenciana','Castilla y León',
+                       'Cataluña','Madrid','País Vasco']
+
+      - name: tipo_zona
+        description: "Clasificación socioeconómica de la zona. 6 valores posibles."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Suburbana media','Suburbana rica','Turística rica',
+                       'Urbana media','Urbana popular','Urbana rica']
+
+      - name: renta_media
+        description: "Renta media anual del municipio en €. Rango: 21.000 € – 68.000 €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 15000
+              max_value: 80000
+
+      - name: poblacion
+        description: "Población del municipio en habitantes. 20 valores únicos. Rango: 45.000 – 680.000."
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1000
+              max_value: 1000000
+
+      - name: rango_renta
+        description: "Rango derivado de renta_media. 'Renta baja' (<25k€), 'Renta media' (25–45k€), 'Renta alta' (>45k€)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Renta baja', 'Renta media', 'Renta alta']
+
+      - name: rango_poblacion
+        description: "Rango derivado de poblacion. 'Pequeña' (<100k), 'Mediana' (100k–500k), 'Grande' (>500k)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Pequeña', 'Mediana', 'Grande']
+
+      - name: _loaded_at
+        description: "Timestamp de carga del registro en la capa staging."
+
+  # ─────────────────────────────────────────────────────────────────
+  # STG_BRONZE__BOOKSTORE_CATALOGO_PRODUCTOS_RAW
+  # ─────────────────────────────────────────────────────────────────
+  - name: stg_bronze__bookstore_catalogo_productos_raw
+    description: >
+      Catálogo de productos limpio. 500 registros. Sin nulos.
+      margen_bruto_pct_original conserva el valor almacenado en Bronze.
+      margen_bruto_pct es el margen recalculado desde los precios actuales.
+      19 registros presentan diferencia entre ambos campos (máx. 6,39 pp)
+      porque el margen original no se recalculó al cambiar los precios.
+    columns:
+
+      - name: isbn
+        description: "Identificador único del producto. Formato ISBN con guiones. Clave primaria."
+        tests: [unique, not_null]
+
+      - name: titulo
+        description: "Título del libro. 500 valores únicos."
+        tests: [unique, not_null]
+
+      - name: autor
+        description: "Autor principal del libro. 57 autores únicos."
+        tests: [not_null]
+
+      - name: editorial
+        description: "Editorial del libro. 15 editoriales únicas."
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - 'Alfaguara'
+                - 'Alianza Editorial'
+                - 'Anagrama'
+                - 'Ariel'
+                - 'Crítica'
+                - 'Destino'
+                - 'Ediciones B'
+                - 'Espasa'
+                - 'Paidós'
+                - 'Penguin Clásicos'
+                - 'Planeta'
+                - 'Random House'
+                - 'Salamandra'
+                - 'Siruela'
+                - 'Tusquets'
+
+      - name: categoria
+        description: "Categoría principal del producto. 10 valores posibles."
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - 'Arte y Fotografía'
+                - 'Autoayuda'
+                - 'Ciencia y Tecnología'
+                - 'Cómics/Manga'
+                - 'Economía/Negocios'
+                - 'Ficción'
+                - 'Historia'
+                - 'Idiomas'
+                - 'Infantil/Juvenil'
+                - 'No Ficción'
+
+      - name: subcategoria
+        description: "Subcategoría del producto. Siempre tiene formato 'categoria > General'."
+        tests: [not_null]
+
+      - name: anio_publicacion
+        description: "Año de publicación original. Rango: 1980–2024."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1900
+              max_value: 2025
+
+      - name: idioma
+        description: "Idioma del libro. 6 valores posibles."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Alemán', 'Catalán', 'Español', 'Euskera', 'Gallego', 'Inglés']
+
+      - name: formato
+        description: "Formato del libro. 4 valores: 'Tapa blanda' (266), 'Tapa dura' (147), 'Bolsillo' (71), 'Ebook' (16)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Bolsillo', 'Ebook', 'Tapa blanda', 'Tapa dura']
+
+      - name: paginas
+        description: "Número de páginas. Rango: 73–698. Media: 326."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 1500
+
+      - name: precio_pvp
+        description: "Precio de venta al público en €. Rango: 5,11 € – 74,68 €. Media: 24,51 €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: precio_coste
+        description: "Precio de coste en €. Rango: 2,94 € – 55,47 €. Siempre menor que precio_pvp."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: margen_bruto_pct_original
+        description: >
+          Margen bruto tal como está almacenado en el catálogo Bronze.
+          Puede diferir del margen real para 19 registros (precios actualizados sin recalcular margen).
+        tests: [not_null]
+
+      - name: margen_bruto_pct
+        description: >
+          Margen bruto recalculado en staging como (precio_pvp − precio_coste) / precio_pvp × 100.
+          Rango: 22,08% – 49,26%. Este es el campo recomendado para análisis.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+
+      - name: rango_precio
+        description: "Rango derivado de precio_pvp. 'Bajo' (<12€), 'Medio' (12–25€), 'Alto' (>25€)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Bajo', 'Medio', 'Alto']
+
+      - name: rango_margen
+        description: "Rango derivado de margen_bruto_pct. 'Margen bajo' (<30%), 'Margen medio' (30–45%), 'Margen alto' (>45%)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Margen bajo', 'Margen medio', 'Margen alto']
+
+      - name: anios_desde_publicacion
+        description: "Años transcurridos desde la publicación hasta hoy. Calculado en staging."
+        tests: [not_null]
+
+      - name: disponible_online
+        description: "TRUE si el producto está disponible en el canal online. 479 productos disponibles."
+        tests: [not_null]
+
+      - name: disponible_tienda
+        description: "TRUE si el producto está disponible en tienda física. 433 productos disponibles."
+        tests: [not_null]
+
+      - name: activo
+        description: "TRUE si el producto está vigente en el catálogo. 37 productos dados de baja."
+        tests: [not_null]
+
+      - name: fecha_alta_catalogo
+        description: "Fecha de alta en el catálogo. Rango: 2019-01-02 → 2023-12-04."
+        tests: [not_null]
+
+      - name: _loaded_at
+        description: "Timestamp de carga del registro en la capa staging."

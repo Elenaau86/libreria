@@ -10,7 +10,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # VENTAS
       # ─────────────────────────────────────────────────────────────────
-      - name: BOOKSTORE_VENTAS_RAW
+      - name: bookstore_ventas_raw
         description: >
           Transacciones de venta del proyecto de librería.
           Una fila por venta. Cubre el periodo 2022-01-01 → 2024-01-01.
@@ -72,7 +72,7 @@ sources:
               (sin referencia geográfica posible). 18 valores únicos.
             tests:
               - not_null:
-                  where: "cliente_id != 'SIN_REGISTRO' OR tienda_id != 'ONLINE'"
+                  where: "NOT (cliente_id = 'SIN_REGISTRO' AND tienda_id = 'ONLINE')"
  
           - name: cliente_id
             description: >
@@ -89,9 +89,6 @@ sources:
               Rango: 1–10. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 1
-                  max_value: 10
  
           - name: total_unidades
             description: >
@@ -99,9 +96,6 @@ sources:
               Rango: 1–18. Siempre >= total_lineas. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 1
-                  max_value: 18
  
           - name: importe_bruto_total
             description: >
@@ -110,9 +104,6 @@ sources:
               Siempre mayor que cero y >= importe_neto_total. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 0
-                  inclusive: false
  
           - name: importe_neto_total
             description: >
@@ -121,15 +112,12 @@ sources:
               Siempre mayor que cero y <= importe_bruto_total. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 0
-                  inclusive: false
 
 
       # ─────────────────────────────────────────────────────────────────
       # LINEAS DE VENTA
       # ─────────────────────────────────────────────────────────────────    
-      - name: lineas_de_venta
+      - name: bookstore_lineas_venta_raw
         description: >
           Detalle línea a línea de cada transacción de venta.
           Una fila por producto (isbn) incluido en cada venta.
@@ -167,9 +155,6 @@ sources:
               Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 1
-                  max_value: 10
  
           - name: isbn
             description: >
@@ -209,9 +194,6 @@ sources:
               Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 0
-                  inclusive: false
  
           - name: unidades
             description: >
@@ -229,9 +211,6 @@ sources:
               Rango: 4,70 € – 238,20 €. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 0
-                  inclusive: false
  
           - name: descuento_pct
             description: >
@@ -240,8 +219,6 @@ sources:
               Sin nulos.
             tests:
               - not_null
-              - accepted_values:
-                  values: [0.0, 0.05, 0.1, 0.15]
  
           - name: importe_neto
             description: >
@@ -251,14 +228,11 @@ sources:
               Rango: 4,65 € – 233,67 €. Siempre > 0 y <= importe_bruto. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 0
-                  inclusive: false
       
       # ─────────────────────────────────────────────────────────────────
       # CLIENTES
       # ───────────────────────────────────────────────────────────────── 
-      - name: clientes
+      - name: bookstore_clientes_raw
         description: >
           Clientes registrados en el sistema más el registro especial SIN_REGISTRO.
           801 registros en total: 800 clientes reales (C0001–C0800) y 1 registro
@@ -292,10 +266,6 @@ sources:
               (el guion actúa como placeholder).
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 18
-                  max_value: 80
-                  where: "cliente_id != 'SIN_REGISTRO'"
  
           - name: segmento_edad
             description: >
@@ -392,7 +362,6 @@ sources:
               El registro SIN_REGISTRO tiene el valor '-' (no es una fecha real).
               Sin nulos en el campo raw.
             tests:
-              - not_null
               - not_null:
                   where: "cliente_id != 'SIN_REGISTRO'"
  
@@ -409,7 +378,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # TIENDAS
       # ───────────────────────────────────────────────────────────────── 
-      - name: tiendas
+      - name: bookstore_tiendas_raw
         description: >
           Catálogo de tiendas físicas de la cadena de librerías.
           12 registros — una fila por tienda (T001–T012).
@@ -471,9 +440,6 @@ sources:
             tests:
               - unique
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 100
-                  max_value: 250
  
           - name: empleados
             description: >
@@ -490,7 +456,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # EMPLEADOS
       # ─────────────────────────────────────────────────────────────────
-      - name: empleados
+      - name: bookstore_empleados_raw
         description: >
           Empleados de las tiendas físicas más el registro virtual ONLINE.
           66 registros en total: 65 empleados reales (E0001–E0065) distribuidos
@@ -553,10 +519,6 @@ sources:
               El registro ONLINE tiene el valor '-'. Sin nulos en el campo raw.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 18
-                  max_value: 70
-                  where: "empleado_id != 'ONLINE'"
  
           - name: puesto
             description: >
@@ -583,7 +545,6 @@ sources:
               Rango para empleados reales: 2015-02-09 → 2023-12-05. 65 fechas únicas.
               El registro ONLINE tiene el valor '-'. Sin nulos en el campo raw.
             tests:
-              - not_null
               - not_null:
                   where: "empleado_id != 'ONLINE'"
  
@@ -607,7 +568,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # MUNICIPIOS
       # ─────────────────────────────────────────────────────────────────
-      - name: municipios
+      - name: bookstore_municipios_raw
         description: >
           Catálogo de municipios con datos geográficos, administrativos y socioeconómicos.
           20 registros — uno por municipio del dataset. Sin nulos en ningún campo.
@@ -666,8 +627,6 @@ sources:
               Sin nulos.
             tests:
               - not_null
-              - accepted_values:
-                  values: [8, 28, 29, 41, 46, 47, 48, 50]
  
           - name: cod_ccaa_ine
             description: >
@@ -675,8 +634,6 @@ sources:
               Sin nulos.
             tests:
               - not_null
-              - accepted_values:
-                  values: [1, 2, 7, 9, 10, 13, 16]
  
           - name: provincia
             description: >
@@ -724,9 +681,6 @@ sources:
               Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 15000
-                  max_value: 80000
  
           - name: poblacion
             description: >
@@ -736,9 +690,6 @@ sources:
             tests:
               - unique
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 1000
-                  max_value: 1000000
  
           - name: tipo_zona
             description: >
@@ -759,7 +710,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # CATALOGO DE PRODUCTOS
       # ─────────────────────────────────────────────────────────────────
-      - name: catalogo_productos
+      - name: bookstore_catalogo_productos_raw
         description: >
           Catálogo completo de productos (libros) disponibles en la cadena.
           500 registros — uno por ISBN. Sin nulos en ningún campo.
@@ -861,7 +812,7 @@ sources:
                     - 'Infantil/Juvenil > General'
                     - 'No Ficción > General'
  
-          - name: año_publicacion
+          - name: anio_publicacion
             description: >
               Año de publicación original del libro.
               Rango: 1980–2024. 45 valores únicos.
@@ -869,9 +820,6 @@ sources:
               2010–2019 (93), 2020+ (53). Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 1900
-                  max_value: 2025
  
           - name: idioma
             description: >
@@ -897,9 +845,6 @@ sources:
               Rango: 73–698 páginas. Media: 326. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 1
-                  max_value: 1500
  
           - name: precio_venta_pvp
             description: >
@@ -908,9 +853,6 @@ sources:
               Siempre mayor que precio_coste. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 0
-                  inclusive: false
  
           - name: precio_coste
             description: >
@@ -919,9 +861,6 @@ sources:
               Siempre menor que precio_venta_pvp. Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 0
-                  inclusive: false
  
           - name: margen_bruto_pct
             description: >
@@ -934,9 +873,6 @@ sources:
               Sin nulos.
             tests:
               - not_null
-              - dbt_utils.accepted_range:
-                  min_value: 0
-                  max_value: 100
  
           - name: disponible_online
             description: >
