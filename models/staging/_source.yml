@@ -1,0 +1,975 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: "Capa Bronze — datos raw cargados directamente desde el CSV del dataset de librería."
+    database: DEV_BOOKSTORE_BRONZE_DB
+    schema: BRONZE
+
+    tables:
+      # ─────────────────────────────────────────────────────────────────
+      # VENTAS
+      # ─────────────────────────────────────────────────────────────────
+      - name: BOOKSTORE_VENTAS_RAW
+        description: >
+          Transacciones de venta del proyecto de librería.
+          Una fila por venta. Cubre el periodo 2022-01-01 → 2024-01-01.
+          8.000 registros en total.
+          Los 339 nulos en cod_municipio_venta_ine corresponden exclusivamente
+          a ventas realizadas por el canal Online con cliente SIN_REGISTRO,
+          donde no existe referencia geográfica posible.
+        columns:
+ 
+          - name: venta_id
+            description: >
+              Identificador único de la venta. Formato V##### (ej: V00001).
+              Clave primaria de la tabla.
+            tests:
+              - unique
+              - not_null
+ 
+          - name: fecha
+            description: >
+              Fecha de la transacción en formato YYYY-MM-DD.
+              Rango: 2022-01-01 → 2024-01-01. Sin nulos.
+            tests:
+              - not_null
+ 
+          - name: canal
+            description: >
+              Canal por el que se realizó la venta.
+              Dos valores posibles: 'Online' o 'Tienda física'.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Online', 'Tienda física']
+ 
+          - name: tienda_id
+            description: >
+              Identificador de la tienda donde se realizó la venta.
+              13 valores posibles: T001–T012 para tiendas físicas y 'ONLINE'
+              para el canal digital. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['ONLINE','T001','T002','T003','T004','T005','T006',
+                           'T007','T008','T009','T010','T011','T012']
+ 
+          - name: empleado_id
+            description: >
+              Identificador del empleado que realizó la venta.
+              66 valores posibles (E0001–E0065 más el registro virtual 'ONLINE'
+              para ventas del canal digital). Sin nulos.
+            tests:
+              - not_null
+ 
+          - name: cod_municipio_venta_ine
+            description: >
+              Código INE del municipio donde se realizó la venta.
+              Para ventas en tienda física corresponde al municipio de la tienda.
+              Para ventas online corresponde al municipio de residencia del cliente.
+              339 nulos corresponden a ventas Online con cliente SIN_REGISTRO
+              (sin referencia geográfica posible). 18 valores únicos.
+            tests:
+              - not_null:
+                  where: "cliente_id != 'SIN_REGISTRO' OR tienda_id != 'ONLINE'"
+ 
+          - name: cliente_id
+            description: >
+              Identificador del cliente que realizó la compra.
+              801 valores únicos: C0001–C0800 para clientes registrados
+              más el registro especial 'SIN_REGISTRO' (800 ventas, 10% del total).
+              Sin nulos.
+            tests:
+              - not_null
+ 
+          - name: total_lineas
+            description: >
+              Número de líneas (productos distintos) incluidas en la venta.
+              Rango: 1–10. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 1
+                  max_value: 10
+ 
+          - name: total_unidades
+            description: >
+              Total de unidades vendidas en la transacción (suma de todas las líneas).
+              Rango: 1–18. Siempre >= total_lineas. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 1
+                  max_value: 18
+ 
+          - name: importe_bruto_total
+            description: >
+              Importe total de la venta antes de aplicar descuentos, en euros.
+              Rango: 9,04 € – 486,76 €. Media: 74,17 €.
+              Siempre mayor que cero y >= importe_neto_total. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  inclusive: false
+ 
+          - name: importe_neto_total
+            description: >
+              Importe final de la venta tras aplicar descuentos, en euros.
+              Rango: 7,77 € – 460,49 €. Media: 71,28 €.
+              Siempre mayor que cero y <= importe_bruto_total. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  inclusive: false
+
+
+      # ─────────────────────────────────────────────────────────────────
+      # LINEAS DE VENTA
+      # ─────────────────────────────────────────────────────────────────    
+      - name: lineas_de_venta
+        description: >
+          Detalle línea a línea de cada transacción de venta.
+          Una fila por producto (isbn) incluido en cada venta.
+          18.056 registros que corresponden a las 8.000 ventas,
+          con una media de 2,26 líneas por venta.
+          num_linea es siempre secuencial (1, 2, 3…) dentro de cada venta.
+          importe_bruto = precio_unitario × unidades (sin discrepancias).
+          importe_neto = importe_bruto × (1 − descuento_pct) con posibles
+          diferencias de redondeo de ±0,01 € en 67 registros.
+        columns:
+ 
+          - name: linea_id
+            description: >
+              Identificador único de la línea. Formato L###### (ej: L000001).
+              Clave primaria de la tabla.
+            tests:
+              - unique
+              - not_null
+ 
+          - name: venta_id
+            description: >
+              Identificador de la venta a la que pertenece la línea.
+              Clave foránea hacia la tabla ventas. 8.000 valores únicos
+              — todas las ventas tienen al menos una línea. Sin nulos.
+            tests:
+              - not_null
+              - relationships:
+                  to: source('bronze', 'bookstore_ventas_raw')
+                  field: venta_id
+ 
+          - name: num_linea
+            description: >
+              Número de línea dentro de la venta. Secuencial desde 1.
+              Rango: 1-10 (coincide con el máximo de total_lineas en ventas).
+              Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 1
+                  max_value: 10
+ 
+          - name: isbn
+            description: >
+              Identificador del producto (libro). Formato ISBN con guiones
+              (longitud 17-18 caracteres, ej: 978-239-793-2478-9).
+              500 títulos únicos en el catálogo. Sin nulos.
+            tests:
+              - not_null
+              - relationships:
+                  to: source('bronze', 'bookstore_catalogo_productos_raw')
+                  field: isbn
+ 
+          - name: categoria
+            description: >
+              Categoría del producto en el momento de la venta.
+              10 valores posibles. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Arte y Fotografía'
+                    - 'Autoayuda'
+                    - 'Ciencia y Tecnología'
+                    - 'Cómics/Manga'
+                    - 'Economía/Negocios'
+                    - 'Ficción'
+                    - 'Historia'
+                    - 'Idiomas'
+                    - 'Infantil/Juvenil'
+                    - 'No Ficción'
+ 
+          - name: precio_unitario
+            description: >
+              Precio de venta aplicado por unidad en la transacción, en euros.
+              Rango: 4,70 € - 82,08 €. Media: 22,48 €.
+              Puede diferir del precio_pvp del catálogo si se aplicó descuento.
+              Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  inclusive: false
+ 
+          - name: unidades
+            description: >
+              Número de unidades vendidas de este producto en la línea.
+              4 valores posibles: 1, 2, 3 o 4. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [1, 2, 3, 4]
+ 
+          - name: importe_bruto
+            description: >
+              Importe de la línea antes de descuento en euros.
+              Calculado como precio_unitario × unidades (sin discrepancias).
+              Rango: 4,70 € – 238,20 €. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  inclusive: false
+ 
+          - name: descuento_pct
+            description: >
+              Porcentaje de descuento aplicado a la línea expresado en tanto por uno.
+              4 valores posibles: 0.0, 0.05, 0.10, 0.15 (es decir, 0%, 5%, 10% o 15%).
+              Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [0.0, 0.05, 0.1, 0.15]
+ 
+          - name: importe_neto
+            description: >
+              Importe final de la línea tras aplicar el descuento, en euros.
+              Calculado como importe_bruto × (1 − descuento_pct).
+              67 registros presentan diferencia de ±0,01 € por redondeo — comportamiento esperado.
+              Rango: 4,65 € – 233,67 €. Siempre > 0 y <= importe_bruto. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  inclusive: false
+      
+      # ─────────────────────────────────────────────────────────────────
+      # CLIENTES
+      # ───────────────────────────────────────────────────────────────── 
+      - name: clientes
+        description: >
+          Clientes registrados en el sistema más el registro especial SIN_REGISTRO.
+          801 registros en total: 800 clientes reales (C0001–C0800) y 1 registro
+          especial 'SIN_REGISTRO' que representa compras sin identificación (10% de ventas).
+          El registro SIN_REGISTRO tiene el valor '-' en todos los campos descriptivos
+          excepto cliente_id y nombre. fecha_alta es '-' para SIN_REGISTRO (no fecha real).
+          Rango de fecha_alta para clientes reales: 2021-01-03 → 2024-12-31.
+          Nota: el segmento de mayores de 60 años se denomina '61+' en este dataset.
+        columns:
+ 
+          - name: cliente_id
+            description: >
+              Identificador único del cliente. Formato C#### (ej: C0001) para clientes
+              registrados o 'SIN_REGISTRO' para el registro especial de compras anónimas.
+              Clave primaria de la tabla. Sin nulos.
+            tests:
+              - unique
+              - not_null
+ 
+          - name: nombre
+            description: >
+              Nombre completo del cliente. Para SIN_REGISTRO el valor es
+              'Cliente no registrado'. Sin nulos.
+            tests:
+              - not_null
+ 
+          - name: edad
+            description: >
+              Edad del cliente en años. Rango para clientes reales: 18–80, media 42,1.
+              El registro SIN_REGISTRO tiene el valor '-'. Sin nulos en el campo raw
+              (el guion actúa como placeholder).
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 18
+                  max_value: 80
+                  where: "cliente_id != 'SIN_REGISTRO'"
+ 
+          - name: segmento_edad
+            description: >
+              Tramo de edad del cliente. 4 valores para clientes reales más '-' para SIN_REGISTRO.
+              Nota: el segmento de mayores de 60 años es '61+' (no '60+').
+              Consistente con el campo edad para todos los registros reales.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['18-25', '26-40', '41-60', '61+', '-']
+ 
+          - name: municipio
+            description: >
+              Municipio de residencia del cliente. 20 municipios únicos para clientes reales
+              más '-' para SIN_REGISTRO. Sin nulos en el campo raw.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Alcobendas'
+                    - 'Badalona'
+                    - 'Barcelona Eixample'
+                    - 'Bilbao'
+                    - 'Dos Hermanas'
+                    - 'Getafe'
+                    - 'Getxo'
+                    - 'Leganés'
+                    - 'Madrid Centro'
+                    - 'Mairena del Aljarafe'
+                    - 'Marbella'
+                    - 'Málaga Centro'
+                    - 'Paterna'
+                    - 'Pozuelo de Alarcón'
+                    - 'Sarrià-Sant Gervasi'
+                    - 'Sevilla Centro'
+                    - 'Valencia Centro'
+                    - 'Valladolid'
+                    - 'Vallecas'
+                    - 'Zaragoza'
+                    - '-'
+ 
+          - name: provincia
+            description: >
+              Provincia de residencia del cliente. 8 valores únicos para clientes reales
+              más '-' para SIN_REGISTRO. Sin nulos en el campo raw.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Barcelona'
+                    - 'Madrid'
+                    - 'Málaga'
+                    - 'Sevilla'
+                    - 'Valencia'
+                    - 'Valladolid'
+                    - 'Vizcaya'
+                    - 'Zaragoza'
+                    - '-'
+ 
+          - name: ccaa
+            description: >
+              Comunidad autónoma de residencia del cliente. 7 valores únicos para clientes
+              reales más '-' para SIN_REGISTRO.
+              Distribución: Madrid (215), Andalucía (209), Cataluña (118),
+              País Vasco (89), C. Valenciana (82), Aragón (44), Castilla y León (43).
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Andalucía'
+                    - 'Aragón'
+                    - 'C. Valenciana'
+                    - 'Castilla y León'
+                    - 'Cataluña'
+                    - 'Madrid'
+                    - 'País Vasco'
+                    - '-'
+                   # - not_null:
+                    #    where: "cliente_id != 'SIN_REGISTRO'"
+ 
+          - name: canal_preferido
+            description: >
+              Canal de compra preferido del cliente. 2 valores para clientes reales
+              más '-' para SIN_REGISTRO. Sin nulos en el campo raw.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Online', 'Tienda física', '-']
+ 
+          - name: fecha_alta
+            description: >
+              Fecha de registro del cliente en formato YYYY-MM-DD.
+              Rango para clientes reales: 2021-01-03 → 2024-12-31. 614 fechas únicas.
+              El registro SIN_REGISTRO tiene el valor '-' (no es una fecha real).
+              Sin nulos en el campo raw.
+            tests:
+              - not_null
+              - not_null:
+                  where: "cliente_id != 'SIN_REGISTRO'"
+ 
+          - name: newsletter
+            description: >
+              Indica si el cliente está suscrito a la newsletter.
+              Valores: 'Sí', 'No' para clientes reales y '-' para SIN_REGISTRO.
+              Sin nulos en el campo raw.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Sí', 'No', '-']
+
+      # ─────────────────────────────────────────────────────────────────
+      # TIENDAS
+      # ───────────────────────────────────────────────────────────────── 
+      - name: tiendas
+        description: >
+          Catálogo de tiendas físicas de la cadena de librerías.
+          12 registros — una fila por tienda (T001–T012).
+          No incluye el canal Online (ONLINE se gestiona como registro virtual
+          en empleados y ventas, pero no tiene entrada en esta tabla).
+          Todos los campos están completos — sin nulos ni placeholders.
+          Los municipios de esta tabla son un subconjunto de los municipios
+          disponibles en la tabla municipios.
+        columns:
+ 
+          - name: tienda_id
+            description: >
+              Identificador único de la tienda. Formato T### (T001–T012).
+              Clave primaria de la tabla. Sin nulos.
+            tests:
+              - unique
+              - not_null
+              - accepted_values:
+                  values: ['T001','T002','T003','T004','T005','T006',
+                           'T007','T008','T009','T010','T011','T012']
+ 
+          - name: nombre
+            description: >
+              Nombre comercial de la tienda (ej: 'Librería Clásicos Madrid').
+              12 nombres únicos — uno por tienda. Sin nulos.
+            tests:
+              - unique
+              - not_null
+ 
+          - name: municipio
+            description: >
+              Municipio donde está ubicada la tienda. 12 valores únicos
+              — cada tienda está en un municipio distinto.
+              Todos los municipios existen en la tabla municipios.
+              Sin nulos.
+            tests:
+              - unique
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Alcobendas'
+                    - 'Barcelona Eixample'
+                    - 'Bilbao'
+                    - 'Getxo'
+                    - 'Madrid Centro'
+                    - 'Marbella'
+                    - 'Pozuelo de Alarcón'
+                    - 'Sarrià-Sant Gervasi'
+                    - 'Sevilla Centro'
+                    - 'Valencia Centro'
+                    - 'Vallecas'
+                    - 'Zaragoza'
+ 
+          - name: m2
+            description: >
+              Superficie de la tienda en metros cuadrados.
+              Rango: 120 m² (T003 Vallecas) – 220 m² (T002 Pozuelo).
+              Media: 165 m². Todos los valores son únicos. Sin nulos.
+            tests:
+              - unique
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 100
+                  max_value: 250
+ 
+          - name: empleados
+            description: >
+              Número de empleados asignados a la tienda.
+              4 valores posibles: 4, 5, 6 o 7.
+              Distribución: 4 empleados (2 tiendas), 5 (4 tiendas),
+              6 (3 tiendas), 7 (2 tiendas). Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [4, 5, 6, 7]
+      
+
+      # ─────────────────────────────────────────────────────────────────
+      # EMPLEADOS
+      # ─────────────────────────────────────────────────────────────────
+      - name: empleados
+        description: >
+          Empleados de las tiendas físicas más el registro virtual ONLINE.
+          66 registros en total: 65 empleados reales (E0001–E0065) distribuidos
+          entre las 12 tiendas, más el registro especial 'ONLINE' que representa
+          el canal digital (tienda_id = 'ONLINE').
+          El registro ONLINE tiene el valor '-' en genero, edad, fecha_contratacion
+          y salario_mensual_bruto, y 'Vendedor/a Online' como puesto.
+          Distribución por tienda: entre 4 (T003, T009) y 7 (T002, T004) empleados,
+          coincidiendo con el campo empleados de la tabla tiendas.
+          El campo salario_mensual_bruto viene en formato europeo con punto como
+          separador de miles y coma como decimal (ej: '2.891,44 €').
+          Rango fechas de contratación para empleados reales: 2015-02-09 → 2023-12-05.
+        columns:
+ 
+          - name: empleado_id
+            description: >
+              Identificador único del empleado. Formato E#### (E0001–E0065)
+              para empleados reales o 'ONLINE' para el registro virtual del canal digital.
+              Clave primaria de la tabla. Sin nulos.
+            tests:
+              - unique
+              - not_null
+ 
+          - name: tienda_id
+            description: >
+              Tienda a la que está asignado el empleado. 13 valores posibles:
+              T001–T012 para tiendas físicas y 'ONLINE' exclusivamente para
+              el registro virtual ONLINE. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['ONLINE','T001','T002','T003','T004','T005','T006',
+                           'T007','T008','T009','T010','T011','T012']
+              - relationships:
+                  to: source('bronze', 'bookstore_tiendas_raw')
+                  field: tienda_id
+                  where: "tienda_id != 'ONLINE'"
+ 
+          - name: nombre
+            description: >
+              Nombre completo del empleado. 66 nombres únicos.
+              Para el registro ONLINE el valor es 'Canal Online (sin empleado físico)'.
+              Sin nulos.
+            tests:
+              - unique
+              - not_null
+ 
+          - name: genero
+            description: >
+              Género del empleado. Valores: 'Hombre', 'Mujer' para empleados reales
+              y '-' para el registro ONLINE. Sin nulos en el campo raw.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Hombre', 'Mujer', '-']
+ 
+          - name: edad
+            description: >
+              Edad del empleado en años. Rango para empleados reales: 20–57, media 37,1.
+              El registro ONLINE tiene el valor '-'. Sin nulos en el campo raw.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 18
+                  max_value: 70
+                  where: "empleado_id != 'ONLINE'"
+ 
+          - name: puesto
+            description: >
+              Cargo del empleado en la tienda. 7 valores posibles:
+              'Auxiliar de tienda', 'Cajero/a', 'Director/a de tienda',
+              'Librero/a', 'Librero/a senior', 'Responsable de sección'
+              para empleados reales y 'Vendedor/a Online' exclusivamente
+              para el registro ONLINE. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Auxiliar de tienda'
+                    - 'Cajero/a'
+                    - 'Director/a de tienda'
+                    - 'Librero/a'
+                    - 'Librero/a senior'
+                    - 'Responsable de sección'
+                    - 'Vendedor/a Online'
+ 
+          - name: fecha_contratacion
+            description: >
+              Fecha de inicio del contrato en formato YYYY-MM-DD.
+              Rango para empleados reales: 2015-02-09 → 2023-12-05. 65 fechas únicas.
+              El registro ONLINE tiene el valor '-'. Sin nulos en el campo raw.
+            tests:
+              - not_null
+              - not_null:
+                  where: "empleado_id != 'ONLINE'"
+ 
+          - name: salario_mensual_bruto
+            description: >
+              Salario mensual bruto del empleado en euros.
+              Formato europeo en el CSV: punto como separador de miles y coma decimal
+              seguido del símbolo euro (ej: '2.891,44 €'). Requiere limpieza en Silver.
+              Rangos por puesto (euros):
+                Director/a de tienda:   2.891 – 3.389 (media 3.105)
+                Responsable de sección: 2.005 – 2.444 (media 2.200)
+                Librero/a senior:       1.754 – 2.090 (media 1.927)
+                Librero/a:              1.516 – 1.757 (media 1.638)
+                Cajero/a:               1.247 – 1.473 (media 1.358)
+                Auxiliar de tienda:     1.222 – 1.450 (media 1.352)
+              El registro ONLINE tiene el valor '-'. Sin nulos en el campo raw.
+            tests:
+              - not_null
+      
+
+      # ─────────────────────────────────────────────────────────────────
+      # MUNICIPIOS
+      # ─────────────────────────────────────────────────────────────────
+      - name: municipios
+        description: >
+          Catálogo de municipios con datos geográficos, administrativos y socioeconómicos.
+          20 registros — uno por municipio del dataset. Sin nulos en ningún campo.
+          Cubre 7 comunidades autónomas, 8 provincias y 6 tipos de zona.
+          AVISO — cod_municipio_ine NO es único en esta tabla:
+            · Madrid Centro y Vallecas comparten el código 28079 (mismo municipio INE).
+            · Barcelona Eixample y Sarrià-Sant Gervasi comparten el código 8019.
+          Esto refleja la realidad del padrón INE donde varios barrios/distritos del
+          dataset pertenecen al mismo municipio oficial. La clave natural única
+          de esta tabla es el campo municipio (nombre), no el código INE.
+        columns:
+ 
+          - name: municipio
+            description: >
+              Nombre del municipio o distrito. Clave natural única de la tabla.
+              20 valores únicos. Sin nulos.
+            tests:
+              - unique
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Alcobendas'
+                    - 'Badalona'
+                    - 'Barcelona Eixample'
+                    - 'Bilbao'
+                    - 'Dos Hermanas'
+                    - 'Getafe'
+                    - 'Getxo'
+                    - 'Leganés'
+                    - 'Madrid Centro'
+                    - 'Mairena del Aljarafe'
+                    - 'Marbella'
+                    - 'Málaga Centro'
+                    - 'Paterna'
+                    - 'Pozuelo de Alarcón'
+                    - 'Sarrià-Sant Gervasi'
+                    - 'Sevilla Centro'
+                    - 'Valencia Centro'
+                    - 'Valladolid'
+                    - 'Vallecas'
+                    - 'Zaragoza'
+ 
+          - name: cod_municipio_ine
+            description: >
+              Código oficial INE del municipio. NO es único en esta tabla:
+              el código 28079 corresponde tanto a Madrid Centro como a Vallecas,
+              y el 8019 a Barcelona Eixample y Sarrià-Sant Gervasi,
+              ya que ambos son distritos del mismo municipio censal.
+              18 valores únicos de 20 registros. Sin nulos.
+            tests:
+              - not_null
+ 
+          - name: cod_provincia_ine
+            description: >
+              Código oficial INE de la provincia. 8 valores únicos.
+              Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [8, 28, 29, 41, 46, 47, 48, 50]
+ 
+          - name: cod_ccaa_ine
+            description: >
+              Código oficial INE de la comunidad autónoma. 7 valores únicos.
+              Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [1, 2, 7, 9, 10, 13, 16]
+ 
+          - name: provincia
+            description: >
+              Nombre de la provincia. 8 valores únicos. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Barcelona'
+                    - 'Madrid'
+                    - 'Málaga'
+                    - 'Sevilla'
+                    - 'Valencia'
+                    - 'Valladolid'
+                    - 'Vizcaya'
+                    - 'Zaragoza'
+ 
+          - name: ccaa
+            description: >
+              Nombre de la comunidad autónoma. 7 valores únicos. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Andalucía'
+                    - 'Aragón'
+                    - 'C. Valenciana'
+                    - 'Castilla y León'
+                    - 'Cataluña'
+                    - 'Madrid'
+                    - 'País Vasco'
+ 
+          - name: renta_media
+            description: >
+              Renta media anual del municipio en euros.
+              Rango: 21.000 € (Dos Hermanas) – 68.000 € (Pozuelo de Alarcón).
+              17 valores únicos — algunos municipios comparten renta.
+              Correlaciona con tipo_zona:
+                Suburbana rica:  44.000–68.000 €
+                Urbana rica:     42.000–46.000 €
+                Turística rica:  45.000 €
+                Suburbana media: 27.000–31.000 €
+                Urbana media:    24.000–38.000 €
+                Urbana popular:  21.000–24.000 €
+              Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 15000
+                  max_value: 80000
+ 
+          - name: poblacion
+            description: >
+              Población del municipio o distrito en número de habitantes.
+              20 valores únicos. Rango: 45.000 (Mairena del Aljarafe) –
+              680.000 (Zaragoza). Sin nulos.
+            tests:
+              - unique
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 1000
+                  max_value: 1000000
+ 
+          - name: tipo_zona
+            description: >
+              Clasificación socioeconómica de la zona. 6 valores posibles.
+              Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Suburbana media'
+                    - 'Suburbana rica'
+                    - 'Turística rica'
+                    - 'Urbana media'
+                    - 'Urbana popular'
+                    - 'Urbana rica'
+      
+
+      # ─────────────────────────────────────────────────────────────────
+      # CATALOGO DE PRODUCTOS
+      # ─────────────────────────────────────────────────────────────────
+      - name: catalogo_productos
+        description: >
+          Catálogo completo de productos (libros) disponibles en la cadena.
+          500 registros — uno por ISBN. Sin nulos en ningún campo.
+          Cubre 10 categorías, 6 idiomas, 4 formatos y 15 editoriales.
+          Rango de publicación: 1980–2024. Fechas de alta en catálogo: 2019-01-02 → 2023-12-04.
+          ADVERTENCIA DE CALIDAD — margen_bruto_pct:
+            19 registros presentan un margen_bruto_pct inconsistente con los precios
+            actuales (pvp y coste). La diferencia máxima es de 6,39 puntos porcentuales.
+            Interpretación: el margen se almacena independientemente y no se recalcula
+            cuando cambia el precio. En Silver se recomienda recalcular el margen real
+            como (precio_pvp - precio_coste) / precio_pvp × 100 y conservar el campo
+            original como margen_bruto_pct_original para auditoría.
+          subcategoria es siempre 'categoria > General' para los 500 registros.
+        columns:
+ 
+          - name: isbn
+            description: >
+              Identificador único del producto. Formato ISBN con guiones,
+              todos empiezan por '978-'. Longitud 17–18 caracteres.
+              500 valores únicos. Clave primaria de la tabla. Sin nulos.
+            tests:
+              - unique
+              - not_null
+ 
+          - name: titulo
+            description: >
+              Título del libro. 500 valores únicos — uno por producto. Sin nulos.
+            tests:
+              - unique
+              - not_null
+ 
+          - name: autor
+            description: >
+              Autor principal del libro. 57 autores únicos en el catálogo.
+              Los más frecuentes: John Berger (18), Mark Manson (17), Alan Moore (17).
+              Sin nulos.
+            tests:
+              - not_null
+ 
+          - name: editorial
+            description: >
+              Editorial del libro. 15 editoriales únicas. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Alfaguara'
+                    - 'Alianza Editorial'
+                    - 'Anagrama'
+                    - 'Ariel'
+                    - 'Crítica'
+                    - 'Destino'
+                    - 'Ediciones B'
+                    - 'Espasa'
+                    - 'Paidós'
+                    - 'Penguin Clásicos'
+                    - 'Planeta'
+                    - 'Random House'
+                    - 'Salamandra'
+                    - 'Siruela'
+                    - 'Tusquets'
+ 
+          - name: categoria
+            description: >
+              Categoría principal del producto. 10 valores posibles. Sin nulos.
+              Precios medios por categoría varían ampliamente:
+              Arte y Fotografía (51,43 €) a Cómics/Manga (12,35 €).
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Arte y Fotografía'
+                    - 'Autoayuda'
+                    - 'Ciencia y Tecnología'
+                    - 'Cómics/Manga'
+                    - 'Economía/Negocios'
+                    - 'Ficción'
+                    - 'Historia'
+                    - 'Idiomas'
+                    - 'Infantil/Juvenil'
+                    - 'No Ficción'
+ 
+          - name: subcategoria
+            description: >
+              Subcategoría del producto. Siempre tiene el formato 'categoria > General'
+              para los 500 registros del catálogo actual. 10 valores únicos. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values:
+                    - 'Arte y Fotografía > General'
+                    - 'Autoayuda > General'
+                    - 'Ciencia y Tecnología > General'
+                    - 'Cómics/Manga > General'
+                    - 'Economía/Negocios > General'
+                    - 'Ficción > General'
+                    - 'Historia > General'
+                    - 'Idiomas > General'
+                    - 'Infantil/Juvenil > General'
+                    - 'No Ficción > General'
+ 
+          - name: año_publicacion
+            description: >
+              Año de publicación original del libro.
+              Rango: 1980–2024. 45 valores únicos.
+              Distribución: antes de 2000 (224), 2000–2009 (130),
+              2010–2019 (93), 2020+ (53). Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 1900
+                  max_value: 2025
+ 
+          - name: idioma
+            description: >
+              Idioma original del libro. 6 valores posibles. Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Alemán', 'Catalán', 'Español', 'Euskera', 'Gallego', 'Inglés']
+ 
+          - name: formato
+            description: >
+              Formato físico o digital del libro. 4 valores posibles.
+              Distribución: Tapa blanda (266), Tapa dura (147), Bolsillo (71), Ebook (16).
+              Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Bolsillo', 'Ebook', 'Tapa blanda', 'Tapa dura']
+ 
+          - name: paginas
+            description: >
+              Número de páginas del libro. 301 valores únicos.
+              Rango: 73–698 páginas. Media: 326. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 1
+                  max_value: 1500
+ 
+          - name: precio_venta_pvp
+            description: >
+              Precio de venta al público en euros. 468 valores únicos.
+              Rango: 5,11 € – 74,68 €. Media: 24,51 €.
+              Siempre mayor que precio_coste. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  inclusive: false
+ 
+          - name: precio_coste
+            description: >
+              Precio de coste de adquisición en euros. 450 valores únicos.
+              Rango: 2,94 € – 55,47 €. Media: 16,10 €.
+              Siempre menor que precio_venta_pvp. Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  inclusive: false
+ 
+          - name: margen_bruto_pct
+            description: >
+              Margen bruto almacenado en el catálogo expresado en porcentaje.
+              Rango: 22,08% – 49,26%. Media: 35,73%.
+              ADVERTENCIA: 19 registros presentan inconsistencia con los precios
+              actuales (diferencia máxima 6,39 pp). El margen se almacena
+              independientemente y puede no reflejar los precios vigentes.
+              En Silver se recomienda recalcular como campo derivado.
+              Sin nulos.
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  max_value: 100
+ 
+          - name: disponible_online
+            description: >
+              Indica si el producto está disponible en el canal online.
+              Valores: 'Sí' (479 productos) o 'No' (21 productos). Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Sí', 'No']
+ 
+          - name: disponible_tienda
+            description: >
+              Indica si el producto está disponible en tienda física.
+              Valores: 'Sí' (433 productos) o 'No' (67 productos).
+              3 productos no están disponibles en ningún canal
+              (disponible_online = 'No' y disponible_tienda = 'No'). Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Sí', 'No']
+ 
+          - name: activo
+            description: >
+              Indica si el producto está vigente en el catálogo.
+              Valores: 'Sí' (463 productos) o 'No' (37 productos dados de baja). Sin nulos.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Sí', 'No']
+ 
+          - name: fecha_alta_catalogo
+            description: >
+              Fecha en que el producto fue dado de alta en el catálogo, en formato YYYY-MM-DD.
+              Rango: 2019-01-02 → 2023-12-04. 450 fechas únicas. Sin nulos ni fechas inválidas.
+            tests:
+              - not_null
