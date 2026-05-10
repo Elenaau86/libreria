@@ -13,7 +13,7 @@ dim_tiempo as (
 
 dim_canal as (
 
-    select canal_sk, canal_id
+    select canal_sk, canal, es_digital
     from {{ ref('dim_canal') }}
 
 ),
@@ -33,13 +33,13 @@ ventas_agrupadas as (
         t.anio,
         t.mes,
         c.canal_sk,
-        v.canal,
+        c.es_digital,
         count(v.venta_id)                                        as num_ventas,
         count(distinct v.cliente_id)                             as num_clientes_distintos,
         round(sum(v.importe_neto), 2)                            as importe_neto_total,
         round(avg(v.ticket_medio), 2)                            as ticket_medio,
         round(
-            sum(iff(v.canal = 'Online', 1, 0)) /
+            sum(iff(c.es_digital = true, 1, 0)) /
             nullif(count(v.venta_id), 0) * 100
         , 2)                                                     as pct_ventas_online
 
@@ -47,7 +47,7 @@ ventas_agrupadas as (
     left join dim_tiempo t
         on v.fecha = t.fecha
     left join dim_canal c
-        on iff(v.canal = 'Online', 'ONLINE', 'FISICA') = c.canal_id
+        on v.cod_canal = c.canal_sk
     left join dim_geografia g
         on v.cod_municipio_venta_ine = g.cod_municipio_ine
     where v.cod_municipio_venta_ine is not null
@@ -57,7 +57,7 @@ ventas_agrupadas as (
         t.anio,
         t.mes,
         c.canal_sk,
-        v.canal
+        c.es_digital
 
 ),
 

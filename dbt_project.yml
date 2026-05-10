@@ -41,9 +41,9 @@ models:
     staging:
       +materialized: view
       +schema: silver
-      +database: DEV_BOOKSTORE_SILVER_DB
+      +database: DEV_SILVER_DB
 
     marts:
       +materialized: table
       +schema: gold
-      +database: DEV_BOOKSTORE_GOLD_DB  
+      +database: DEV_GOLD_DB  

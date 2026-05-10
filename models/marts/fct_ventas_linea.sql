@@ -6,7 +6,7 @@ with lineas as (
 
 ventas as (
 
-    select venta_id, fecha, canal, tienda_id
+    select venta_id, fecha, cod_canal, tienda_id
     from {{ ref('stg_bronze__ventas_raw') }}
 
 ),
@@ -20,7 +20,7 @@ dim_tiempo as (
 
 dim_canal as (
 
-    select canal_sk, canal_id
+    select canal_sk, canal, es_digital
     from {{ ref('dim_canal') }}
 
 ),
@@ -77,7 +77,7 @@ fct as (
     left join dim_tiempo t
         on v.fecha = t.fecha
     left join dim_canal c
-        on iff(v.canal = 'Online', 'ONLINE', 'FISICA') = c.canal_id
+        on v.cod_canal = c.canal_sk
     left join {{ ref('dim_producto') }} p
         on l.isbn = p.isbn
 

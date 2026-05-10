@@ -13,7 +13,7 @@ dim_tiempo as (
 
 dim_canal as (
 
-    select canal_sk, canal_id
+    select canal_sk, canal, es_digital
     from {{ ref('dim_canal') }}
 
 ),
@@ -30,7 +30,7 @@ clientes as (
     select
         cliente_id,
         segmento_edad,
-        canal_preferido,
+        cod_canal_preferido,
         municipio
     from {{ ref('stg_bronze__clientes_raw') }}
 
@@ -47,6 +47,13 @@ dim_segmento as (
 
     select segmento_sk, segmento_edad, canal_preferido
     from {{ ref('dim_segmento_cliente') }}
+
+),
+
+canales as (
+
+    select cod_canal, canal
+    from {{ ref('stg_bronze__canales_raw') }}
 
 ),
 
@@ -78,7 +85,7 @@ fct as (
         v.es_venta_anonima,
         v.tiene_municipio,
 
-        -- misma_zona — comparando cod_municipio_ine de venta vs cliente
+        -- misma_zona
         iff(
             v.cod_municipio_venta_ine = m.cod_municipio_ine,
             true, false
@@ -91,16 +98,18 @@ fct as (
     left join dim_tiempo t
         on v.fecha = t.fecha
     left join dim_canal c
-        on iff(v.canal = 'Online', 'ONLINE', 'FISICA') = c.canal_id
+        on v.cod_canal = c.canal_sk
     left join dim_geografia g
         on v.cod_municipio_venta_ine = g.cod_municipio_ine
     left join clientes cl
         on v.cliente_id = cl.cliente_id
     left join municipios m
         on cl.municipio = m.municipio
+    left join canales ca
+        on cl.cod_canal_preferido = ca.cod_canal
     left join dim_segmento seg
-        on cl.segmento_edad    = seg.segmento_edad
-        and cl.canal_preferido = seg.canal_preferido
+        on cl.segmento_edad = seg.segmento_edad
+        and ca.canal        = seg.canal_preferido
 
 )
 
