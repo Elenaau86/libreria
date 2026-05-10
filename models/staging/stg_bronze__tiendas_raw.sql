@@ -36,16 +36,13 @@ renamed as (
 
     union all
 
-    -- Registro virtual ONLINE
     select
         'ONLINE'                                                         as tienda_id,
         'Canal Online'                                                   as nombre,
         null                                                             as m2,
-        null                                                             as num_empleados,
         null                                                             as cod_municipio_ine,
         (select cod_canal from canales where canal = 'Online')           as cod_canal,
-        current_timestamp()                                              as _loaded_at
-
+        current_timestamp()                                              as _loaded_at                            
 )
 
 select * from renamed
