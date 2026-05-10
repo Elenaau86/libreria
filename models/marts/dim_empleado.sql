@@ -13,7 +13,12 @@ tiendas as (
 
 municipios as (
 
-    select cod_municipio_ine, municipio
+    select
+        cod_municipio_ine,
+        municipio,
+        cod_provincia_ine,
+        cod_ccaa_ine,
+        cod_tipo_zona
     from {{ ref('stg_bronze__municipios_raw') }}
 
 ),
