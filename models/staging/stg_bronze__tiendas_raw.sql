@@ -1,23 +1,3 @@
-with source as (
-
-    select * from {{ source('bronze', 'tiendas_raw') }}
-
-),
-
-municipios as (
-
-    select municipio, cod_municipio_ine
-    from {{ source('bronze', 'municipios_raw') }}
-
-),
-
-canales as (
-
-    select cod_canal, canal
-    from {{ ref('stg_bronze__canales_raw') }}
-
-),
-
 renamed as (
 
     select
@@ -33,16 +13,17 @@ renamed as (
         on trim(s.municipio) = trim(m.municipio)
     left join canales c
         on iff(s.tienda_id = 'ONLINE', 'Online', 'Tienda física') = c.canal
+    where s.tienda_id != 'ONLINE'    -- ← añadir este filtro
 
     union all
 
+    -- Registro virtual ONLINE
     select
         'ONLINE'                                                         as tienda_id,
         'Canal Online'                                                   as nombre,
         null                                                             as m2,
         null                                                             as cod_municipio_ine,
         (select cod_canal from canales where canal = 'Online')           as cod_canal,
-        current_timestamp()                                              as _loaded_at                            
-)
+        current_timestamp()                                              as _loaded_at
 
-select * from renamed
+)
