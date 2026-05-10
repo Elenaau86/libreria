@@ -425,13 +425,6 @@ sources:
             tests:
               - unique
               - not_null
- 
-          - name: empleados
-            description: >
-              Número de empleados asignados a la tienda.
-              Sin nulos.
-            tests:
-              - not_null
       
 
       # ─────────────────────────────────────────────────────────────────
