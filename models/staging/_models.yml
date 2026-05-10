@@ -520,9 +520,7 @@ models:
           - accepted_values:
               values: ['Barcelona','Madrid','Málaga','Sevilla',
                        'Valencia','Valladolid','Vizcaya','Zaragoza']
-      - name: ccaa
-        description: "Comunidad autónoma a la que pertenece la provincia."
-        tests: [not_null]
+      
       - name: num_municipios
         description: "Número de municipios del dataset pertenecientes a esta provincia."
         tests: [not_null]
