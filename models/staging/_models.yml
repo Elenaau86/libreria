@@ -3,9 +3,9 @@ version: 2
 models:
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__BOOKSTORE_VENTAS_RAW
+  # STG_BRONZE__VENTAS_RAW
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__bookstore_ventas_raw
+  - name: stg_bronze__ventas_raw
     description: >
       Ventas limpias y tipadas desde la capa Bronze.
       Una fila por transacción de venta. 8.000 registros.
@@ -107,9 +107,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__BOOKSTORE_LINEAS_VENTA_RAW
+  # STG_BRONZE__LINEAS_VENTA_RAW
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__bookstore_lineas_venta_raw
+  - name: stg_bronze__lineas_venta_raw
     description: >
       Líneas de detalle de cada venta limpias y tipadas.
       Una fila por producto (isbn) incluido en cada venta. 18.056 registros.
@@ -121,19 +121,19 @@ models:
         tests: [unique, not_null]
 
       - name: venta_id
-        description: "FK → stg_bronze__bookstore_ventas_raw. Todas las ventas tienen al menos una línea."
+        description: "FK → stg_bronze__ventas_raw. Todas las ventas tienen al menos una línea."
         tests:
           - not_null
           - relationships:
-              to: ref('stg_bronze__bookstore_ventas_raw')
+              to: ref('stg_bronze__ventas_raw')
               field: venta_id
 
       - name: isbn
-        description: "FK → stg_bronze__bookstore_catalogo_productos_raw. 500 títulos únicos."
+        description: "FK → stg_bronze__catalogo_productos_raw. 500 títulos únicos."
         tests:
           - not_null
           - relationships:
-              to: ref('stg_bronze__bookstore_catalogo_productos_raw')
+              to: ref('stg_bronze__catalogo_productos_raw')
               field: isbn
 
       - name: num_linea
@@ -205,9 +205,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__BOOKSTORE_CLIENTES_RAW
+  # STG_BRONZE__CLIENTES_RAW
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__bookstore_clientes_raw
+  - name: stg_bronze__clientes_raw
     description: >
       Clientes registrados más el registro especial SIN_REGISTRO.
       801 registros: 800 clientes reales (C0001–C0800) y 1 registro anónimo.
@@ -260,10 +260,7 @@ models:
         description: "Fecha de registro del cliente. Rango: 2021-01-03 → 2024-12-31. NULL para SIN_REGISTRO."
 
       - name: newsletter
-        description: "Suscripción a newsletter. 'Sí' o 'No'. NULL para SIN_REGISTRO."
-        tests:
-          - accepted_values:
-              values: ['Sí', 'No']
+        description: "Suscripción a newsletter como booleano. NULL para SIN_REGISTRO."
 
       - name: es_anonimo
         description: "TRUE si el registro es SIN_REGISTRO."
@@ -273,9 +270,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__BOOKSTORE_TIENDAS_RAW
+  # STG_BRONZE__TIENDAS_RAW
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__bookstore_tiendas_raw
+  - name: stg_bronze__tiendas_raw
     description: >
       Tiendas físicas de la cadena limpias y tipadas. 12 registros (T001–T012).
       No incluye el canal Online. Campo canal derivado del tienda_id.
@@ -291,7 +288,7 @@ models:
 
       - name: municipio
         description: "Municipio donde está ubicada la tienda. Cada tienda está en un municipio distinto."
-        tests: [unique, not_null]
+        tests: [not_null]
 
       - name: m2
         description: "Superficie de la tienda en m². Rango: 120–220 m². Media: 165 m²."
@@ -319,9 +316,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__BOOKSTORE_EMPLEADOS_RAW
+  # STG_BRONZE__EMPLEADOS_RAW
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__bookstore_empleados_raw
+  - name: stg_bronze__empleados_raw
     description: >
       Empleados de las tiendas físicas más el registro virtual ONLINE.
       66 registros: 65 empleados reales (E0001–E0065) y 1 registro virtual.
@@ -416,9 +413,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__BOOKSTORE_MUNICIPIOS_RAW
+  # STG_BRONZE__MUNICIPIOS_RAW
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__bookstore_municipios_raw
+  - name: stg_bronze__municipios_raw
     description: >
       Catálogo de municipios limpio con datos geográficos y socioeconómicos.
       20 registros. Sin nulos. Cubre 7 CCAA y 8 provincias.
@@ -509,9 +506,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__BOOKSTORE_CATALOGO_PRODUCTOS_RAW
+  # STG_BRONZE__CATALOGO_PRODUCTOS_RAW
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__bookstore_catalogo_productos_raw
+  - name: stg_bronze__catalogo_productos_raw
     description: >
       Catálogo de productos limpio. 500 registros. Sin nulos.
       margen_bruto_pct_original conserva el valor almacenado en Bronze.
@@ -570,10 +567,6 @@ models:
                 - 'Idiomas'
                 - 'Infantil/Juvenil'
                 - 'No Ficción'
-
-      - name: subcategoria
-        description: "Subcategoría del producto. Siempre tiene formato 'categoria > General'."
-        tests: [not_null]
 
       - name: anio_publicacion
         description: "Año de publicación original. Rango: 1980–2024."

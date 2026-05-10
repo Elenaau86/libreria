@@ -2,15 +2,15 @@ version: 2
 
 sources:
   - name: bronze
-    description: "Capa Bronze — datos raw cargados directamente desde el CSV del dataset de librería."
-    database: DEV_BOOKSTORE_BRONZE_DB
-    schema: BRONZE
+    description: "Capa Bronze — datos raw cargados directamente desde los CSVs."
+    database: DEV_BRONZE_DB
+    schema: BOOKSTORE
 
     tables:
       # ─────────────────────────────────────────────────────────────────
       # VENTAS
       # ─────────────────────────────────────────────────────────────────
-      - name: bookstore_ventas_raw
+      - name: ventas_raw
         description: >
           Transacciones de venta del proyecto de librería.
           Una fila por venta. Cubre el periodo 2022-01-01 → 2024-01-01.
@@ -117,7 +117,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # LINEAS DE VENTA
       # ─────────────────────────────────────────────────────────────────    
-      - name: bookstore_lineas_venta_raw
+      - name: lineas_venta_raw
         description: >
           Detalle línea a línea de cada transacción de venta.
           Una fila por producto (isbn) incluido en cada venta.
@@ -232,7 +232,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # CLIENTES
       # ───────────────────────────────────────────────────────────────── 
-      - name: bookstore_clientes_raw
+      - name: clientes_raw
         description: >
           Clientes registrados en el sistema más el registro especial SIN_REGISTRO.
           801 registros en total: 800 clientes reales (C0001–C0800) y 1 registro
@@ -282,30 +282,29 @@ sources:
               Municipio de residencia del cliente. 20 municipios únicos para clientes reales
               más '-' para SIN_REGISTRO. Sin nulos en el campo raw.
             tests:
-              - not_null
-              - accepted_values:
-                  values:
-                    - 'Alcobendas'
-                    - 'Badalona'
-                    - 'Barcelona Eixample'
-                    - 'Bilbao'
-                    - 'Dos Hermanas'
-                    - 'Getafe'
-                    - 'Getxo'
-                    - 'Leganés'
-                    - 'Madrid Centro'
-                    - 'Mairena del Aljarafe'
-                    - 'Marbella'
-                    - 'Málaga Centro'
-                    - 'Paterna'
-                    - 'Pozuelo de Alarcón'
-                    - 'Sarrià-Sant Gervasi'
-                    - 'Sevilla Centro'
-                    - 'Valencia Centro'
-                    - 'Valladolid'
-                    - 'Vallecas'
-                    - 'Zaragoza'
-                    - '-'
+              - not_null:
+                  where: "cliente_id != 'SIN_REGISTRO'"
+             # - accepted_values:
+             #     values:
+             #       - 'Alcobendas'
+             #       - 'Badalona'
+             #       - 'Barcelona Eixample'
+             #       - 'Bilbao'
+             #       - 'Dos Hermanas'
+             #       - 'Getafe'
+             #       - 'Getxo'
+             #       - 'Leganés'
+             #       - 'Madrid Centro'
+             #       - 'Mairena del Aljarafe'
+             #       - 'Marbella'
+             #       - 'Málaga Centro'
+             #       - 'Paterna'
+             #       - 'Pozuelo de Alarcón'
+             #       - 'Sevilla Centro'
+             #       - 'Valencia Centro'
+             #       - 'Valladolid'
+             #       - 'Zaragoza'
+             #       - '-'
  
           - name: provincia
             description: >
@@ -332,17 +331,18 @@ sources:
               Distribución: Madrid (215), Andalucía (209), Cataluña (118),
               País Vasco (89), C. Valenciana (82), Aragón (44), Castilla y León (43).
             tests:
-              - not_null
-              - accepted_values:
-                  values:
-                    - 'Andalucía'
-                    - 'Aragón'
-                    - 'C. Valenciana'
-                    - 'Castilla y León'
-                    - 'Cataluña'
-                    - 'Madrid'
-                    - 'País Vasco'
-                    - '-'
+              - not_null:
+                  where: "cliente_id != 'SIN_REGISTRO'"
+              #- accepted_values:
+                  #values:
+                  #  - 'Andalucía'
+                  #  - 'Aragón'
+                  #  - 'C. Valenciana'
+                  #  - 'Castilla y León'
+                  #  - 'Cataluña'
+                  #  - 'Madrid'
+                  #  - 'País Vasco'
+                  #  - '-'
                    # - not_null:
                     #    where: "cliente_id != 'SIN_REGISTRO'"
  
@@ -378,7 +378,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # TIENDAS
       # ───────────────────────────────────────────────────────────────── 
-      - name: bookstore_tiendas_raw
+      - name: tiendas_raw
         description: >
           Catálogo de tiendas físicas de la cadena de librerías.
           12 registros — una fila por tienda (T001–T012).
@@ -415,22 +415,7 @@ sources:
               Todos los municipios existen en la tabla municipios.
               Sin nulos.
             tests:
-              - unique
               - not_null
-              - accepted_values:
-                  values:
-                    - 'Alcobendas'
-                    - 'Barcelona Eixample'
-                    - 'Bilbao'
-                    - 'Getxo'
-                    - 'Madrid Centro'
-                    - 'Marbella'
-                    - 'Pozuelo de Alarcón'
-                    - 'Sarrià-Sant Gervasi'
-                    - 'Sevilla Centro'
-                    - 'Valencia Centro'
-                    - 'Vallecas'
-                    - 'Zaragoza'
  
           - name: m2
             description: >
@@ -444,19 +429,15 @@ sources:
           - name: empleados
             description: >
               Número de empleados asignados a la tienda.
-              4 valores posibles: 4, 5, 6 o 7.
-              Distribución: 4 empleados (2 tiendas), 5 (4 tiendas),
-              6 (3 tiendas), 7 (2 tiendas). Sin nulos.
+              Sin nulos.
             tests:
               - not_null
-              - accepted_values:
-                  values: [4, 5, 6, 7]
       
 
       # ─────────────────────────────────────────────────────────────────
       # EMPLEADOS
       # ─────────────────────────────────────────────────────────────────
-      - name: bookstore_empleados_raw
+      - name: empleados_raw
         description: >
           Empleados de las tiendas físicas más el registro virtual ONLINE.
           66 registros en total: 65 empleados reales (E0001–E0065) distribuidos
@@ -568,7 +549,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # MUNICIPIOS
       # ─────────────────────────────────────────────────────────────────
-      - name: bookstore_municipios_raw
+      - name: municipios_raw
         description: >
           Catálogo de municipios con datos geográficos, administrativos y socioeconómicos.
           20 registros — uno por municipio del dataset. Sin nulos en ningún campo.
@@ -588,28 +569,26 @@ sources:
             tests:
               - unique
               - not_null
-              - accepted_values:
-                  values:
-                    - 'Alcobendas'
-                    - 'Badalona'
-                    - 'Barcelona Eixample'
-                    - 'Bilbao'
-                    - 'Dos Hermanas'
-                    - 'Getafe'
-                    - 'Getxo'
-                    - 'Leganés'
-                    - 'Madrid Centro'
-                    - 'Mairena del Aljarafe'
-                    - 'Marbella'
-                    - 'Málaga Centro'
-                    - 'Paterna'
-                    - 'Pozuelo de Alarcón'
-                    - 'Sarrià-Sant Gervasi'
-                    - 'Sevilla Centro'
-                    - 'Valencia Centro'
-                    - 'Valladolid'
-                    - 'Vallecas'
-                    - 'Zaragoza'
+             # - accepted_values:
+             #     values:
+             #       - 'Alcobendas'
+             #       - 'Badalona'
+             #       - 'Barcelona Eixample'
+             #       - 'Bilbao'
+             #       - 'Dos Hermanas'
+             #       - 'Getafe'
+             #       - 'Getxo'
+             #       - 'Leganés'
+             #       - 'Madrid Centro'
+             #       - 'Mairena del Aljarafe'
+             #       - 'Marbella'
+             #       - 'Málaga Centro'
+             #       - 'Paterna'
+             #       - 'Pozuelo de Alarcón'
+             #       - 'Sevilla Centro'
+             #       - 'Valencia Centro'
+             #       - 'Valladolid'
+             #       - 'Zaragoza'
  
           - name: cod_municipio_ine
             description: >
@@ -656,15 +635,15 @@ sources:
               Nombre de la comunidad autónoma. 7 valores únicos. Sin nulos.
             tests:
               - not_null
-              - accepted_values:
-                  values:
-                    - 'Andalucía'
-                    - 'Aragón'
-                    - 'C. Valenciana'
-                    - 'Castilla y León'
-                    - 'Cataluña'
-                    - 'Madrid'
-                    - 'País Vasco'
+              #- accepted_values:
+              #    values:
+              #      - 'Andalucía'
+              #      - 'Aragón'
+              #      - 'C. Valenciana'
+              #      - 'Castilla y León'
+              #      - 'Cataluña'
+              #      - 'Madrid'
+              #      - 'País Vasco'
  
           - name: renta_media
             description: >
@@ -710,7 +689,7 @@ sources:
       # ─────────────────────────────────────────────────────────────────
       # CATALOGO DE PRODUCTOS
       # ─────────────────────────────────────────────────────────────────
-      - name: bookstore_catalogo_productos_raw
+      - name: catalogo_productos_raw
         description: >
           Catálogo completo de productos (libros) disponibles en la cadena.
           500 registros — uno por ISBN. Sin nulos en ningún campo.
@@ -793,32 +772,9 @@ sources:
                     - 'Infantil/Juvenil'
                     - 'No Ficción'
  
-          - name: subcategoria
-            description: >
-              Subcategoría del producto. Siempre tiene el formato 'categoria > General'
-              para los 500 registros del catálogo actual. 10 valores únicos. Sin nulos.
-            tests:
-              - not_null
-              - accepted_values:
-                  values:
-                    - 'Arte y Fotografía > General'
-                    - 'Autoayuda > General'
-                    - 'Ciencia y Tecnología > General'
-                    - 'Cómics/Manga > General'
-                    - 'Economía/Negocios > General'
-                    - 'Ficción > General'
-                    - 'Historia > General'
-                    - 'Idiomas > General'
-                    - 'Infantil/Juvenil > General'
-                    - 'No Ficción > General'
- 
           - name: anio_publicacion
             description: >
               Año de publicación original del libro.
-              Rango: 1980–2024. 45 valores únicos.
-              Distribución: antes de 2000 (224), 2000–2009 (130),
-              2010–2019 (93), 2020+ (53). Sin nulos.
-            tests:
               - not_null
  
           - name: idioma

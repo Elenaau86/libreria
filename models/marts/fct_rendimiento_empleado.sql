@@ -1,6 +1,6 @@
 with ventas as (
 
-    select * from {{ ref('stg_bronze__bookstore_ventas_raw') }}
+    select * from {{ ref('stg_bronze__ventas_raw') }}
 
 ),
 
@@ -14,7 +14,7 @@ dim_tiempo as (
 empleados as (
 
     select empleado_id, salario_mensual_bruto
-    from {{ ref('stg_bronze__bookstore_empleados_raw') }}
+    from {{ ref('stg_bronze__empleados_raw') }}
 
 ),
 

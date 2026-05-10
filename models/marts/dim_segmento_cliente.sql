@@ -1,6 +1,6 @@
 with clientes as (
 
-    select * from {{ ref('stg_bronze__bookstore_clientes_raw') }}
+    select * from {{ ref('stg_bronze__clientes_raw') }}
 
 ),
 

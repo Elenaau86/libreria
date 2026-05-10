@@ -1,6 +1,6 @@
 with ventas as (
 
-    select * from {{ ref('stg_bronze__bookstore_ventas_raw') }}
+    select * from {{ ref('stg_bronze__ventas_raw') }}
 
 ),
 
@@ -20,29 +20,24 @@ dim_canal as (
 
 dim_geografia as (
 
-    select geografia_sk, cod_municipio_ine, municipio, poblacion, tiene_tienda
+    select cod_municipio_ine, municipio, poblacion, tiene_tienda
     from {{ ref('dim_geografia') }}
 
 ),
 
--- agrupamos ventas por municipio, mes y canal
 ventas_agrupadas as (
 
     select
-        g.geografia_sk,
+        g.cod_municipio_ine,
         t.tiempo_sk,
         t.anio,
         t.mes,
         c.canal_sk,
         v.canal,
-
-        -- métricas agregadas
         count(v.venta_id)                                        as num_ventas,
         count(distinct v.cliente_id)                             as num_clientes_distintos,
         round(sum(v.importe_neto), 2)                            as importe_neto_total,
         round(avg(v.ticket_medio), 2)                            as ticket_medio,
-
-        -- % ventas online
         round(
             sum(iff(v.canal = 'Online', 1, 0)) /
             nullif(count(v.venta_id), 0) * 100
@@ -57,7 +52,7 @@ ventas_agrupadas as (
         on v.cod_municipio_venta_ine = g.cod_municipio_ine
     where v.cod_municipio_venta_ine is not null
     group by
-        g.geografia_sk,
+        g.cod_municipio_ine,
         t.tiempo_sk,
         t.anio,
         t.mes,
@@ -70,7 +65,7 @@ fct as (
 
     select
         -- claves
-        va.geografia_sk,
+        va.cod_municipio_ine,
         va.tiempo_sk,
         va.canal_sk,
 
@@ -97,7 +92,7 @@ fct as (
 
     from ventas_agrupadas va
     left join dim_geografia g
-        on va.geografia_sk = g.geografia_sk
+        on va.cod_municipio_ine = g.cod_municipio_ine
 
 )
 

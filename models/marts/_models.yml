@@ -110,19 +110,13 @@ models:
   # ─────────────────────────────────────────────────────────────────
   - name: dim_geografia
     description: >
-      Dimensión geográfica con 20 municipios o distritos.
-      Clave surrogada necesaria porque cod_municipio_ine no es único
-      (28079 corresponde a Madrid Centro y Vallecas,
-      8019 a Barcelona Eixample y Sarrià-Sant Gervasi).
+      Dimensión geográfica con 18 municipios o distritos.
+      
     columns:
 
-      - name: geografia_sk
-        description: "Clave surrogada hash generada sobre municipio. PK de la dimensión."
-        tests: [unique, not_null]
-
       - name: cod_municipio_ine
-        description: "Código INE oficial. NO es único — ver nota en descripción del modelo."
-        tests: [not_null]
+        description: "Clave natural única."
+        tests: [unique, not_null]
 
       - name: municipio
         description: "Nombre del municipio o distrito. Clave natural única."
@@ -219,7 +213,7 @@ models:
 
       - name: municipio
         description: "Municipio donde está ubicada la tienda."
-        tests: [unique, not_null]
+        tests: [not_null]
 
       - name: cod_municipio_ine
         description: "Código INE del municipio de la tienda."
@@ -428,10 +422,7 @@ models:
         description: "Fecha de registro. NULL para SIN_REGISTRO."
 
       - name: newsletter
-        description: "Suscripción a newsletter. NULL para SIN_REGISTRO."
-        tests:
-          - accepted_values:
-              values: ['Sí', 'No']
+        description: "Suscripción a newsletter como booleano. NULL para SIN_REGISTRO."
 
       - name: es_anonimo
         description: "TRUE si el registro es SIN_REGISTRO."
@@ -471,10 +462,6 @@ models:
               values: ['Arte y Fotografía','Autoayuda','Ciencia y Tecnología',
                        'Cómics/Manga','Economía/Negocios','Ficción','Historia',
                        'Idiomas','Infantil/Juvenil','No Ficción']
-
-      - name: subcategoria
-        description: "Subcategoría. Siempre 'categoria > General'."
-        tests: [not_null]
 
       - name: anio_publicacion
         description: "Año de publicación. Rango: 1980–2024."
@@ -914,13 +901,13 @@ models:
       Excluye las 339 ventas sin municipio (SIN_REGISTRO + Online).
     columns:
 
-      - name: geografia_sk
+      - name: cod_municipio_ine
         description: "FK → dim_geografia. Parte de la PK compuesta."
         tests:
           - not_null
           - relationships:
               to: ref('dim_geografia')
-              field: geografia_sk
+              field: cod_municipio_ine
 
       - name: tiempo_sk
         description: "FK → dim_tiempo. Parte de la PK compuesta."

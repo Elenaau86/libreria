@@ -2,16 +2,13 @@ with
 
 source as (
 
-    select * from {{ source('bronze', 'bookstore_municipios_raw') }}
+    select * from {{ source('bronze', 'municipios_raw') }}
 
 ),
 
 renamed as (
 
     select
-        -- clave surrogada — necesaria porque cod_municipio_ine no es único
-        {{ dbt_utils.generate_surrogate_key(['municipio']) }}            as geografia_sk,
-
         -- clave natural (no única)
         try_cast(cod_municipio_ine  as integer)                          as cod_municipio_ine,
 

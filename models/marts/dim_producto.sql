@@ -1,6 +1,6 @@
 with catalogo as (
 
-    select * from {{ ref('stg_bronze__bookstore_catalogo_productos_raw') }}
+    select * from {{ ref('stg_bronze__catalogo_productos_raw') }}
 
 ),
 
@@ -15,7 +15,6 @@ dim as (
         autor,
         editorial,
         categoria,
-        subcategoria,
         anio_publicacion,
         idioma,
         formato,

@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ source('bronze', 'bookstore_catalogo_productos_raw') }}
+    select * from {{ source('bronze', 'catalogo_productos_raw') }}
 
 ),
 
@@ -17,8 +17,7 @@ renamed as (
         trim(autor)                                                                as autor,
         trim(editorial)                                                            as editorial,
         trim(categoria)                                                            as categoria,
-        trim(subcategoria)                                                         as subcategoria,
-        try_cast(anio_publicacion as integer)                                      as anio_publicacion,
+        try_cast(replace(ano_publicacion, ',', '.') as integer)                    as anio_publicacion,
         trim(idioma)                                                               as idioma,
         trim(formato)                                                              as formato,
         try_cast(paginas as integer)                                               as paginas,
@@ -54,7 +53,7 @@ renamed as (
 
         -- antigüedad
         year(current_date()) -
-            try_cast(anio_publicacion as integer)                                   as anios_desde_publicacion,
+            try_cast(replace(ano_publicacion, ',', '.') as integer)                 as anios_desde_publicacion,
 
         -- disponibilidad
         iff(trim(disponible_online) = 'Sí', true, false)                            as disponible_online,

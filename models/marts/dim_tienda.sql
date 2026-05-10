@@ -1,12 +1,12 @@
 with tiendas as (
 
-    select * from {{ ref('stg_bronze__bookstore_tiendas_raw') }}
+    select * from {{ ref('stg_bronze__tiendas_raw') }}
 
 ),
 
 municipios as (
 
-    select * from {{ ref('stg_bronze__bookstore_municipios_raw') }}
+    select * from {{ ref('stg_bronze__municipios_raw') }}
 
 ),
 

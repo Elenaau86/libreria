@@ -1,6 +1,6 @@
 with ventas as (
 
-    select * from {{ ref('stg_bronze__bookstore_ventas_raw') }}
+    select * from {{ ref('stg_bronze__ventas_raw') }}
 
 ),
 
@@ -20,15 +20,8 @@ dim_canal as (
 
 dim_geografia as (
 
-    select
-        geografia_sk,
-        municipio,
-        cod_municipio_ine
+    select cod_municipio_ine, municipio
     from {{ ref('dim_geografia') }}
-    qualify row_number() over (
-        partition by cod_municipio_ine
-        order by municipio
-    ) = 1
 
 ),
 
@@ -39,14 +32,14 @@ clientes as (
         segmento_edad,
         canal_preferido,
         municipio
-    from {{ ref('stg_bronze__bookstore_clientes_raw') }}
+    from {{ ref('stg_bronze__clientes_raw') }}
 
 ),
 
 municipios as (
 
     select municipio, cod_municipio_ine
-    from {{ ref('stg_bronze__bookstore_municipios_raw') }}
+    from {{ ref('stg_bronze__municipios_raw') }}
 
 ),
 
@@ -69,7 +62,7 @@ fct as (
         v.tienda_id,
         v.empleado_id,
         v.cliente_id,
-        g.geografia_sk                                           as geo_sk_venta,
+        g.cod_municipio_ine                                      as cod_municipio_venta,
         seg.segmento_sk,
 
         -- métricas

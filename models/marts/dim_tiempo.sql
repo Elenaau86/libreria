@@ -1,7 +1,7 @@
 with fechas as (
 
     select distinct cast(fecha as date) as fecha
-    from {{ ref('stg_bronze__bookstore_ventas_raw') }}
+    from {{ ref('stg_bronze__ventas_raw') }}
     where fecha is not null
 
 ),

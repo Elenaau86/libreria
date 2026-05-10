@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ source('bronze', 'bookstore_clientes_raw') }}
+    select * from {{ source('bronze', 'clientes_raw') }}
 
 ),
 
@@ -25,7 +25,11 @@ renamed as (
         -- comportamiento
         nullif(trim(canal_preferido), '-')                               as canal_preferido,
         try_cast(nullif(fecha_alta,   '-') as date)                      as fecha_alta,
-        nullif(trim(newsletter),      '-')                               as newsletter,
+        case
+            when trim(newsletter) = 'Sí'  then true
+            when trim(newsletter) = 'No'  then false
+            else null
+        end                                                             as newsletter,
 
         -- flag
         iff(cliente_id = 'SIN_REGISTRO', true, false)                   as es_anonimo,

@@ -1,13 +1,13 @@
 with lineas as (
 
-    select * from {{ ref('stg_bronze__bookstore_lineas_venta_raw') }}
+    select * from {{ ref('stg_bronze__lineas_venta_raw') }}
 
 ),
 
 ventas as (
 
     select venta_id, fecha, canal, tienda_id
-    from {{ ref('stg_bronze__bookstore_ventas_raw') }}
+    from {{ ref('stg_bronze__ventas_raw') }}
 
 ),
 
