@@ -6,7 +6,17 @@ with clientes as (
 
 municipios as (
 
-    select * from {{ ref('stg_bronze__municipios_raw') }}
+    select
+        cod_municipio_ine,
+        municipio,
+        cod_provincia_ine,
+        cod_ccaa_ine,
+        cod_tipo_zona,
+        renta_media,
+        rango_renta,
+        poblacion,
+        rango_poblacion
+    from {{ ref('stg_bronze__municipios_raw') }}
 
 ),
 
@@ -38,6 +48,13 @@ canales as (
 
 ),
 
+segmentos as (
+
+    select cod_segmento_edad, segmento_edad
+    from {{ ref('stg_bronze__segmentos_edad_raw') }}
+
+),
+
 dim as (
 
     select
@@ -47,7 +64,7 @@ dim as (
         -- datos personales
         c.nombre,
         c.edad,
-        c.segmento_edad,
+        seg.segmento_edad,
 
         -- geografía denormalizada
         m.cod_municipio_ine,
@@ -84,6 +101,8 @@ dim as (
         on m.cod_tipo_zona = tz.cod_tipo_zona
     left join canales can
         on c.cod_canal_preferido = can.cod_canal
+    left join segmentos seg
+        on c.cod_segmento_edad = seg.cod_segmento_edad
 
 )
 

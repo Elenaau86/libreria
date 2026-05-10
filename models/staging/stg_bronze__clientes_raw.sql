@@ -18,6 +18,13 @@ canales as (
 
 ),
 
+segmentos as (
+
+    select cod_segmento_edad, segmento_edad
+    from {{ ref('stg_bronze__segmentos_edad_raw') }}
+
+),
+
 renamed as (
 
     select
@@ -27,7 +34,9 @@ renamed as (
         -- datos personales
         trim(s.nombre)                                                   as nombre,
         try_cast(nullif(s.edad, '-') as integer)                         as edad,
-        nullif(trim(s.segmento_edad), '-')                               as segmento_edad,
+
+        -- FK segmento edad
+        seg.cod_segmento_edad,
 
         -- FK municipio
         m.cod_municipio_ine,
@@ -50,6 +59,8 @@ renamed as (
         current_timestamp()                                              as _loaded_at
 
     from source s
+    left join segmentos seg
+        on nullif(trim(s.segmento_edad), '-') = seg.segmento_edad
     left join municipios m
         on nullif(trim(s.municipio), '-') = trim(m.municipio)
     left join canales c
