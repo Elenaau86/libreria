@@ -20,7 +20,7 @@ dim_tiempo as (
 
 dim_canal as (
 
-    select canal_sk, canal, es_digital
+    select canal_sk, canal_nombre as canal, es_digital
     from {{ ref('dim_canal') }}
 
 ),
