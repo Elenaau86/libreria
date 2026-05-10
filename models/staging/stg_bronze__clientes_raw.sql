@@ -1,8 +1,13 @@
-with
-
-source as (
+with source as (
 
     select * from {{ source('bronze', 'clientes_raw') }}
+
+),
+
+canales as (
+
+    select cod_canal, canal
+    from {{ ref('stg_bronze__canales_raw') }}
 
 ),
 
@@ -10,34 +15,38 @@ renamed as (
 
     select
         -- clave
-        cliente_id,
+        s.cliente_id,
 
         -- datos personales
-        trim(nombre)                                                     as nombre,
-        try_cast(nullif(edad, '-') as integer)                           as edad,
-        nullif(trim(segmento_edad), '-')                                 as segmento_edad,
+        trim(s.nombre)                                                   as nombre,
+        try_cast(nullif(s.edad, '-') as integer)                         as edad,
+        nullif(trim(s.segmento_edad), '-')                               as segmento_edad,
 
         -- geografía
-        nullif(trim(municipio),       '-')                               as municipio,
-        nullif(trim(provincia),       '-')                               as provincia,
-        nullif(trim(ccaa),            '-')                               as ccaa,
+        nullif(trim(s.municipio),  '-')                                  as municipio,
+        nullif(trim(s.provincia),  '-')                                  as provincia,
+        nullif(trim(s.ccaa),       '-')                                  as ccaa,
+
+        -- canal preferido como FK
+        c.cod_canal                                                      as cod_canal_preferido,
 
         -- comportamiento
-        nullif(trim(canal_preferido), '-')                               as canal_preferido,
-        try_cast(nullif(fecha_alta,   '-') as date)                      as fecha_alta,
+        try_cast(nullif(s.fecha_alta, '-') as date)                      as fecha_alta,
         case
-            when trim(newsletter) = 'Sí'  then true
-            when trim(newsletter) = 'No'  then false
+            when trim(s.newsletter) = 'Sí' then true
+            when trim(s.newsletter) = 'No' then false
             else null
-        end                                                             as newsletter,
+        end                                                              as newsletter,
 
         -- flag
-        iff(cliente_id = 'SIN_REGISTRO', true, false)                   as es_anonimo,
+        iff(s.cliente_id = 'SIN_REGISTRO', true, false)                 as es_anonimo,
 
         -- metadatos
         current_timestamp()                                              as _loaded_at
 
-    from source
+    from source s
+    left join canales c
+        on nullif(trim(s.canal_preferido), '-') = c.canal
 
 )
 
