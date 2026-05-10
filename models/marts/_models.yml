@@ -219,11 +219,6 @@ models:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
-      - name: num_empleados
-        description: "Número de empleados asignados. Valores: 4, 5, 6 o 7."
-        tests:
-          - not_null:
-              where: "tienda_id != 'ONLINE'"
 
       - name: canal
         description: "Canal de la tienda. Siempre 'Tienda física' para T001–T012."

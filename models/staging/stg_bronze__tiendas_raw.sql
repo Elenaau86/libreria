@@ -24,7 +24,6 @@ renamed as (
         s.tienda_id,
         trim(s.nombre)                                                   as nombre,
         try_cast(s.m2       as integer)                                  as m2,
-        try_cast(s.empleados as integer)                                 as num_empleados,
         m.cod_municipio_ine,
         c.cod_canal,
         current_timestamp()                                              as _loaded_at

@@ -47,7 +47,6 @@ dim as (
         -- datos de la tienda
         t.nombre,
         t.m2,
-        t.num_empleados,
 
         -- canal
         c.canal,
