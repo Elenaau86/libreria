@@ -1,13 +1,24 @@
 with municipios as (
 
-    select * from {{ ref('stg_bronze__municipios_raw') }}
+    select
+        cod_municipio_ine,
+        municipio,
+        cod_provincia_ine,
+        cod_ccaa_ine,
+        cod_tipo_zona,
+        renta_media,
+        rango_renta,
+        poblacion,
+        rango_poblacion
+    from {{ ref('stg_bronze__municipios_raw') }}
 
 ),
 
 tiendas as (
 
-    select distinct municipio
+    select distinct cod_municipio_ine
     from {{ ref('stg_bronze__tiendas_raw') }}
+    where cod_municipio_ine is not null
 
 ),
 
@@ -69,14 +80,14 @@ dim as (
         m.rango_poblacion,
 
         -- flag tienda física
-        iff(t.municipio is not null, true, false)                as tiene_tienda,
+        iff(t.cod_municipio_ine is not null, true, false)        as tiene_tienda,
 
         -- metadatos
         current_timestamp()                                      as _loaded_at
 
     from municipios m
     left join tiendas t
-        on m.municipio = t.municipio
+        on m.cod_municipio_ine = t.cod_municipio_ine
     left join provincias p
         on m.cod_provincia_ine = p.cod_provincia_ine
     left join ccaa c
