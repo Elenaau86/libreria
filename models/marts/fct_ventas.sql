@@ -31,15 +31,8 @@ clientes as (
         cliente_id,
         segmento_edad,
         cod_canal_preferido,
-        municipio
+        cod_municipio_ine
     from {{ ref('stg_bronze__clientes_raw') }}
-
-),
-
-municipios as (
-
-    select municipio, cod_municipio_ine
-    from {{ ref('stg_bronze__municipios_raw') }}
 
 ),
 
@@ -87,7 +80,7 @@ fct as (
 
         -- misma_zona
         iff(
-            v.cod_municipio_venta_ine = m.cod_municipio_ine,
+            v.cod_municipio_venta_ine = cl.cod_municipio_ine,
             true, false
         )                                                        as misma_zona,
 
@@ -103,8 +96,6 @@ fct as (
         on v.cod_municipio_venta_ine = g.cod_municipio_ine
     left join clientes cl
         on v.cliente_id = cl.cliente_id
-    left join municipios m
-        on cl.municipio = m.municipio
     left join canales ca
         on cl.cod_canal_preferido = ca.cod_canal
     left join dim_segmento seg
