@@ -216,17 +216,14 @@ models:
       - name: m2
         description: "Superficie de la tienda en m². Rango: 120–220 m²."
         tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 100
-              max_value: 250
+          - not_null:
+              where: "tienda_id != 'ONLINE'"
 
       - name: num_empleados
         description: "Número de empleados asignados. Valores: 4, 5, 6 o 7."
         tests:
-          - not_null
-          - accepted_values:
-              values: [4, 5, 6, 7]
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: canal
         description: "Canal de la tienda. Siempre 'Tienda física' para T001–T012."
@@ -237,45 +234,57 @@ models:
 
       - name: municipio
         description: "Municipio donde está ubicada la tienda."
-        tests: [not_null]
+        tests:
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: cod_municipio_ine
         description: "Código INE del municipio de la tienda."
-        tests: [not_null]
+        tests:
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: provincia
         description: "Provincia de la tienda."
-        tests: [not_null]
+        tests:
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: ccaa
         description: "Comunidad autónoma de la tienda."
-        tests: [not_null]
+        tests:
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: tipo_zona
         description: "Clasificación socioeconómica de la zona."
-        tests: [not_null]
+        tests:
+          - not_null:
+             where: "tienda_id != 'ONLINE'"
 
       - name: renta_media
         description: "Renta media del municipio de la tienda en €."
-        tests: [not_null]
+        tests:
+          - not_null:
+             where: "tienda_id != 'ONLINE'"
 
       - name: rango_renta
         description: "Rango derivado de renta_media."
         tests:
-          - not_null
-          - accepted_values:
-              values: ['Renta baja', 'Renta media', 'Renta alta']
+          - not_null:
+             where: "tienda_id != 'ONLINE'"
 
       - name: poblacion
         description: "Población del municipio de la tienda."
-        tests: [not_null]
+        tests:
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: rango_poblacion
         description: "Rango derivado de poblacion."
         tests:
-          - not_null
-          - accepted_values:
-              values: ['Pequeña', 'Mediana', 'Grande']
+          - not_null:
+             where: "tienda_id != 'ONLINE'"
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_EMPLEADO

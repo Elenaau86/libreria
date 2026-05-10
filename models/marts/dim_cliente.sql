@@ -50,8 +50,8 @@ dim as (
         c.segmento_edad,
 
         -- geografía denormalizada
-        c.municipio,
         m.cod_municipio_ine,
+        m.municipio,
         p.provincia,
         ca.ccaa,
         tz.tipo_zona,
@@ -75,7 +75,7 @@ dim as (
 
     from clientes c
     left join municipios m
-        on c.municipio = m.municipio
+        on c.cod_municipio_ine = m.cod_municipio_ine
     left join provincias p
         on m.cod_provincia_ine = p.cod_provincia_ine
     left join ccaa ca

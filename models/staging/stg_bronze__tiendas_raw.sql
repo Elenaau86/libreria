@@ -21,21 +21,12 @@ canales as (
 renamed as (
 
     select
-        -- clave
         s.tienda_id,
-
-        -- datos
         trim(s.nombre)                                                   as nombre,
         try_cast(s.m2       as integer)                                  as m2,
         try_cast(s.empleados as integer)                                 as num_empleados,
-
-        -- FK municipio
         m.cod_municipio_ine,
-
-        -- canal como FK
         c.cod_canal,
-
-        -- metadatos
         current_timestamp()                                              as _loaded_at
 
     from source s
@@ -43,6 +34,18 @@ renamed as (
         on trim(s.municipio) = trim(m.municipio)
     left join canales c
         on iff(s.tienda_id = 'ONLINE', 'Online', 'Tienda física') = c.canal
+
+    union all
+
+    -- Registro virtual ONLINE
+    select
+        'ONLINE'                                                         as tienda_id,
+        'Canal Online'                                                   as nombre,
+        null                                                             as m2,
+        null                                                             as num_empleados,
+        null                                                             as cod_municipio_ine,
+        (select cod_canal from canales where canal = 'Online')           as cod_canal,
+        current_timestamp()                                              as _loaded_at
 
 )
 

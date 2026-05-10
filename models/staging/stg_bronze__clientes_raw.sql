@@ -4,6 +4,13 @@ with source as (
 
 ),
 
+municipios as (
+
+    select municipio, cod_municipio_ine
+    from {{ source('bronze', 'municipios_raw') }}
+
+),
+
 canales as (
 
     select cod_canal, canal
@@ -22,10 +29,8 @@ renamed as (
         try_cast(nullif(s.edad, '-') as integer)                         as edad,
         nullif(trim(s.segmento_edad), '-')                               as segmento_edad,
 
-        -- geografía
-        nullif(trim(s.municipio),  '-')                                  as municipio,
-        nullif(trim(s.provincia),  '-')                                  as provincia,
-        nullif(trim(s.ccaa),       '-')                                  as ccaa,
+        -- FK municipio
+        m.cod_municipio_ine,
 
         -- canal preferido como FK
         c.cod_canal                                                      as cod_canal_preferido,
@@ -45,6 +50,8 @@ renamed as (
         current_timestamp()                                              as _loaded_at
 
     from source s
+    left join municipios m
+        on nullif(trim(s.municipio), '-') = trim(m.municipio)
     left join canales c
         on nullif(trim(s.canal_preferido), '-') = c.canal
 

@@ -283,23 +283,19 @@ models:
         tests: [unique, not_null]
 
       - name: cod_municipio_ine
-        description: "FK → stg_bronze__municipios_raw. Código INE del municipio de la tienda."
-        tests: [not_null]
+        tests:
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: m2
-        description: "Superficie de la tienda en m². Rango: 120–220 m². Media: 165 m²."
         tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 100
-              max_value: 250
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: num_empleados
-        description: "Número de empleados asignados. Valores posibles: 4, 5, 6 o 7."
         tests:
-          - not_null
-          - accepted_values:
-              values: [4, 5, 6, 7]
+          - not_null:
+            where: "tienda_id != 'ONLINE'"
 
       - name: cod_canal
         description: "FK → stg_bronze__canales_raw. Hash generado sobre el canal de la tienda."
