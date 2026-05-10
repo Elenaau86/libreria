@@ -6,13 +6,15 @@ with empleados as (
 
 tiendas as (
 
-    select * from {{ ref('stg_bronze__tiendas_raw') }}
+    select tienda_id, nombre as nombre_tienda, cod_municipio_ine, cod_canal
+    from {{ ref('stg_bronze__tiendas_raw') }}
 
 ),
 
 municipios as (
 
-    select * from {{ ref('stg_bronze__municipios_raw') }}
+    select cod_municipio_ine, municipio
+    from {{ ref('stg_bronze__municipios_raw') }}
 
 ),
 
@@ -65,7 +67,7 @@ dim as (
 
         -- tienda
         e.tienda_id,
-        t.nombre                                                 as nombre_tienda,
+        t.nombre_tienda,
 
         -- datos personales
         e.nombre,
@@ -90,7 +92,7 @@ dim as (
         e.coste_anual_estimado,
 
         -- geografía de la tienda denormalizada
-        t.municipio,
+        m.municipio,
         pr.provincia,
         c.ccaa,
         tz.tipo_zona,
@@ -105,7 +107,7 @@ dim as (
     left join tiendas t
         on e.tienda_id = t.tienda_id
     left join municipios m
-        on t.municipio = m.municipio
+        on t.cod_municipio_ine = m.cod_municipio_ine
     left join provincias pr
         on m.cod_provincia_ine = pr.cod_provincia_ine
     left join ccaa c
