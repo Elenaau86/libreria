@@ -227,13 +227,8 @@ models:
               max_value: 80
               where: "cliente_id != 'SIN_REGISTRO'"
 
-      - name: segmento_edad
-        description: "Tramo de edad. Valores: '18-25', '26-40', '41-60', '61+'. NULL para SIN_REGISTRO."
-        tests:
-          - not_null:
-              where: "es_anonimo = false"
-          - accepted_values:
-              values: ['18-25', '26-40', '41-60', '61+']
+      - name: cod_segmento_edad
+        description: "FK → stg_bronze__segmentos_edad_raw. NULL para SIN_REGISTRO."
 
       - name: municipio
         description: "Municipio de residencia del cliente. NULL para SIN_REGISTRO."
