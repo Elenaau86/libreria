@@ -285,17 +285,17 @@ models:
       - name: cod_municipio_ine
         tests:
           - not_null:
-            where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"
 
       - name: m2
         tests:
           - not_null:
-            where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"
 
       - name: num_empleados
         tests:
           - not_null:
-            where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"
 
       - name: cod_canal
         description: "FK → stg_bronze__canales_raw. Hash generado sobre el canal de la tienda."
