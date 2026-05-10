@@ -286,7 +286,7 @@ models:
         description: "FK → stg_bronze__municipios_raw. Código INE del municipio de la tienda."
         tests:
           - not_null:
-            where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"
 
       - name: m2
         tests:
