@@ -87,12 +87,12 @@ models:
         tests: [unique, not_null]
 
       - name: canal_id
-        description: "Clave natural. Valores: 'ONLINE' o 'FISICA'."
+        description: "Clave natural del canal. Valores: 'Online' o 'Tienda física'."
         tests:
           - unique
           - not_null
           - accepted_values:
-              values: ['ONLINE', 'FISICA']
+              values: ['Online', 'Tienda física']
 
       - name: canal_nombre
         description: "Nombre descriptivo del canal. Valores: 'Online' o 'Tienda física'."

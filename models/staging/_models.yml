@@ -21,12 +21,9 @@ models:
         description: "Fecha de la transacción casteada a DATE. Rango: 2022-01-01 → 2024-01-01."
         tests: [not_null]
 
-      - name: canal
-        description: "Canal de venta normalizado. Valores: 'Online' o 'Tienda física'."
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['Online', 'Tienda física']
+      - name: cod_canal
+        description: "FK → stg_bronze__canales_raw. Hash generado sobre canal."
+        tests: [not_null]
 
       - name: tienda_id
         description: "Identificador de la tienda. T001–T012 para físicas, 'ONLINE' para el canal digital."
@@ -250,11 +247,10 @@ models:
           Cataluña (118), País Vasco (89), C. Valenciana (82), Aragón (44), Castilla y León (43).
           NULL para SIN_REGISTRO.
 
-      - name: canal_preferido
-        description: "Canal de compra preferido. 'Online' o 'Tienda física'. NULL para SIN_REGISTRO."
-        tests:
-          - accepted_values:
-              values: ['Online', 'Tienda física']
+      - name: cod_canal_preferido
+        description: >
+          FK hacia stg_bronze__canales_raw. Hash generado sobre el canal preferido del cliente.
+          NULL para el registro SIN_REGISTRO que no tiene canal preferido definido.
 
       - name: fecha_alta
         description: "Fecha de registro del cliente. Rango: 2021-01-03 → 2024-12-31. NULL para SIN_REGISTRO."
@@ -305,12 +301,9 @@ models:
           - accepted_values:
               values: [4, 5, 6, 7]
 
-      - name: canal
-        description: "Canal derivado del tienda_id. Siempre 'Tienda física' para T001–T012."
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['Online', 'Tienda física']
+      - name: cod_canal
+        description: "FK → stg_bronze__canales_raw. Hash generado sobre el canal de la tienda."
+        tests: [not_null]
 
       - name: _loaded_at
         description: "Timestamp de carga del registro en la capa staging."
