@@ -1,6 +1,4 @@
-with
-
-source as (
+with source as (
 
     select * from {{ source('bronze', 'empleados_raw') }}
 
@@ -15,17 +13,11 @@ renamed as (
 
         -- datos personales
         trim(nombre)                                                     as nombre,
-        nullif(trim(genero), '-')                                        as genero,
         try_cast(nullif(edad, '-') as integer)                           as edad,
 
-        -- puesto
-        trim(puesto)                                                     as puesto,
-        case
-            when trim(puesto) ilike '%director%'    then 'Dirección'
-            when trim(puesto) ilike '%responsable%' then 'Mando intermedio'
-            when trim(puesto) ilike '%senior%'      then 'Operativo senior'
-            else                                         'Operativo'
-        end                                                              as categoria_puesto,
+        -- FKs hacia tablas normalizadas
+        {{ dbt_utils.generate_surrogate_key(['genero']) }}               as cod_genero,
+        {{ dbt_utils.generate_surrogate_key(['puesto']) }}               as cod_puesto,
 
         -- fechas y antigüedad
         try_cast(nullif(fecha_contratacion, '-') as date)                as fecha_contratacion,
@@ -36,18 +28,17 @@ renamed as (
             ) / 365.25, 1
         )                                                                as antiguedad_anios,
 
-        -- salario — viene como '2.891,44 €', hay que limpiar
+        -- salario
         round(
-             try_cast(
+            try_cast(
                 replace(
                     replace(
-                        split_part(nullif(salario_mensual_bruto, '-'), ' ', 1),
+                        split_part(salario_mensual_bruto, ' ', 1),
                     '.', ''),
                 ',', '.')
             as numeric(10,2)), 2
         )                                                                as salario_mensual_bruto,
 
-        -- coste anual estimado
         round(
             try_cast(
                 replace(

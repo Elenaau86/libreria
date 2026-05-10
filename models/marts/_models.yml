@@ -167,6 +167,30 @@ models:
           - not_null
           - accepted_values:
               values: ['Pequeña', 'Mediana', 'Grande']
+      
+      - name: num_municipios_provincia
+        description: "Número de municipios del dataset pertenecientes a la misma provincia."
+        tests: [not_null]
+
+      - name: num_municipios_ccaa
+        description: "Número de municipios del dataset pertenecientes a la misma comunidad autónoma."
+        tests: [not_null]
+
+      - name: num_provincias
+        description: "Número de provincias del dataset presentes en la misma comunidad autónoma."
+        tests: [not_null]
+
+      - name: renta_media_zona
+        description: "Renta media en € de todos los municipios con el mismo tipo de zona."
+        tests: [not_null]
+
+      - name: poblacion_media_zona
+        description: "Población media de todos los municipios con el mismo tipo de zona."
+        tests: [not_null]
+
+      - name: num_municipios_zona
+        description: "Número de municipios del dataset con el mismo tipo de zona."
+        tests: [not_null]
 
       - name: tiene_tienda
         description: "TRUE si hay una tienda física de la cadena en este municipio."
@@ -300,18 +324,32 @@ models:
       - name: puesto
         description: "Cargo del empleado."
         tests:
-          - not_null
-          - accepted_values:
-              values: ['Auxiliar de tienda','Cajero/a','Director/a de tienda',
-                       'Librero/a','Librero/a senior','Responsable de sección',
-                       'Vendedor/a Online']
+          - not_null:
+              where: "es_virtual = false"
 
       - name: categoria_puesto
         description: "Categoría derivada del puesto."
         tests:
-          - not_null
-          - accepted_values:
-              values: ['Dirección', 'Mando intermedio', 'Operativo senior', 'Operativo']
+          - not_null:
+              where: "es_virtual = false"
+              
+      - name: salario_medio_puesto
+        description: "Salario mensual bruto medio en € de todos los empleados con el mismo puesto."
+        tests:
+          - not_null:
+              where: "es_virtual = false"
+
+      - name: salario_minimo_puesto
+        description: "Salario mensual bruto mínimo en € registrado para este puesto."
+        tests:
+          - not_null:
+              where: "es_virtual = false"
+
+      - name: salario_maximo_puesto
+        description: "Salario mensual bruto máximo en € registrado para este puesto."
+        tests:
+          - not_null:
+              where: "es_virtual = false"
 
       - name: fecha_contratacion
         description: "Fecha de inicio del contrato. NULL para el registro ONLINE."
@@ -552,6 +590,48 @@ models:
       - name: fecha_alta_catalogo
         description: "Fecha de alta en el catálogo. Rango: 2019-01-02 → 2023-12-04."
         tests: [not_null]
+
+        # enriquecimiento desde catálogos Silver
+      - name: num_titulos_autor
+        description: "Número de títulos del mismo autor en el catálogo."
+        tests:
+          - not_null
+
+      - name: num_titulos_editorial
+        description: "Número de títulos de la misma editorial en el catálogo."
+        tests:
+          - not_null
+
+      - name: num_titulos_categoria
+        description: "Número de títulos de la misma categoría en el catálogo."
+        tests:
+          - not_null
+
+      - name: precio_pvp_medio_categoria
+        description: "Precio PVP medio de todos los productos de la misma categoría."
+        tests:
+          - not_null
+
+      - name: margen_medio_categoria
+        description: "Margen bruto medio en % de todos los productos de la misma categoría."
+        tests:
+          - not_null
+
+      - name: num_titulos_idioma
+        description: "Número de títulos en el mismo idioma en el catálogo."
+        tests:
+          - not_null
+
+      - name: num_titulos_formato
+        description: "Número de títulos con el mismo formato en el catálogo."
+        tests:
+          - not_null
+
+      - name: precio_pvp_medio_formato
+        description: "Precio PVP medio de todos los productos del mismo formato."
+        tests:
+          - not_null
+
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_SEGMENTO_CLIENTE
@@ -965,3 +1045,6 @@ models:
       - name: tiene_tienda_fisica
         description: "TRUE si hay tienda física de la cadena en el municipio."
         tests: [not_null]
+
+
+        

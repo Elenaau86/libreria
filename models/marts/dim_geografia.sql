@@ -11,41 +11,78 @@ tiendas as (
 
 ),
 
+provincias as (
+
+    select cod_provincia_ine, provincia, num_municipios as num_municipios_provincia
+    from {{ ref('stg_bronze__provincias_raw') }}
+
+),
+
+ccaa as (
+
+    select cod_ccaa_ine, ccaa, num_municipios as num_municipios_ccaa, num_provincias
+    from {{ ref('stg_bronze__ccaa_raw') }}
+
+),
+
+tipos_zona as (
+
+    select
+        cod_tipo_zona,
+        tipo_zona,
+        num_municipios                                           as num_municipios_zona,
+        renta_media_zona,
+        poblacion_media_zona
+    from {{ ref('stg_bronze__tipos_zona_raw') }}
+
+),
+
 dim as (
 
     select
-        -- clave natural — ahora sí es única
+        -- clave natural
         m.cod_municipio_ine,
-
-        -- municipio
         m.municipio,
 
         -- provincia
         m.cod_provincia_ine,
-        m.provincia,
+        p.provincia,
+        p.num_municipios_provincia,
 
         -- comunidad autónoma
         m.cod_ccaa_ine,
-        m.ccaa,
+        c.ccaa,
+        c.num_municipios_ccaa,
+        c.num_provincias,
 
-        -- clasificación socioeconómica
-        m.tipo_zona,
+        -- tipo de zona
+        m.cod_tipo_zona,
+        tz.tipo_zona,
+        tz.num_municipios_zona,
+        tz.renta_media_zona,
+        tz.poblacion_media_zona,
+
+        -- datos propios del municipio
         m.renta_media,
         m.rango_renta,
-
-        -- población
         m.poblacion,
         m.rango_poblacion,
 
-        -- flag — tiene tienda física en este municipio
-        iff(t.municipio is not null, true, false)                 as tiene_tienda,
+        -- flag tienda física
+        iff(t.municipio is not null, true, false)                as tiene_tienda,
 
         -- metadatos
-        current_timestamp()                                       as _loaded_at
+        current_timestamp()                                      as _loaded_at
 
     from municipios m
     left join tiendas t
         on m.municipio = t.municipio
+    left join provincias p
+        on m.cod_provincia_ine = p.cod_provincia_ine
+    left join ccaa c
+        on m.cod_ccaa_ine = c.cod_ccaa_ine
+    left join tipos_zona tz
+        on m.cod_tipo_zona = tz.cod_tipo_zona
 
 )
 
