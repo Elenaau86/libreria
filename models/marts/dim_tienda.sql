@@ -46,7 +46,6 @@ dim as (
 
         -- datos de la tienda
         t.nombre,
-        t.municipio,
         t.m2,
         t.num_empleados,
 
@@ -56,6 +55,7 @@ dim as (
 
         -- geografía denormalizada
         m.cod_municipio_ine,
+        m.municipio,
         p.provincia,
         ca.ccaa,
         tz.tipo_zona,
@@ -69,7 +69,7 @@ dim as (
 
     from tiendas t
     left join municipios m
-        on t.municipio = m.municipio
+        on t.cod_municipio_ine = m.cod_municipio_ine
     left join provincias p
         on m.cod_provincia_ine = p.cod_provincia_ine
     left join ccaa ca

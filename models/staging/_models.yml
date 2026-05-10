@@ -282,8 +282,8 @@ models:
         description: "Nombre comercial de la tienda. 12 valores únicos."
         tests: [unique, not_null]
 
-      - name: municipio
-        description: "Municipio donde está ubicada la tienda. Cada tienda está en un municipio distinto."
+      - name: cod_municipio_ine
+        description: "FK → stg_bronze__municipios_raw. Código INE del municipio de la tienda."
         tests: [not_null]
 
       - name: m2
