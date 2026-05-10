@@ -25,8 +25,8 @@ renamed as (
         try_cast(cod_municipio_venta_ine as integer)                     as cod_municipio_venta_ine,
 
         -- volumen
-        total_lineas,
-        total_unidades,
+        try_cast(total_lineas   as integer)    as total_lineas,
+        try_cast(total_unidades as integer)    as total_unidades,
 
         -- importes
         round(try_cast(replace(importe_bruto_total, ',', '.') as numeric(12,2)), 2)  as importe_bruto,

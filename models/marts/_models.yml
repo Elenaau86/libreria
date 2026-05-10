@@ -1,0 +1,980 @@
+version: 2
+
+models:
+
+  # ─────────────────────────────────────────────────────────────────
+  # DIM_TIEMPO
+  # ─────────────────────────────────────────────────────────────────
+  - name: dim_tiempo
+    description: >
+      Dimensión calendario generada a partir de las fechas de venta.
+      Una fila por día. Rango: 2022-01-01 → 2024-01-01.
+    columns:
+
+      - name: tiempo_sk
+        description: "Clave surrogada hash generada sobre la fecha. PK de la dimensión."
+        tests: [unique, not_null]
+
+      - name: tiempo_id
+        description: "Clave natural en formato YYYYMMDD (ej: 20220101)."
+        tests: [unique, not_null]
+
+      - name: fecha
+        description: "Fecha completa en formato DATE."
+        tests: [unique, not_null]
+
+      - name: anio
+        description: "Año de la fecha. Rango: 2022–2024."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [2022, 2023, 2024]
+
+      - name: trimestre
+        description: "Trimestre del año (1–4)."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 4
+
+      - name: mes
+        description: "Mes del año (1–12)."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 12
+
+      - name: mes_nombre
+        description: "Nombre del mes en español (Enero–Diciembre)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                       'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+
+      - name: semana
+        description: "Semana ISO del año (1–53)."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 53
+
+      - name: dia_semana
+        description: "Nombre del día de la semana en español."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo']
+
+      - name: es_fin_semana
+        description: "TRUE si el día es sábado o domingo."
+        tests: [not_null]
+
+  # ─────────────────────────────────────────────────────────────────
+  # DIM_CANAL
+  # ─────────────────────────────────────────────────────────────────
+  - name: dim_canal
+    description: >
+      Dimensión degenerada con dos valores fijos: Online y Tienda física.
+      Generada estáticamente — no proviene de ninguna tabla de staging.
+    columns:
+
+      - name: canal_sk
+        description: "Clave surrogada hash generada sobre canal_id. PK de la dimensión."
+        tests: [unique, not_null]
+
+      - name: canal_id
+        description: "Clave natural. Valores: 'ONLINE' o 'FISICA'."
+        tests:
+          - unique
+          - not_null
+          - accepted_values:
+              values: ['ONLINE', 'FISICA']
+
+      - name: canal_nombre
+        description: "Nombre descriptivo del canal. Valores: 'Online' o 'Tienda física'."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Online', 'Tienda física']
+
+      - name: es_digital
+        description: "TRUE si el canal es Online."
+        tests: [not_null]
+
+  # ─────────────────────────────────────────────────────────────────
+  # DIM_GEOGRAFIA
+  # ─────────────────────────────────────────────────────────────────
+  - name: dim_geografia
+    description: >
+      Dimensión geográfica con 20 municipios o distritos.
+      Clave surrogada necesaria porque cod_municipio_ine no es único
+      (28079 corresponde a Madrid Centro y Vallecas,
+      8019 a Barcelona Eixample y Sarrià-Sant Gervasi).
+    columns:
+
+      - name: geografia_sk
+        description: "Clave surrogada hash generada sobre municipio. PK de la dimensión."
+        tests: [unique, not_null]
+
+      - name: cod_municipio_ine
+        description: "Código INE oficial. NO es único — ver nota en descripción del modelo."
+        tests: [not_null]
+
+      - name: municipio
+        description: "Nombre del municipio o distrito. Clave natural única."
+        tests: [unique, not_null]
+
+      - name: cod_provincia_ine
+        description: "Código INE de la provincia."
+        tests: [not_null]
+
+      - name: provincia
+        description: "Nombre de la provincia. 8 valores únicos."
+        tests: [not_null]
+
+      - name: cod_ccaa_ine
+        description: "Código INE de la comunidad autónoma."
+        tests: [not_null]
+
+      - name: ccaa
+        description: "Comunidad autónoma. 7 valores únicos."
+        tests: [not_null]
+
+      - name: tipo_zona
+        description: "Clasificación socioeconómica de la zona. 6 valores posibles."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Suburbana media','Suburbana rica','Turística rica',
+                       'Urbana media','Urbana popular','Urbana rica']
+
+      - name: renta_media
+        description: "Renta media anual del municipio en €. Rango: 21.000–68.000 €."
+        tests: [not_null]
+
+      - name: rango_renta
+        description: "Rango derivado de renta_media."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Renta baja', 'Renta media', 'Renta alta']
+
+      - name: poblacion
+        description: "Población del municipio en habitantes."
+        tests: [not_null]
+
+      - name: rango_poblacion
+        description: "Rango derivado de poblacion."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Pequeña', 'Mediana', 'Grande']
+
+      - name: tiene_tienda
+        description: "TRUE si hay una tienda física de la cadena en este municipio."
+        tests: [not_null]
+
+  # ─────────────────────────────────────────────────────────────────
+  # DIM_TIENDA
+  # ─────────────────────────────────────────────────────────────────
+  - name: dim_tienda
+    description: >
+      Tiendas físicas de la cadena (T001–T012).
+      Geografía denormalizada directamente para mantener esquema en estrella.
+    columns:
+
+      - name: tienda_id
+        description: "Clave natural. Formato T### (T001–T012). PK de la dimensión."
+        tests: [unique, not_null]
+
+      - name: nombre
+        description: "Nombre comercial de la tienda."
+        tests: [unique, not_null]
+
+      - name: m2
+        description: "Superficie de la tienda en m². Rango: 120–220 m²."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 100
+              max_value: 250
+
+      - name: num_empleados
+        description: "Número de empleados asignados. Valores: 4, 5, 6 o 7."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [4, 5, 6, 7]
+
+      - name: canal
+        description: "Canal de la tienda. Siempre 'Tienda física' para T001–T012."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Online', 'Tienda física']
+
+      - name: municipio
+        description: "Municipio donde está ubicada la tienda."
+        tests: [unique, not_null]
+
+      - name: cod_municipio_ine
+        description: "Código INE del municipio de la tienda."
+        tests: [not_null]
+
+      - name: provincia
+        description: "Provincia de la tienda."
+        tests: [not_null]
+
+      - name: ccaa
+        description: "Comunidad autónoma de la tienda."
+        tests: [not_null]
+
+      - name: tipo_zona
+        description: "Clasificación socioeconómica de la zona."
+        tests: [not_null]
+
+      - name: renta_media
+        description: "Renta media del municipio de la tienda en €."
+        tests: [not_null]
+
+      - name: rango_renta
+        description: "Rango derivado de renta_media."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Renta baja', 'Renta media', 'Renta alta']
+
+      - name: poblacion
+        description: "Población del municipio de la tienda."
+        tests: [not_null]
+
+      - name: rango_poblacion
+        description: "Rango derivado de poblacion."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Pequeña', 'Mediana', 'Grande']
+
+  # ─────────────────────────────────────────────────────────────────
+  # DIM_EMPLEADO
+  # ─────────────────────────────────────────────────────────────────
+  - name: dim_empleado
+    description: >
+      Empleados de las tiendas más el registro virtual ONLINE.
+      66 registros: 65 empleados reales (E0001–E0065) y 1 virtual.
+      Geografía de la tienda denormalizada para mantener esquema en estrella.
+    columns:
+
+      - name: empleado_id
+        description: "Clave natural. Formato E#### o 'ONLINE'. PK de la dimensión."
+        tests: [unique, not_null]
+
+      - name: tienda_id
+        description: "FK hacia dim_tienda. Tienda asignada al empleado."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tienda')
+              field: tienda_id
+              where: "es_virtual = false"
+
+      - name: nombre_tienda
+        description: "Nombre comercial de la tienda del empleado."
+
+      - name: nombre
+        description: "Nombre completo del empleado."
+        tests: [unique, not_null]
+
+      - name: genero
+        description: "Género del empleado. NULL para el registro ONLINE."
+        tests:
+          - accepted_values:
+              values: ['Hombre', 'Mujer']
+
+      - name: edad
+        description: "Edad del empleado en años. NULL para el registro ONLINE."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 18
+              max_value: 70
+              where: "es_virtual = false"
+
+      - name: puesto
+        description: "Cargo del empleado."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Auxiliar de tienda','Cajero/a','Director/a de tienda',
+                       'Librero/a','Librero/a senior','Responsable de sección',
+                       'Vendedor/a Online']
+
+      - name: categoria_puesto
+        description: "Categoría derivada del puesto."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Dirección', 'Mando intermedio', 'Operativo senior', 'Operativo']
+
+      - name: fecha_contratacion
+        description: "Fecha de inicio del contrato. NULL para el registro ONLINE."
+
+      - name: antiguedad_anios
+        description: "Años de antigüedad calculados en staging. NULL para ONLINE."
+
+      - name: salario_mensual_bruto
+        description: "Salario mensual bruto en €. NULL para ONLINE."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 1000
+              max_value: 5000
+              where: "es_virtual = false"
+
+      - name: coste_anual_estimado
+        description: "Salario mensual × 12. NULL para ONLINE."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 12000
+              max_value: 60000
+              where: "es_virtual = false"
+
+      - name: municipio
+        description: "Municipio de la tienda del empleado."
+
+      - name: provincia
+        description: "Provincia de la tienda del empleado."
+
+      - name: ccaa
+        description: "Comunidad autónoma de la tienda del empleado."
+
+      - name: tipo_zona
+        description: "Tipo de zona de la tienda del empleado."
+
+      - name: es_virtual
+        description: "TRUE si el registro es el empleado virtual ONLINE."
+        tests: [not_null]
+
+  # ─────────────────────────────────────────────────────────────────
+  # DIM_CLIENTE
+  # ─────────────────────────────────────────────────────────────────
+  - name: dim_cliente
+    description: >
+      Clientes registrados más el registro especial SIN_REGISTRO.
+      801 registros. Geografía denormalizada para esquema en estrella.
+      Los campos descriptivos de SIN_REGISTRO son NULL.
+    columns:
+
+      - name: cliente_id
+        description: "Clave natural. Formato C#### o 'SIN_REGISTRO'. PK de la dimensión."
+        tests: [unique, not_null]
+
+      - name: nombre
+        description: "Nombre completo del cliente."
+        tests: [not_null]
+
+      - name: edad
+        description: "Edad en años. NULL para SIN_REGISTRO."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 18
+              max_value: 80
+              where: "es_anonimo = false"
+
+      - name: segmento_edad
+        description: "Tramo de edad. Valores: '18-25', '26-40', '41-60', '61+'."
+        tests:
+          - not_null:
+              where: "es_anonimo = false"
+          - accepted_values:
+              values: ['18-25', '26-40', '41-60', '61+']
+
+      - name: municipio
+        description: "Municipio de residencia. NULL para SIN_REGISTRO."
+
+      - name: cod_municipio_ine
+        description: "Código INE del municipio del cliente."
+
+      - name: provincia
+        description: "Provincia del cliente. NULL para SIN_REGISTRO."
+
+      - name: ccaa
+        description: "Comunidad autónoma del cliente. NULL para SIN_REGISTRO."
+
+      - name: tipo_zona
+        description: "Tipo de zona del municipio del cliente."
+
+      - name: renta_media
+        description: "Renta media del municipio del cliente."
+
+      - name: rango_renta
+        description: "Rango de renta del municipio del cliente."
+
+      - name: poblacion
+        description: "Población del municipio del cliente."
+
+      - name: rango_poblacion
+        description: "Rango de población del municipio del cliente."
+
+      - name: canal_preferido
+        description: "Canal de compra preferido. NULL para SIN_REGISTRO."
+        tests:
+          - accepted_values:
+              values: ['Online', 'Tienda física']
+
+      - name: fecha_alta
+        description: "Fecha de registro. NULL para SIN_REGISTRO."
+
+      - name: newsletter
+        description: "Suscripción a newsletter. NULL para SIN_REGISTRO."
+        tests:
+          - accepted_values:
+              values: ['Sí', 'No']
+
+      - name: es_anonimo
+        description: "TRUE si el registro es SIN_REGISTRO."
+        tests: [not_null]
+
+  # ─────────────────────────────────────────────────────────────────
+  # DIM_PRODUCTO
+  # ─────────────────────────────────────────────────────────────────
+  - name: dim_producto
+    description: >
+      Catálogo de productos. 500 registros.
+      margen_bruto_pct_original es el valor almacenado en Bronze.
+      margen_bruto_pct es el recalculado desde precios actuales (recomendado para análisis).
+    columns:
+
+      - name: isbn
+        description: "Clave natural. Identificador único del producto. PK de la dimensión."
+        tests: [unique, not_null]
+
+      - name: titulo
+        description: "Título del libro."
+        tests: [unique, not_null]
+
+      - name: autor
+        description: "Autor principal."
+        tests: [not_null]
+
+      - name: editorial
+        description: "Editorial. 15 valores únicos."
+        tests: [not_null]
+
+      - name: categoria
+        description: "Categoría principal. 10 valores posibles."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Arte y Fotografía','Autoayuda','Ciencia y Tecnología',
+                       'Cómics/Manga','Economía/Negocios','Ficción','Historia',
+                       'Idiomas','Infantil/Juvenil','No Ficción']
+
+      - name: subcategoria
+        description: "Subcategoría. Siempre 'categoria > General'."
+        tests: [not_null]
+
+      - name: anio_publicacion
+        description: "Año de publicación. Rango: 1980–2024."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1900
+              max_value: 2025
+
+      - name: idioma
+        description: "Idioma del libro. 6 valores posibles."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Alemán','Catalán','Español','Euskera','Gallego','Inglés']
+
+      - name: formato
+        description: "Formato del libro. 4 valores posibles."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Bolsillo', 'Ebook', 'Tapa blanda', 'Tapa dura']
+
+      - name: paginas
+        description: "Número de páginas. Rango: 73–698."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 1500
+
+      - name: precio_pvp
+        description: "Precio de venta al público en €. Rango: 5,11–74,68 €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: precio_coste
+        description: "Precio de coste en €. Siempre menor que precio_pvp."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: margen_bruto_pct_original
+        description: "Margen almacenado en Bronze. Puede diferir del real para 19 registros."
+        tests: [not_null]
+
+      - name: margen_bruto_pct
+        description: "Margen recalculado desde precios actuales. Campo recomendado para análisis."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+
+      - name: rango_precio
+        description: "Rango derivado de precio_pvp. 'Bajo' (<12€), 'Medio' (12–25€), 'Alto' (>25€)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Bajo', 'Medio', 'Alto']
+
+      - name: rango_margen
+        description: "Rango derivado de margen_bruto_pct."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Margen bajo', 'Margen medio', 'Margen alto']
+
+      - name: anios_desde_publicacion
+        description: "Años transcurridos desde la publicación hasta hoy."
+        tests: [not_null]
+
+      - name: disponible_online
+        description: "TRUE si disponible en canal online. 479 productos."
+        tests: [not_null]
+
+      - name: disponible_tienda
+        description: "TRUE si disponible en tienda física. 433 productos."
+        tests: [not_null]
+
+      - name: activo
+        description: "TRUE si está vigente en el catálogo. 463 productos activos."
+        tests: [not_null]
+
+      - name: fecha_alta_catalogo
+        description: "Fecha de alta en el catálogo. Rango: 2019-01-02 → 2023-12-04."
+        tests: [not_null]
+
+  # ─────────────────────────────────────────────────────────────────
+  # DIM_SEGMENTO_CLIENTE
+  # ─────────────────────────────────────────────────────────────────
+  - name: dim_segmento_cliente
+    description: >
+      Segmentos de cliente por combinación de tramo de edad y canal preferido.
+      Clave surrogada necesaria porque la clave es compuesta.
+      Solo incluye clientes reales — excluye SIN_REGISTRO.
+    columns:
+
+      - name: segmento_sk
+        description: "Clave surrogada hash sobre segmento_edad + canal_preferido. PK."
+        tests: [unique, not_null]
+
+      - name: segmento_edad
+        description: "Tramo de edad del segmento."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['18-25', '26-40', '41-60', '61+']
+
+      - name: canal_preferido
+        description: "Canal de compra preferido del segmento."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Online', 'Tienda física']
+
+  # ─────────────────────────────────────────────────────────────────
+  # FCT_VENTAS
+  # ─────────────────────────────────────────────────────────────────
+  - name: fct_ventas
+    description: >
+      Tabla de hechos central. Una fila por venta. 8.000 registros.
+      Fusiona el análisis de rendimiento comercial y geográfico.
+      Incluye FKs a todas las dimensiones del modelo.
+    columns:
+
+      - name: venta_id
+        description: "Clave natural de la venta. PK de la tabla de hechos."
+        tests: [unique, not_null]
+
+      - name: tiempo_sk
+        description: "FK → dim_tiempo."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tiempo')
+              field: tiempo_sk
+
+      - name: canal_sk
+        description: "FK → dim_canal."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_canal')
+              field: canal_sk
+
+      - name: tienda_id
+        description: "FK → dim_tienda."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tienda')
+              field: tienda_id
+              where: "tienda_id != 'ONLINE'"
+
+      - name: empleado_id
+        description: "FK → dim_empleado."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_empleado')
+              field: empleado_id
+
+      - name: cliente_id
+        description: "FK → dim_cliente."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_cliente')
+              field: cliente_id
+
+      - name: geo_sk_venta
+        description: "FK → dim_geografia. Municipio donde se realizó la venta."
+
+      - name: segmento_sk
+        description: "FK → dim_segmento_cliente. NULL para SIN_REGISTRO."
+
+      - name: importe_bruto
+        description: "Importe total antes de descuentos en €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: importe_neto
+        description: "Importe final tras descuentos en €. Siempre <= importe_bruto."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: descuento_total
+        description: "Descuento aplicado en €."
+
+      - name: descuento_pct
+        description: "Porcentaje de descuento aplicado."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+
+      - name: total_lineas
+        description: "Número de productos distintos en la venta. Rango: 1–10."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 10
+
+      - name: total_unidades
+        description: "Total de unidades vendidas. Rango: 1–18."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 18
+
+      - name: ticket_medio
+        description: "Importe neto / total_unidades."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: es_venta_anonima
+        description: "TRUE si el cliente es SIN_REGISTRO. 800 ventas (10%)."
+        tests: [not_null]
+
+      - name: tiene_municipio
+        description: "TRUE si cod_municipio_venta_ine no es NULL."
+        tests: [not_null]
+
+      - name: misma_zona
+        description: "TRUE si el municipio de la venta coincide con el del cliente."
+        tests: [not_null]
+
+  # ─────────────────────────────────────────────────────────────────
+  # FCT_VENTAS_LINEA
+  # ─────────────────────────────────────────────────────────────────
+  - name: fct_ventas_linea
+    description: >
+      Tabla de hechos de líneas de venta. Una fila por isbn × transacción.
+      18.056 registros. Granularidad más fina del modelo.
+      Permite análisis de márgenes y mix de producto.
+    columns:
+
+      - name: linea_id
+        description: "Clave natural de la línea. PK de la tabla de hechos."
+        tests: [unique, not_null]
+
+      - name: tiempo_sk
+        description: "FK → dim_tiempo."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tiempo')
+              field: tiempo_sk
+
+      - name: canal_sk
+        description: "FK → dim_canal."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_canal')
+              field: canal_sk
+
+      - name: tienda_id
+        description: "FK → dim_tienda."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tienda')
+              field: tienda_id
+              where: "tienda_id != 'ONLINE'"
+
+      - name: isbn
+        description: "FK → dim_producto."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_producto')
+              field: isbn
+
+      - name: venta_id
+        description: "Referencia a fct_ventas."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('fct_ventas')
+              field: venta_id
+
+      - name: num_linea
+        description: "Número de línea dentro de la venta. Rango: 1–10."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 10
+
+      - name: categoria
+        description: "Categoría del producto vendido."
+        tests: [not_null]
+
+      - name: unidades
+        description: "Unidades vendidas. Valores: 1, 2, 3 o 4."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+
+      - name: precio_unitario
+        description: "Precio aplicado por unidad en €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: importe_bruto
+        description: "precio_unitario × unidades."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: descuento_pct
+        description: "Descuento en tanto por uno. Valores: 0.0, 0.05, 0.10 o 0.15."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0.0, 0.05, 0.1, 0.15]
+
+      - name: descuento_importe
+        description: "Descuento en €."
+
+      - name: importe_neto
+        description: "Importe final tras descuento en €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: precio_coste
+        description: "Coste unitario del producto desde dim_producto."
+
+      - name: coste_total
+        description: "precio_coste × unidades."
+
+      - name: margen_bruto_importe
+        description: "importe_neto − coste_total en €."
+
+      - name: margen_bruto_pct_real
+        description: "Margen bruto real en % considerando el precio aplicado y el coste."
+
+      - name: precio_vs_pvp_ratio
+        description: "Ratio precio_unitario / precio_pvp. <1 indica descuento sobre PVP."
+
+  # ─────────────────────────────────────────────────────────────────
+  # FCT_RENDIMIENTO_EMPLEADO
+  # ─────────────────────────────────────────────────────────────────
+  - name: fct_rendimiento_empleado
+    description: >
+      Tabla de hechos agregada por empleado y mes.
+      Una fila por empleado × mes. Permite análisis de productividad
+      y ratio ingreso/coste laboral.
+    columns:
+
+      - name: empleado_id
+        description: "FK → dim_empleado. Parte de la PK compuesta."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_empleado')
+              field: empleado_id
+
+      - name: tiempo_sk
+        description: "FK → dim_tiempo. Parte de la PK compuesta."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tiempo')
+              field: tiempo_sk
+
+      - name: tienda_id
+        description: "FK → dim_tienda."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tienda')
+              field: tienda_id
+              where: "empleado_id != 'ONLINE'"
+
+      - name: num_ventas
+        description: "Número de ventas realizadas por el empleado en el mes."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: importe_neto_total
+        description: "Suma del importe neto de todas las ventas del empleado en el mes."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: ticket_medio
+        description: "importe_neto_total / num_ventas."
+
+      - name: unidades_vendidas
+        description: "Total de unidades vendidas por el empleado en el mes."
+
+      - name: descuento_medio_pct
+        description: "Descuento medio aplicado por el empleado en el mes."
+
+      - name: ventas_por_dia
+        description: "num_ventas / 22 días hábiles aproximados del mes."
+
+      - name: coste_laboral_mes
+        description: "Salario mensual bruto del empleado. NULL para ONLINE."
+
+      - name: ratio_ingreso_coste
+        description: >
+          importe_neto_total / coste_laboral_mes.
+          Indica cuántos euros genera el empleado por cada euro de coste laboral.
+
+  # ─────────────────────────────────────────────────────────────────
+  # FCT_PENETRACION_GEO
+  # ─────────────────────────────────────────────────────────────────
+  - name: fct_penetracion_geo
+    description: >
+      Tabla de hechos agregada por municipio, mes y canal.
+      Una fila por geografia_sk × tiempo_sk × canal_sk.
+      Permite análisis de densidad geográfica y detección de zonas
+      con alta demanda online sin tienda física.
+      Excluye las 339 ventas sin municipio (SIN_REGISTRO + Online).
+    columns:
+
+      - name: geografia_sk
+        description: "FK → dim_geografia. Parte de la PK compuesta."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_geografia')
+              field: geografia_sk
+
+      - name: tiempo_sk
+        description: "FK → dim_tiempo. Parte de la PK compuesta."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tiempo')
+              field: tiempo_sk
+
+      - name: canal_sk
+        description: "FK → dim_canal. Parte de la PK compuesta."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_canal')
+              field: canal_sk
+
+      - name: num_ventas
+        description: "Número de ventas en el municipio, mes y canal."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: num_clientes_distintos
+        description: "Número de clientes únicos que compraron."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: importe_neto_total
+        description: "Suma del importe neto en €."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: ticket_medio
+        description: "importe_neto_total / num_ventas."
+
+      - name: pct_ventas_online
+        description: "Porcentaje de ventas realizadas por canal online."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+
+      - name: ventas_por_habitante
+        description: "num_ventas / poblacion × 1000. Métrica de penetración."
+
+      - name: ingreso_por_habitante
+        description: "importe_neto_total / poblacion. Métrica de densidad económica."
+
+      - name: tiene_tienda_fisica
+        description: "TRUE si hay tienda física de la cadena en el municipio."
+        tests: [not_null]

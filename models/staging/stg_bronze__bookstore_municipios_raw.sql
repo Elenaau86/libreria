@@ -9,9 +9,14 @@ source as (
 renamed as (
 
     select
+        -- clave surrogada — necesaria porque cod_municipio_ine no es único
+        {{ dbt_utils.generate_surrogate_key(['municipio']) }}            as geografia_sk,
+
+        -- clave natural (no única)
+        try_cast(cod_municipio_ine  as integer)                          as cod_municipio_ine,
+
         -- claves
         trim(municipio)                                                  as municipio,
-        try_cast(cod_municipio_ine  as integer)                          as cod_municipio_ine,
         try_cast(cod_provincia_ine  as integer)                          as cod_provincia_ine,
         try_cast(cod_ccaa_ine       as integer)                          as cod_ccaa_ine,
 

@@ -13,7 +13,7 @@ renamed as (
         linea_id,
         venta_id,
         isbn,
-        num_linea,
+        try_cast(num_linea as integer)         as num_linea,
 
         -- categoría
         trim(categoria)                                                            as categoria,
