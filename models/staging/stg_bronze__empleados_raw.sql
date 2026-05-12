@@ -1,7 +1,7 @@
 with source as (
 
-    select * from {{ source('bronze', 'empleados_raw') }}
-
+    select * from {{ snapshot('snp_empleados') }}
+    
 ),
 
 renamed as (
