@@ -7,6 +7,7 @@ with source as (
 dim as (
 
     select distinct
+        {{ dbt_utils.generate_surrogate_key(['categoria']) }}    as cod_categoria,
         trim(categoria)                                          as categoria,
         count(*) over (partition by trim(categoria))             as num_titulos,
         round(avg(precio_pvp) over (

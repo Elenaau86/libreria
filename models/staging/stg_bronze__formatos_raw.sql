@@ -14,6 +14,7 @@ with source as (
 dim as (
 
     select distinct
+        {{ dbt_utils.generate_surrogate_key(['formato']) }}      as cod_formato,
         trim(formato)                                            as formato,
         count(*) over (partition by trim(formato))               as num_titulos,
         round(avg(precio_pvp) over (

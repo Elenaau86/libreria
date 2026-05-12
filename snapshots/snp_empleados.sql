@@ -17,8 +17,7 @@ select
     puesto,
     tienda_id,
     salario_mensual_bruto,
-    fecha_alta,
-    activo
-from {{ source('bronze', 'EMPLEADOS_RAW') }}
+    fecha_contratacion
+from {{ source('bronze', 'empleados_raw') }}
 
 {% endsnapshot %}

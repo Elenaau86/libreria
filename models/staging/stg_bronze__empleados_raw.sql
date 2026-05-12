@@ -1,7 +1,21 @@
 with source as (
 
-    select * from {{ snapshot('snp_empleados') }}
-    
+    select * from {{ reff('snp_empleados') }}
+
+),
+
+generos as (
+
+    select cod_genero, genero
+    from {{ ref('stg_bronze__generos_raw') }}
+
+),
+
+puestos as (
+
+    select cod_puesto, puesto
+    from {{ ref('stg_bronze__puestos_raw') }}
+
 ),
 
 renamed as (
@@ -16,8 +30,8 @@ renamed as (
         try_cast(nullif(edad, '-') as integer)                           as edad,
 
         -- FKs hacia tablas normalizadas
-        {{ dbt_utils.generate_surrogate_key(['genero']) }}               as cod_genero,
-        {{ dbt_utils.generate_surrogate_key(['puesto']) }}               as cod_puesto,
+        g.cod_genero,
+        p.cod_puesto,
 
         -- fechas y antigüedad
         try_cast(nullif(fecha_contratacion, '-') as date)                as fecha_contratacion,
@@ -53,9 +67,18 @@ renamed as (
         iff(empleado_id = 'ONLINE', true, false)                        as es_virtual,
 
         -- metadatos
-        current_timestamp()                                              as _loaded_at
+        current_timestamp()                                              as _loaded_at,
 
-    from source
+        -- Columnas de control del snapshot (SCD2)
+        dbt_scd_id,
+        dbt_valid_from,
+        dbt_valid_to
+
+    from source s
+    left join genero g
+        on nullif(trim(s.genero), '-') = g.genero
+    left join puesto p
+        on nullif(trim(s.puesto), '-') = p.puesto
 
 )
 

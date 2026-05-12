@@ -14,6 +14,7 @@ with source as (
 dim as (
 
     select distinct
+        {{ dbt_utils.generate_surrogate_key(['idioma']) }}       as cod_idioma,
         trim(idioma)                                             as idioma,
         count(*) over (partition by trim(idioma))                as num_titulos
 
