@@ -75,9 +75,9 @@ renamed as (
         dbt_valid_to
 
     from source s
-    left join genero g
+    left join generos g
         on nullif(trim(s.genero), '-') = g.genero
-    left join puesto p
+    left join puestos p
         on nullif(trim(s.puesto), '-') = p.puesto
 
 )

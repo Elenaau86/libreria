@@ -29,17 +29,17 @@ clientes as (
 
     select
         cliente_id,
-        segmento_edad,
+        cod_segmento_edad,       -- ✅ FK hash, no el texto
         cod_canal_preferido,
         cod_municipio_ine
     from {{ ref('stg_bronze__clientes_raw') }}
 
 ),
 
-dim_segmento as (
+segmentos as (
 
-    select segmento_sk, segmento_edad, canal_preferido
-    from {{ ref('dim_segmento_cliente') }}
+    select cod_segmento_edad, segmento_edad
+    from {{ ref('stg_bronze__segmentos_edad_raw') }}
 
 ),
 
@@ -47,6 +47,13 @@ canales as (
 
     select cod_canal, canal
     from {{ ref('stg_bronze__canales_raw') }}
+
+),
+
+dim_segmento as (
+
+    select segmento_sk, segmento_edad, canal_preferido
+    from {{ ref('dim_segmento_cliente') }}
 
 ),
 
@@ -96,11 +103,13 @@ fct as (
         on v.cod_municipio_venta_ine = g.cod_municipio_ine
     left join clientes cl
         on v.cliente_id = cl.cliente_id
+    left join segmentos s_edad
+        on cl.cod_segmento_edad = s_edad.cod_segmento_edad
     left join canales ca
         on cl.cod_canal_preferido = ca.cod_canal
     left join dim_segmento seg
-        on cl.segmento_edad = seg.segmento_edad
-        and ca.canal        = seg.canal_preferido
+        on s_edad.segmento_edad = seg.segmento_edad   -- ✅ resolvemos el texto desde la FK
+        and ca.canal            = seg.canal_preferido
 
 )
 
