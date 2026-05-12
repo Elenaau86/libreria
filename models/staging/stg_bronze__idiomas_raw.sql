@@ -1,10 +1,3 @@
-{{
-    config(
-        materialized = 'view',
-        schema       = 'SILVER'
-    )
-}}
-
 with source as (
 
     select * from {{ ref('stg_bronze__catalogo_productos_raw') }}

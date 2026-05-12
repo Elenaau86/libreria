@@ -16,7 +16,7 @@ autores as (
 editoriales as (
 
     select editorial, cod_editorial
-    from {{ source('bronze', 'stg_bronze__editoriales_raw') }}
+    from {{ ref('stg_bronze__editoriales_raw') }}
 
 ),
 
@@ -48,13 +48,14 @@ renamed as (
         trim(isbn)                                                                 as isbn,
 
         -- datos bibliográficos
-        trim(titulo)
-                                                                       as titulo,
-        trim(autor)                                                                as autor,
-        trim(editorial)                                                            as editorial,
-        trim(categoria)   
-        trim(idioma)                                                               as idioma,
-        trim(formato)                                                              as formato,
+        trim(titulo)                                                               as titulo,
+
+
+        trim(a.cod_autor)                                                                as autor,
+        trim(e.cod_editorial)                                                            as editorial,
+        trim(c.cod_categoria)   
+        trim(i._cod_idioma)                                                               as idioma,
+        trim(f.cod_formato)                                                              as formato,
         
                                                                  as categoria,
         try_cast(replace(anio_publicacion, ',', '.') as integer)                    as anio_publicacion,
@@ -104,7 +105,17 @@ renamed as (
         -- metadatos
         current_timestamp()                                                         as _loaded_at
 
-    from source
+    from source s
+    left join autores a
+        on s.autor = a.autor
+    left join editoriales e
+        on s.editorial = e.editorial
+    left join categorias c
+        on s.categoria = c.categoria
+    left join formatos f
+        on s.formato = f.formato
+    left join idiomas i
+        on s.idioma = i.idioma
 
 )
 
