@@ -1,6 +1,6 @@
 with source as (
 
-    select * from {{ reff('snp_empleados') }}
+    select * from {{ ref('snp_empleados') }}
 
 ),
 
