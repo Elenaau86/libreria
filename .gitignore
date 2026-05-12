@@ -4,3 +4,7 @@ target/
 dbt_packages/
 logs/
 dbt_internal_packages/
+private_key.p8
+public_key.pub
+*.p8
+*.pub
