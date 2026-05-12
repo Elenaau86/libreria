@@ -14,6 +14,7 @@ select
     empleado_id,
     nombre,
     genero,
+    edad,                  
     puesto,
     tienda_id,
     salario_mensual_bruto,

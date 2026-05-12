@@ -228,58 +228,49 @@ models:
               values: ['Online', 'Tienda física']
 
       - name: municipio
-        description: "Municipio donde está ubicada la tienda."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
       - name: cod_municipio_ine
-        description: "Código INE del municipio de la tienda."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
       - name: provincia
-        description: "Provincia de la tienda."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
       - name: ccaa
-        description: "Comunidad autónoma de la tienda."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
       - name: tipo_zona
-        description: "Clasificación socioeconómica de la zona."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
       - name: renta_media
-        description: "Renta media del municipio de la tienda en €."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
       - name: rango_renta
-        description: "Rango derivado de renta_media."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
       - name: poblacion
-        description: "Población del municipio de la tienda."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
       - name: rango_poblacion
-        description: "Rango derivado de poblacion."
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"
+              where: "tienda_id != 'ONLINE'"   # ← añadir
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_EMPLEADO

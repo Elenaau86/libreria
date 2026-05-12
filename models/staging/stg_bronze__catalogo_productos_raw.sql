@@ -40,10 +40,10 @@ renamed as (
 
         -- rangos derivados
         case
-            when try_cast(replace(precio_venta_pvp, ',', '.') as numeric(10,2)) < 15    then 'Precio bajo'
-            when try_cast(replace(precio_venta_pvp, ',', '.') as numeric(10,2)) <= 35   then 'Precio medio'
-            else                                                                              'Precio alto'
-        end                                                                              as rango_precio,
+            when try_cast(replace(precio_venta_pvp, ',', '.') as numeric(10,2)) < 12    then 'Bajo'
+            when try_cast(replace(precio_venta_pvp, ',', '.') as numeric(10,2)) <= 25   then 'Medio'
+            else                                                                              'Alto'
+        end                                                                             as rango_precio,
 
         case
             when try_cast(replace(margen_bruto_pct, ',', '.') as numeric(6,2)) < 30     then 'Margen bajo'
