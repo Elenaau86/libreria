@@ -39,7 +39,7 @@ models:
   libreria:
     # Applies to all files under models/example/
     staging:
-      +materialized: view
+      +materialized: view  # excepciones incrementales: stg_bronze__ventas_raw, stg_bronze__lineas_venta_raw
       +schema: silver
       +database: DEV_SILVER_DB
 
