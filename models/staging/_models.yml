@@ -712,7 +712,7 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['Bajo', 'Medio', 'Alto']
+              values: ['Precio bajo', 'Precio medio', 'Precio alto']
 
       - name: rango_margen
         description: "Rango derivado de margen_bruto_pct. 'Margen bajo' (<30%), 'Margen medio' (30–45%), 'Margen alto' (>45%)."

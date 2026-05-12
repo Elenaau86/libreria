@@ -14,11 +14,19 @@ select
     empleado_id,
     nombre,
     genero,
-    edad,                  
+    try_cast(nullif(edad, '-') as integer)                       as edad,
     puesto,
     tienda_id,
-    salario_mensual_bruto,
-    fecha_contratacion
+    round(
+        try_cast(
+            replace(
+                replace(
+                    split_part(salario_mensual_bruto, ' ', 1),
+                '.', ''),
+            ',', '.')
+        as numeric(10,2)), 2
+    )                                                            as salario_mensual_bruto,
+    try_cast(nullif(fecha_contratacion, '-') as date)            as fecha_contratacion
 from {{ source('bronze', 'empleados_raw') }}
 
 {% endsnapshot %}

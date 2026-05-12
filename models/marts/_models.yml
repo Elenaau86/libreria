@@ -230,47 +230,47 @@ models:
       - name: municipio
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"   
 
       - name: cod_municipio_ine
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"  
 
       - name: provincia
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"  
 
       - name: ccaa
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"  
 
       - name: tipo_zona
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"   
 
       - name: renta_media
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"   
 
       - name: rango_renta
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"  
 
       - name: poblacion
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"   
 
       - name: rango_poblacion
         tests:
           - not_null:
-              where: "tienda_id != 'ONLINE'"   # ← añadir
+              where: "tienda_id != 'ONLINE'"   
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_EMPLEADO
@@ -557,7 +557,7 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['Bajo', 'Medio', 'Alto']
+              values: ['Precio bajo', 'Precio medio', 'Precio alto']
 
       - name: rango_margen
         description: "Rango derivado de margen_bruto_pct."

@@ -1,0 +1,62 @@
+version: 2
+
+snapshots:
+
+  - name: snp_empleados
+    description: >
+      Snapshot SCD2 sobre EMPLEADOS_RAW. Registra el historial de cambios
+      de puesto, tienda y salario de cada empleado.
+      Estrategia check sobre ['puesto', 'tienda_id', 'salario_mensual_bruto'].
+      Una fila por versión vigente o histórica de cada empleado.
+
+    columns:
+
+      - name: empleado_id
+        description: "Clave natural del empleado. Formato E#### o 'ONLINE'."
+        tests: [not_null]
+
+      - name: nombre
+        description: "Nombre completo del empleado."
+        tests: [not_null]
+
+      - name: genero
+        description: "Género del empleado. NULL para el registro ONLINE."
+
+      - name: edad
+        description: "Edad del empleado en años. NULL para el registro ONLINE."
+
+      - name: puesto
+        description: "Cargo del empleado. Uno de los campos monitorizados por SCD2."
+        tests:
+          - not_null:
+              where: "empleado_id != 'ONLINE'"
+
+      - name: tienda_id
+        description: "Tienda asignada. Uno de los campos monitorizados por SCD2."
+        tests:
+          - not_null:
+              where: "empleado_id != 'ONLINE'"
+
+      - name: salario_mensual_bruto
+        description: "Salario mensual bruto en €. Limpiado y casteado a NUMBER(10,2). Uno de los campos monitorizados por SCD2."
+        tests:
+          - not_null:
+              where: "empleado_id != 'ONLINE'"
+
+      - name: fecha_contratacion
+        description: "Fecha de inicio del contrato. Casteada a DATE. NULL para ONLINE."
+
+      - name: dbt_scd_id
+        description: "Identificador único de cada versión del registro. Generado por dbt."
+        tests: [unique, not_null]
+
+      - name: dbt_valid_from
+        description: "Timestamp desde el que esta versión es válida."
+        tests: [not_null]
+
+      - name: dbt_valid_to
+        description: "Timestamp hasta el que esta versión fue válida. NULL si es la versión vigente."
+
+      - name: dbt_updated_at
+        description: "Timestamp de la última actualización del registro por dbt."
+        tests: [not_null]

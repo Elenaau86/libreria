@@ -47,3 +47,10 @@ models:
       +materialized: table
       +schema: gold
       +database: DEV_GOLD_DB  
+
+
+snapshots:
+  libreria:
+    +target_database: DEV_BRONZE_DB
+    +target_schema: SNAPSHOTS
+    +strategy: check
