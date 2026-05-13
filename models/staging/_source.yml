@@ -2,8 +2,12 @@ version: 2
 
 sources:
   - name: bronze
-    description: "Capa Bronze — datos raw cargados directamente desde los CSVs."
-    database: DEV_BRONZE_DB
+    description: "Capa Bronze del Data Warehouse Librería.
+      Datos raw ingestados desde CSV mediante ingesta_bronze.py.
+      Todas las columnas son VARCHAR sin transformación.
+      La database se resuelve dinámicamente según el entorno activo
+      (DEV_BRONZE_DB en desarrollo, PRO_BRONZE_DB en producción)."
+    database: "{{ target.name | upper }}_BRONZE_DB"
     schema: BOOKSTORE
 
     tables:

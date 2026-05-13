@@ -2,7 +2,7 @@
 
 {{
     config(
-        target_database = 'DEV_BRONZE_DB',
+        target_database = target.name | upper ~ '_BRONZE_DB',
         target_schema   = 'SNAPSHOTS',
         unique_key      = 'empleado_id',
         strategy        = 'check',
