@@ -34,13 +34,13 @@ renamed as (
         p.cod_puesto,
 
         -- fechas y antigüedad
-        try_cast(nullif(fecha_contratacion, '-') as date)                as fecha_contratacion,
+        fecha_contratacion                                              as fecha_contratacion,
         round(
             datediff('day',
-                try_cast(nullif(fecha_contratacion, '-') as date),
+                fecha_contratacion,
                 current_date()
             ) / 365.25, 1
-        )                                                                as antiguedad_anios,
+        )                                                               as antiguedad_anios,
 
         -- salario
         round(
