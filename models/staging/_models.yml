@@ -703,7 +703,7 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['Precio bajo', 'Precio medio', 'Precio alto']
+              values: ['Bajo', 'Medio', 'Alto']
 
       - name: rango_margen
         description: "Rango derivado de margen_bruto_pct. 'Margen bajo' (<30%), 'Margen medio' (30–45%), 'Margen alto' (>45%)."
@@ -857,18 +857,18 @@ models:
       4 formatos únicos. Generado con SELECT DISTINCT desde stg_bronze__catalogo_productos_raw.
       Distribución: Tapa blanda (266), Tapa dura (147), Bolsillo (71), Ebook (16).
     columns:
-    - name: formato
-      description: "Nombre del formato. Clave natural única. 4 valores posibles."
-      tests:
-        - unique
-        - not_null
-        - accepted_values:
-            values: ['Bolsillo', 'Ebook', 'Tapa blanda', 'Tapa dura']
+      - name: formato
+        description: "Nombre del formato. Clave natural única. 4 valores posibles."
+        tests:
+          - unique
+          - not_null
+          - accepted_values:
+              values: ['Bolsillo', 'Ebook', 'Tapa blanda', 'Tapa dura']
 
-    - name: num_titulos
-      description: "Número de títulos con este formato en el catálogo."
-      tests: [not_null]
+      - name: num_titulos
+        description: "Número de títulos con este formato en el catálogo."
+        tests: [not_null]
 
-    - name: precio_pvp_medio
-      description: "Precio PVP medio en € de todos los títulos con este formato."
-      tests: [not_null]
+      - name: precio_pvp_medio
+        description: "Precio PVP medio en € de todos los títulos con este formato."
+        tests: [not_null]
