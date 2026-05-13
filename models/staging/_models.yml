@@ -328,7 +328,8 @@ models:
         description: "Edad del empleado en años. Rango: 20–57. NULL para el registro ONLINE."
         tests:
           - not_null:
-              where: "empleado_id != 'ONLINE'"
+              config:
+                where: "empleado_id != 'ONLINE'"
 
       - name: cod_puesto
         description: "FK → stg_bronze__puestos_raw. Hash generado sobre puesto."
