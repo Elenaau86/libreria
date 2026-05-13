@@ -42,26 +42,9 @@ renamed as (
             ) / 365.25, 1
         )                                                               as antiguedad_anios,
 
-        -- salario
-        round(
-            try_cast(
-                replace(
-                    replace(
-                        split_part(salario_mensual_bruto, ' ', 1),
-                    '.', ''),
-                ',', '.')
-            as numeric(10,2)), 2
-        )                                                                as salario_mensual_bruto,
+       salario_mensual_bruto                                        as salario_mensual_bruto,
 
-        round(
-            try_cast(
-                replace(
-                    replace(
-                        split_part(salario_mensual_bruto, ' ', 1),
-                    '.', ''),
-                ',', '.')
-            as numeric(10,2)) * 12, 2
-        )                                                                as coste_anual_estimado,
+        round(salario_mensual_bruto * 12, 2)                         as coste_anual_estimado,
 
         -- flag
         iff(empleado_id = 'ONLINE', true, false)                        as es_virtual,
