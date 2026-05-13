@@ -27,7 +27,7 @@ renamed as (
 
         -- datos personales
         trim(nombre)                                                     as nombre,
-        try_cast(nullif(edad, '-') as integer)                           as edad,
+        edad                                                             as edad,
 
         -- FKs hacia tablas normalizadas
         g.cod_genero,
