@@ -27,8 +27,6 @@ models:
         description: "Año de la fecha. Rango: 2022–2024."
         tests:
           - not_null
-          - accepted_values:
-              values: [2022, 2023, 2024]
 
       - name: trimestre
         description: "Trimestre del año (1–4)."

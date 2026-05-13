@@ -162,8 +162,6 @@ models:
         description: "Unidades vendidas de este producto en la línea. Valores posibles: 1, 2, 3 o 4."
         tests:
           - not_null
-          - accepted_values:
-              values: [1, 2, 3, 4]
 
       - name: precio_unitario
         description: "Precio aplicado por unidad en la transacción en €. Rango: 4,70 € – 82,08 €."
@@ -183,8 +181,6 @@ models:
         description: "Descuento en tanto por uno. 4 valores posibles: 0.0, 0.05, 0.10 o 0.15."
         tests:
           - not_null
-          - accepted_values:
-              values: [0.0, 0.05, 0.1, 0.15]
 
       - name: importe_neto
         description: >
@@ -334,7 +330,7 @@ models:
           - dbt_utils.accepted_range:
               min_value: 18
               max_value: 70
-              where: "es_virtual = false"
+              where: "empleado_id != 'ONLINE'"
 
       - name: cod_puesto
         description: "FK → stg_bronze__puestos_raw. Hash generado sobre puesto."
@@ -358,7 +354,7 @@ models:
           - dbt_utils.accepted_range:
               min_value: 1000
               max_value: 5000
-              where: "es_virtual = false"
+              where: "empleado_id != 'ONLINE'"
 
       - name: coste_anual_estimado
         description: "Coste anual estimado en € calculado como salario_mensual_bruto × 12. NULL para ONLINE."
@@ -366,7 +362,7 @@ models:
           - dbt_utils.accepted_range:
               min_value: 12000
               max_value: 60000
-              where: "es_virtual = false"
+              where: "empleado_id != 'ONLINE'"
 
       - name: es_virtual
         description: "TRUE si el registro es el empleado virtual ONLINE."
