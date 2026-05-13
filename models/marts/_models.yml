@@ -356,7 +356,7 @@ models:
           - dbt_utils.accepted_range:
               min_value: 1000
               max_value: 5000
-              where: "es_virtual = false"
+              where: "empleado_id != 'ONLINE'"
 
       - name: coste_anual_estimado
         description: "Salario mensual × 12. NULL para ONLINE."
@@ -364,7 +364,7 @@ models:
           - dbt_utils.accepted_range:
               min_value: 12000
               max_value: 60000
-              where: "es_virtual = false"
+              where: "empleado_id != 'ONLINE'"
 
       - name: municipio
         description: "Municipio de la tienda del empleado."
