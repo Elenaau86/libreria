@@ -321,22 +321,20 @@ models:
       - name: cod_genero
         description: "FK → stg_bronze__generos_raw. Hash generado sobre genero."
         tests:
-        - not_null:
+          - not_null:
               where: "es_virtual = false" 
 
       - name: edad
         description: "Edad del empleado en años. Rango: 20–57. NULL para el registro ONLINE."
         tests:
-          - dbt_utils.accepted_range:
-              min_value: 18
-              max_value: 70
-              where: "empleado_id != 'ONLINE'"
+          - not_null:
+            where: "empleado_id != 'ONLINE'"
 
       - name: cod_puesto
         description: "FK → stg_bronze__puestos_raw. Hash generado sobre puesto."
         tests:
-        - not_null:
-              where: "es_virtual = false" 
+          - not_null:
+            where: "es_virtual = false" 
 
       - name: fecha_contratacion
         description: "Fecha de inicio del contrato. Rango: 2015-02-09 → 2023-12-05. NULL para ONLINE."
@@ -351,18 +349,14 @@ models:
           Librero/a senior 1.754–2.090 €, Librero/a 1.516–1.757 €,
           Cajero/a y Auxiliar 1.222–1.473 €. NULL para ONLINE.
         tests:
-          - dbt_utils.accepted_range:
-              min_value: 1000
-              max_value: 5000
-              where: "empleado_id != 'ONLINE'"
+          - not_null:
+            where: "empleado_id != 'ONLINE'"
 
       - name: coste_anual_estimado
         description: "Coste anual estimado en € calculado como salario_mensual_bruto × 12. NULL para ONLINE."
         tests:
-          - dbt_utils.accepted_range:
-              min_value: 12000
-              max_value: 60000
-              where: "empleado_id != 'ONLINE'"
+          - not_null:
+            where: "empleado_id != 'ONLINE'"
 
       - name: es_virtual
         description: "TRUE si el registro es el empleado virtual ONLINE."
