@@ -328,13 +328,13 @@ models:
         description: "Edad del empleado en años. Rango: 20–57. NULL para el registro ONLINE."
         tests:
           - not_null:
-            where: "empleado_id != 'ONLINE'"
+              where: "empleado_id != 'ONLINE'"
 
       - name: cod_puesto
         description: "FK → stg_bronze__puestos_raw. Hash generado sobre puesto."
         tests:
           - not_null:
-            where: "es_virtual = false" 
+              where: "es_virtual = false" 
 
       - name: fecha_contratacion
         description: "Fecha de inicio del contrato. Rango: 2015-02-09 → 2023-12-05. NULL para ONLINE."
@@ -350,13 +350,13 @@ models:
           Cajero/a y Auxiliar 1.222–1.473 €. NULL para ONLINE.
         tests:
           - not_null:
-            where: "empleado_id != 'ONLINE'"
+              where: "empleado_id != 'ONLINE'"
 
       - name: coste_anual_estimado
         description: "Coste anual estimado en € calculado como salario_mensual_bruto × 12. NULL para ONLINE."
         tests:
           - not_null:
-            where: "empleado_id != 'ONLINE'"
+              where: "empleado_id != 'ONLINE'"
 
       - name: es_virtual
         description: "TRUE si el registro es el empleado virtual ONLINE."

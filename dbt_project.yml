@@ -41,10 +41,12 @@ models:
     staging:
       +materialized: view  # excepciones incrementales: stg_bronze__ventas_raw, stg_bronze__lineas_venta_raw
       +schema: silver
+      +database: DEV_SILVER_DB
 
     marts:
       +materialized: table
       +schema: gold
+      +database: DEV_GOLD_DB
 
 
 snapshots:
