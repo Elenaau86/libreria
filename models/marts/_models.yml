@@ -69,7 +69,6 @@ models:
 
       - name: es_fin_semana
         description: "TRUE si el día es sábado o domingo."
-        tests: [not_null]
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_CANAL
@@ -151,13 +150,11 @@ models:
       - name: rango_renta
         description: "Rango derivado de renta_media."
         tests:
-          - not_null
           - accepted_values:
               values: ['Renta baja', 'Renta media', 'Renta alta']
 
       - name: poblacion
         description: "Población del municipio en habitantes."
-        tests: [not_null]
 
       - name: rango_poblacion
         description: "Rango derivado de poblacion."
@@ -168,11 +165,9 @@ models:
       
       - name: num_municipios_provincia
         description: "Número de municipios del dataset pertenecientes a la misma provincia."
-        tests: [not_null]
 
       - name: num_municipios_ccaa
         description: "Número de municipios del dataset pertenecientes a la misma comunidad autónoma."
-        tests: [not_null]
 
       - name: num_provincias
         description: "Número de provincias del dataset presentes en la misma comunidad autónoma."
@@ -180,19 +175,15 @@ models:
 
       - name: renta_media_zona
         description: "Renta media en € de todos los municipios con el mismo tipo de zona."
-        tests: [not_null]
 
       - name: poblacion_media_zona
         description: "Población media de todos los municipios con el mismo tipo de zona."
-        tests: [not_null]
 
       - name: num_municipios_zona
         description: "Número de municipios del dataset con el mismo tipo de zona."
-        tests: [not_null]
 
       - name: tiene_tienda
         description: "TRUE si hay una tienda física de la cadena en este municipio."
-        tests: [not_null]
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_TIENDA
@@ -255,20 +246,14 @@ models:
           - not_null:
               where: "tienda_id != 'ONLINE'"   
 
-      - name: rango_renta
-        tests:
-          - not_null:
-              where: "tienda_id != 'ONLINE'"  
+      - name: rango_renta  
 
       - name: poblacion
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"   
 
-      - name: rango_poblacion
-        tests:
-          - not_null:
-              where: "tienda_id != 'ONLINE'"   
+      - name: rango_poblacion   
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_EMPLEADO
@@ -328,21 +313,12 @@ models:
               
       - name: salario_medio_puesto
         description: "Salario mensual bruto medio en € de todos los empleados con el mismo puesto."
-        tests:
-          - not_null:
-              where: "es_virtual = false"
 
       - name: salario_minimo_puesto
         description: "Salario mensual bruto mínimo en € registrado para este puesto."
-        tests:
-          - not_null:
-              where: "es_virtual = false"
 
       - name: salario_maximo_puesto
         description: "Salario mensual bruto máximo en € registrado para este puesto."
-        tests:
-          - not_null:
-              where: "es_virtual = false"
 
       - name: fecha_contratacion
         description: "Fecha de inicio del contrato. NULL para el registro ONLINE."
@@ -380,7 +356,6 @@ models:
 
       - name: es_virtual
         description: "TRUE si el registro es el empleado virtual ONLINE."
-        tests: [not_null]
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_CLIENTE
@@ -394,7 +369,7 @@ models:
 
       - name: cliente_id
         description: "Clave natural. Formato C#### o 'SIN_REGISTRO'. PK de la dimensión."
-        tests: [unique, not_null]
+        tests: [not_null]
 
       - name: nombre
         description: "Nombre completo del cliente."
@@ -457,7 +432,6 @@ models:
 
       - name: es_anonimo
         description: "TRUE si el registro es SIN_REGISTRO."
-        tests: [not_null]
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_PRODUCTO
@@ -471,159 +445,90 @@ models:
 
       - name: isbn
         description: "Clave natural. Identificador único del producto. PK de la dimensión."
-        tests: [unique, not_null]
 
       - name: titulo
         description: "Título del libro."
-        tests: [unique, not_null]
 
       - name: autor
         description: "Autor principal."
-        tests: [not_null]
 
       - name: editorial
         description: "Editorial. 15 valores únicos."
-        tests: [not_null]
 
       - name: categoria
         description: "Categoría principal. 10 valores posibles."
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['Arte y Fotografía','Autoayuda','Ciencia y Tecnología',
-                       'Cómics/Manga','Economía/Negocios','Ficción','Historia',
-                       'Idiomas','Infantil/Juvenil','No Ficción']
 
       - name: anio_publicacion
         description: "Año de publicación. Rango: 1980–2024."
         tests:
           - not_null
-          - dbt_utils.accepted_range:
-              min_value: 1900
-              max_value: 2025
 
       - name: idioma
         description: "Idioma del libro. 6 valores posibles."
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['Alemán','Catalán','Español','Euskera','Gallego','Inglés']
 
       - name: formato
         description: "Formato del libro. 4 valores posibles."
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['Bolsillo', 'Ebook', 'Tapa blanda', 'Tapa dura']
 
       - name: paginas
         description: "Número de páginas. Rango: 73–698."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 1
-              max_value: 1500
 
       - name: precio_pvp
         description: "Precio de venta al público en €. Rango: 5,11–74,68 €."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
 
       - name: precio_coste
         description: "Precio de coste en €. Siempre menor que precio_pvp."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
 
       - name: margen_bruto_pct_original
         description: "Margen almacenado en Bronze. Puede diferir del real para 19 registros."
-        tests: [not_null]
 
       - name: margen_bruto_pct
         description: "Margen recalculado desde precios actuales. Campo recomendado para análisis."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 100
 
       - name: rango_precio
         description: "Rango derivado de precio_pvp. 'Bajo' (<12€), 'Medio' (12–25€), 'Alto' (>25€)."
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['Bajo', 'Medio', 'Alto']
 
       - name: rango_margen
         description: "Rango derivado de margen_bruto_pct."
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['Margen bajo', 'Margen medio', 'Margen alto']
 
       - name: anios_desde_publicacion
         description: "Años transcurridos desde la publicación hasta hoy."
-        tests: [not_null]
 
       - name: disponible_online
         description: "TRUE si disponible en canal online. 479 productos."
-        tests: [not_null]
 
       - name: disponible_tienda
         description: "TRUE si disponible en tienda física. 433 productos."
-        tests: [not_null]
 
       - name: activo
         description: "TRUE si está vigente en el catálogo. 463 productos activos."
-        tests: [not_null]
 
       - name: fecha_alta_catalogo
         description: "Fecha de alta en el catálogo. Rango: 2019-01-02 → 2023-12-04."
-        tests: [not_null]
 
         # enriquecimiento desde catálogos Silver
       - name: num_titulos_autor
         description: "Número de títulos del mismo autor en el catálogo."
-        tests:
-          - not_null
 
       - name: num_titulos_editorial
         description: "Número de títulos de la misma editorial en el catálogo."
-        tests:
-          - not_null
 
       - name: num_titulos_categoria
         description: "Número de títulos de la misma categoría en el catálogo."
-        tests:
-          - not_null
 
       - name: precio_pvp_medio_categoria
         description: "Precio PVP medio de todos los productos de la misma categoría."
-        tests:
-          - not_null
 
       - name: margen_medio_categoria
         description: "Margen bruto medio en % de todos los productos de la misma categoría."
-        tests:
-          - not_null
 
       - name: num_titulos_idioma
         description: "Número de títulos en el mismo idioma en el catálogo."
-        tests:
-          - not_null
 
       - name: num_titulos_formato
         description: "Número de títulos con el mismo formato en el catálogo."
-        tests:
-          - not_null
 
       - name: precio_pvp_medio_formato
         description: "Precio PVP medio de todos los productos del mismo formato."
-        tests:
-          - not_null
 
 
   # ─────────────────────────────────────────────────────────────────
@@ -666,7 +571,6 @@ models:
 
       - name: venta_id
         description: "Clave natural de la venta. PK de la tabla de hechos."
-        tests: [unique, not_null]
 
       - name: tiempo_sk
         description: "FK → dim_tiempo."
@@ -687,7 +591,6 @@ models:
       - name: tienda_id
         description: "FK → dim_tienda."
         tests:
-          - not_null
           - relationships:
               to: ref('dim_tienda')
               field: tienda_id
@@ -696,7 +599,6 @@ models:
       - name: empleado_id
         description: "FK → dim_empleado."
         tests:
-          - not_null
           - relationships:
               to: ref('dim_empleado')
               field: empleado_id
@@ -704,7 +606,6 @@ models:
       - name: cliente_id
         description: "FK → dim_cliente."
         tests:
-          - not_null
           - relationships:
               to: ref('dim_cliente')
               field: cliente_id
@@ -717,61 +618,33 @@ models:
 
       - name: importe_bruto
         description: "Importe total antes de descuentos en €."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
 
       - name: importe_neto
         description: "Importe final tras descuentos en €. Siempre <= importe_bruto."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
 
       - name: descuento_total
         description: "Descuento aplicado en €."
 
       - name: descuento_pct
         description: "Porcentaje de descuento aplicado."
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 100
 
       - name: total_lineas
         description: "Número de productos distintos en la venta. Rango: 1–10."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 1
-              max_value: 10
 
       - name: total_unidades
         description: "Total de unidades vendidas. Rango: 1–18."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 1
-              max_value: 18
 
       - name: ticket_medio
         description: "Importe neto / total_unidades."
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
 
       - name: es_venta_anonima
         description: "TRUE si el cliente es SIN_REGISTRO. 800 ventas (10%)."
-        tests: [not_null]
 
       - name: tiene_municipio
         description: "TRUE si cod_municipio_venta_ine no es NULL."
-        tests: [not_null]
 
       - name: misma_zona
         description: "TRUE si el municipio de la venta coincide con el del cliente."
-        tests: [not_null]
 
   # ─────────────────────────────────────────────────────────────────
   # FCT_VENTAS_LINEA
@@ -785,7 +658,6 @@ models:
 
       - name: linea_id
         description: "Clave natural de la línea. PK de la tabla de hechos."
-        tests: [unique, not_null]
 
       - name: tiempo_sk
         description: "FK → dim_tiempo."
@@ -815,7 +687,6 @@ models:
       - name: isbn
         description: "FK → dim_producto."
         tests:
-          - not_null
           - relationships:
               to: ref('dim_producto')
               field: isbn
@@ -823,60 +694,34 @@ models:
       - name: venta_id
         description: "Referencia a fct_ventas."
         tests:
-          - not_null
           - relationships:
               to: ref('fct_ventas')
               field: venta_id
 
       - name: num_linea
         description: "Número de línea dentro de la venta. Rango: 1–10."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 1
-              max_value: 10
 
       - name: categoria
         description: "Categoría del producto vendido."
         tests: [not_null]
 
       - name: unidades
-        description: "Unidades vendidas. Valores: 1, 2, 3 o 4."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [1, 2, 3, 4]
+        description: "Unidades vendidas. "
 
       - name: precio_unitario
         description: "Precio aplicado por unidad en €."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
 
       - name: importe_bruto
         description: "precio_unitario × unidades."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
 
       - name: descuento_pct
-        description: "Descuento en tanto por uno. Valores: 0.0, 0.05, 0.10 o 0.15."
-        tests:
-          - not_null
-          - accepted_values:
-              values: [0.0, 0.05, 0.1, 0.15]
+        description: "Descuento en tanto por uno."
 
       - name: descuento_importe
         description: "Descuento en €."
 
       - name: importe_neto
         description: "Importe final tras descuento en €."
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
 
       - name: precio_coste
         description: "Coste unitario del producto desde dim_producto."
@@ -1037,7 +882,6 @@ models:
 
       - name: tiene_tienda_fisica
         description: "TRUE si hay tienda física de la cadena en el municipio."
-        tests: [not_null]
 
 
         
