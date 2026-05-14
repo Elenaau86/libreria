@@ -71,20 +71,49 @@ models:
         description: "TRUE si el día es sábado o domingo."
 
   # ─────────────────────────────────────────────────────────────────
-  # DIM_CANAL
-  # ─────────────────────────────────────────────────────────────────
+# DIM_CANAL — con contrato de datos activado
+# Sustituye el bloque dim_canal en models/marts/_models.yml
+# ─────────────────────────────────────────────────────────────────
+#
+# CÓMO PROBARLO:
+#   1. Sustituye el bloque dim_canal en tu _models.yml de marts
+#   2. En el IDE de dbt Cloud ejecuta: dbt build --select dim_canal
+#   3. Si el contrato falla verás: "Contract violation" en el output
+#   4. Si pasa, el contrato está activo y funcionando
+#
+# QUÉ HACE EL CONTRATO EN SNOWFLAKE:
+#   - enforced: true → dbt verifica que los tipos del SELECT
+#     coinciden con los data_type declarados aquí antes de
+#     materializar la tabla. Si no coinciden, falla en compilación.
+#   - Las constraints not_null se traduce a NOT NULL en el DDL.
+#   - primary_key y unique son informativos en Snowflake
+#     (Snowflake los acepta pero no los enforcea a nivel de BD).
+# ─────────────────────────────────────────────────────────────────
+
   - name: dim_canal
     description: >
       Dimensión degenerada con dos valores fijos: Online y Tienda física.
       Generada estáticamente — no proviene de ninguna tabla de staging.
+    config:
+      contract:
+        enforced: true
     columns:
 
       - name: canal_sk
         description: "Clave surrogada hash generada sobre canal_id. PK de la dimensión."
-        tests: [unique, not_null]
+        data_type: varchar
+        constraints:
+          - type: not_null
+          - type: primary_key  # informativo en Snowflake
+        tests:
+          - unique
+          - not_null
 
       - name: canal_id
         description: "Clave natural del canal. Valores: 'Online' o 'Tienda física'."
+        data_type: varchar
+        constraints:
+          - type: not_null
         tests:
           - unique
           - not_null
@@ -93,6 +122,9 @@ models:
 
       - name: canal_nombre
         description: "Nombre descriptivo del canal. Valores: 'Online' o 'Tienda física'."
+        data_type: varchar
+        constraints:
+          - type: not_null
         tests:
           - not_null
           - accepted_values:
@@ -100,8 +132,17 @@ models:
 
       - name: es_digital
         description: "TRUE si el canal es Online."
-        tests: [not_null]
+        data_type: boolean
+        constraints:
+          - type: not_null
+        tests:
+          - not_null
 
+      - name: _loaded_at
+        description: "Timestamp de la última transformación dbt. Metadato interno."
+        data_type: timestamp_ltz
+        
+            
   # ─────────────────────────────────────────────────────────────────
   # DIM_GEOGRAFIA
   # ─────────────────────────────────────────────────────────────────
