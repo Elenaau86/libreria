@@ -2,7 +2,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'my_new_project'
+name: 'libreria'
 version: '1.0.0'
 config-version: 2
 
@@ -36,7 +36,20 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  my_new_project:
+  libreria:
     # Applies to all files under models/example/
-    example:
+    staging:
+      +materialized: view  # excepciones incrementales: stg_bronze__ventas_raw, stg_bronze__lineas_venta_raw
+      +schema: silver
+      +database: DEV_SILVER_DB
+
+    marts:
       +materialized: table
+      +schema: gold
+      +database: DEV_GOLD_DB
+
+
+snapshots:
+  libreria:
+    +target_schema: SNAPSHOTS
+    +strategy: check
