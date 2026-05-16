@@ -61,6 +61,9 @@ renamed as (
 
         try_cast(fecha_alta_catalogo as date)                                            as fecha_alta_catalogo,
 
+        -- Añadir esta línea después de fecha_alta_catalogo y antes de _loaded_at:
+        trim(resena_texto)                                                               as resena_texto,
+
         -- metadatos
         current_timestamp()                                                              as _loaded_at
 

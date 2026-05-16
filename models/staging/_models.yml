@@ -670,6 +670,9 @@ models:
       - name: fecha_alta_catalogo
         description: "Fecha de alta en el catálogo. Rango: 2019-01-02 → 2023-12-04."
 
+      - name: resena_texto
+        description: "Reseña literaria del libro. Texto generado para análisis de sentimiento con Cortex."
+
       - name: _loaded_at
         description: "Timestamp de carga del registro en la capa staging."
 

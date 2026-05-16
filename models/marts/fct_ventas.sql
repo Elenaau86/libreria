@@ -29,7 +29,7 @@ clientes as (
 
     select
         cliente_id,
-        cod_segmento_edad,       -- ✅ FK hash, no el texto
+        cod_segmento_edad,       
         cod_canal_preferido,
         cod_municipio_ine
     from {{ ref('stg_bronze__clientes_raw') }}

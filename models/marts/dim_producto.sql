@@ -76,6 +76,10 @@ dim as (
         c.activo,
         c.fecha_alta_catalogo,
 
+        -- reseña e IA
+        c.resena_texto,
+        snowflake.cortex.sentiment(c.resena_texto)               as sentimiento_resena,
+
         -- enriquecimiento desde catálogos Silver
         a.num_titulos_autor,
         e.num_titulos_editorial,

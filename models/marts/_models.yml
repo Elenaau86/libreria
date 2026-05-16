@@ -613,6 +613,14 @@ models:
         description: "Fecha de alta en el catálogo. Rango: 2019-01-02 → 2023-12-04."
         data_type: date
 
+      - name: resena_texto
+        description: "Reseña literaria del libro propagada desde staging."
+
+      - name: sentimiento_resena
+        description: >
+          Score de sentimiento calculado por Snowflake Cortex sobre resena_texto.
+          Rango: -1 (muy negativo) → 0 (neutro) → 1 (muy positivo).
+
       - name: num_titulos_autor
         description: "Número de títulos del mismo autor en el catálogo."
         data_type: number
