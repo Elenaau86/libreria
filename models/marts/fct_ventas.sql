@@ -1,7 +1,29 @@
+-- fct_ventas.sql
+-- INCREMENTAL con estrategia MERGE.
+-- Filtra por _src_loaded_at propagado desde stg_bronze__ventas_raw,
+-- de modo que solo se procesan las ventas nuevas o corregidas en cada carga.
+-- El merge actualiza filas existentes si llegan correcciones.
+--
+-- _src_loaded_at se incluye en el SELECT para que {{ this }} lo tenga
+-- disponible en la siguiente ejecución incremental.
+ 
+{{
+    config(
+        materialized         = 'incremental',
+        unique_key           = 'venta_id',
+        on_schema_change     = 'sync_all_columns',
+        incremental_strategy = 'merge'
+    )
+}}
+ 
 with ventas as (
-
+ 
     select * from {{ ref('stg_bronze__ventas_raw') }}
-
+ 
+    {% if is_incremental() %}
+        where _src_loaded_at > (select max(_src_loaded_at) from {{ this }})
+    {% endif %}
+ 
 ),
 
 dim_tiempo as (
@@ -92,6 +114,7 @@ fct as (
         )                                                        as misma_zona,
 
         -- metadatos
+        v._src_loaded_at,
         current_timestamp()                                      as _loaded_at
 
     from ventas v

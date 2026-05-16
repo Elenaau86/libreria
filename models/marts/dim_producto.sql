@@ -7,7 +7,7 @@ with catalogo as (
 autores as (
 
     select autor, num_titulos as num_titulos_autor
-    from {{ ref('stg_bronze__autores_raw') }}
+    from {{ ref('stg__autores') }}
 
 ),
 

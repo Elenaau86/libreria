@@ -7,7 +7,8 @@ sources:
       Todas las columnas son VARCHAR sin transformación.
       La database se resuelve dinámicamente según el entorno activo
       (DEV_BRONZE_DB en desarrollo, PRO_BRONZE_DB en producción)."
-    database: "{{ target.name | upper }}_BRONZE_DB"
+      # "{{ target.name | upper }}_BRONZE_DB" #
+    database: "{{ env_var('DBT_BRONZE_DB', target.name | upper ~ '_BRONZE_DB') }}"
     schema: BOOKSTORE
 
     tables:

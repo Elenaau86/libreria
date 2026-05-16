@@ -35,18 +35,25 @@ clean-targets:         # directories to be removed by `dbt clean`
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
+vars:
+  env_prefix: "{{ target.name | upper }}"  # DEV / PRO
+
 models:
   libreria:
-    # Applies to all files under models/example/
+    +persist_docs:
+      relation: true
+      columns: true
+  
+  
     staging:
       +materialized: view  # excepciones incrementales: stg_bronze__ventas_raw, stg_bronze__lineas_venta_raw
-      +schema: silver
-      +database: DEV_SILVER_DB
+      +schema: bookstore #silver
+      +database: "{{ var('env_prefix') }}_SILVER_DB"
 
     marts:
       +materialized: table
-      +schema: gold
-      +database: DEV_GOLD_DB
+      +schema: bookstore #gold
+      +database: "{{ var('env_prefix') }}_GOLD_DB"
 
 
 snapshots:

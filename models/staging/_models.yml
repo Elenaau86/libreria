@@ -678,9 +678,9 @@ models:
 
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__AUTORES_RAW
+  # STG__AUTORES
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__autores_raw
+  - name: stg__autores
     description: >
       Catálogo de autores únicos extraído del catálogo de productos.
       57 autores únicos. Generado con SELECT DISTINCT desde stg_bronze__catalogo_productos_raw.
