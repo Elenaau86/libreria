@@ -1,4 +1,4 @@
--- stg_bronze__lineas_venta_raw.sql
+-- stg__lineas_venta.sql
 -- INCREMENTAL: solo procesa filas de LINEAS_VENTA_RAW con _loaded_at
 -- posterior al máximo ya presente en el modelo materializado.
 -- unique_key = linea_id → merge seguro ante reprocesos.
@@ -11,7 +11,7 @@
     config(
         materialized = 'incremental',
         unique_key   = 'linea_id',
-        on_schema_change = 'sync_all_columns',
+        on_schema_change = 'append_new_columns',
         incremental_strategy = 'merge'
     )
 }}

@@ -10,14 +10,14 @@ with municipios as (
         rango_renta,
         poblacion,
         rango_poblacion
-    from {{ ref('stg_bronze__municipios_raw') }}
+    from {{ ref('stg__municipios') }}
 
 ),
 
 tiendas as (
 
     select distinct cod_municipio_ine
-    from {{ ref('stg_bronze__tiendas_raw') }}
+    from {{ ref('stg__tiendas') }}
     where cod_municipio_ine is not null
 
 ),
@@ -25,14 +25,14 @@ tiendas as (
 provincias as (
 
     select cod_provincia_ine, provincia, num_municipios as num_municipios_provincia
-    from {{ ref('stg_bronze__provincias_raw') }}
+    from {{ ref('stg__provincias') }}
 
 ),
 
 ccaa as (
 
     select cod_ccaa_ine, ccaa, num_municipios as num_municipios_ccaa, num_provincias
-    from {{ ref('stg_bronze__ccaa_raw') }}
+    from {{ ref('stg__ccaa') }}
 
 ),
 
@@ -44,7 +44,7 @@ tipos_zona as (
         num_municipios                                           as num_municipios_zona,
         renta_media_zona,
         poblacion_media_zona
-    from {{ ref('stg_bronze__tipos_zona_raw') }}
+    from {{ ref('stg__tipos_zona') }}
 
 ),
 

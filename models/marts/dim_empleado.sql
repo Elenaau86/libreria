@@ -1,13 +1,13 @@
 with empleados as (
 
-    select * from {{ ref('stg_bronze__empleados_raw') }}
+    select * from {{ ref('stg__empleados') }}
 
 ),
 
 tiendas as (
 
     select tienda_id, nombre as nombre_tienda, cod_municipio_ine, cod_canal
-    from {{ ref('stg_bronze__tiendas_raw') }}
+    from {{ ref('stg__tiendas') }}
 
 ),
 
@@ -19,35 +19,35 @@ municipios as (
         cod_provincia_ine,
         cod_ccaa_ine,
         cod_tipo_zona
-    from {{ ref('stg_bronze__municipios_raw') }}
+    from {{ ref('stg__municipios') }}
 
 ),
 
 provincias as (
 
     select cod_provincia_ine, provincia
-    from {{ ref('stg_bronze__provincias_raw') }}
+    from {{ ref('stg__provincias') }}
 
 ),
 
 ccaa as (
 
     select cod_ccaa_ine, ccaa
-    from {{ ref('stg_bronze__ccaa_raw') }}
+    from {{ ref('stg__ccaa') }}
 
 ),
 
 tipos_zona as (
 
     select cod_tipo_zona, tipo_zona
-    from {{ ref('stg_bronze__tipos_zona_raw') }}
+    from {{ ref('stg__tipos_zona') }}
 
 ),
 
 generos as (
 
     select cod_genero, genero
-    from {{ ref('stg_bronze__generos_raw') }}
+    from {{ ref('stg__generos') }}
 
 ),
 
@@ -60,7 +60,7 @@ puestos as (
         salario_medio,
         salario_minimo,
         salario_maximo
-    from {{ ref('stg_bronze__puestos_raw') }}
+    from {{ ref('stg__puestos') }}
 
 ),
 

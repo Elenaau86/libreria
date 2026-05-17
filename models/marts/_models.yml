@@ -615,11 +615,11 @@ models:
 
       - name: resena_texto
         description: "Reseña literaria del libro propagada desde staging."
-
-      - name: sentimiento_resena
-        description: >
-          Score de sentimiento calculado por Snowflake Cortex sobre resena_texto.
-          Rango: -1 (muy negativo) → 0 (neutro) → 1 (muy positivo).
+        data_type: text
+      #- name: sentimiento_resena
+      #  description: >
+      #    Score de sentimiento calculado por Snowflake Cortex sobre resena_texto.
+      #    Rango: -1 (muy negativo) → 0 (neutro) → 1 (muy positivo).
 
       - name: num_titulos_autor
         description: "Número de títulos del mismo autor en el catálogo."
@@ -804,6 +804,10 @@ models:
         description: "TRUE si el municipio de la venta coincide con el del cliente."
         data_type: boolean
 
+      - name: _src_loaded_at
+        description: "Timestamp de la la carga del dato. Metadato interno."
+        data_type: timestamp_ntz
+        
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
         data_type: timestamp_ltz
@@ -933,6 +937,10 @@ models:
         description: "Ratio precio_unitario / precio_pvp. <1 indica descuento sobre PVP."
         data_type: number
 
+      - name: _src_loaded_at
+        description: "Timestamp de la la carga del dato. Metadato interno."
+        data_type: timestamp_ntz
+        
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
         data_type: timestamp_ltz

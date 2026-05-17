@@ -1,6 +1,6 @@
 with ventas as (
 
-    select * from {{ ref('stg_bronze__ventas_raw') }}
+    select * from {{ ref('stg__ventas') }}
 
 ),
 

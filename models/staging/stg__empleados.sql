@@ -7,14 +7,14 @@ with source as (
 generos as (
 
     select cod_genero, genero
-    from {{ ref('stg_bronze__generos_raw') }}
+    from {{ ref('stg__generos') }}
 
 ),
 
 puestos as (
 
     select cod_puesto, puesto
-    from {{ ref('stg_bronze__puestos_raw') }}
+    from {{ ref('stg__puestos') }}
 
 ),
 

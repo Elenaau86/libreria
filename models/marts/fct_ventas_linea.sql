@@ -1,6 +1,6 @@
 -- fct_ventas_linea.sql
 -- INCREMENTAL con estrategia MERGE.
--- Filtra por _src_loaded_at propagado desde stg_bronze__lineas_venta_raw.
+-- Filtra por _src_loaded_at propagado desde stg__lineas_venta_.
 -- El filtro va en el CTE de lineas porque la granularidad es linea_id.
 -- El merge actualiza filas existentes si llegan correcciones.
 --
@@ -11,14 +11,14 @@
     config(
         materialized         = 'incremental',
         unique_key           = 'linea_id',
-        on_schema_change     = 'sync_all_columns',
+        on_schema_change     = 'append_new_columns',
         incremental_strategy = 'merge'
     )
 }}
  
 with lineas as (
  
-    select * from {{ ref('stg_bronze__lineas_venta_raw') }}
+    select * from {{ ref('stg__lineas_venta') }}
  
     {% if is_incremental() %}
         where _src_loaded_at > (select max(_src_loaded_at) from {{ this }})
@@ -29,7 +29,7 @@ with lineas as (
 ventas as (
 
     select venta_id, fecha, cod_canal, tienda_id
-    from {{ ref('stg_bronze__ventas_raw') }}
+    from {{ ref('stg__ventas') }}
 
 ),
 

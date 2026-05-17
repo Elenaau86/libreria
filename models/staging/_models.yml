@@ -5,7 +5,7 @@ models:
   # ─────────────────────────────────────────────────────────────────
   # STG_BRONZE__VENTAS_RAW
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__ventas_raw
+  - name: stg__ventas
     description: >
       Ventas limpias y tipadas desde la capa Bronze.
       Una fila por transacción de venta. 8.000 registros.
@@ -21,7 +21,7 @@ models:
         description: "Fecha de la transacción casteada a DATE. Rango: 2022-01-01 → 2024-01-01."
 
       - name: cod_canal
-        description: "FK → stg_bronze__canales_raw. Hash generado sobre canal."
+        description: "FK → stg__canales. Hash generado sobre canal."
 
       - name: tienda_id
         description: "Identificador de la tienda. T001–T012 para físicas, 'ONLINE' para el canal digital."
@@ -91,9 +91,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__LINEAS_VENTA_RAW
+  # STG__LINEAS_VENTA
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__lineas_venta_raw
+  - name: stg__lineas_venta
     description: >
       Líneas de detalle de cada venta limpias y tipadas.
       Una fila por producto (isbn) incluido en cada venta. 18.056 registros.
@@ -105,17 +105,17 @@ models:
         tests: [unique]
 
       - name: venta_id
-        description: "FK → stg_bronze__ventas_raw. Todas las ventas tienen al menos una línea."
+        description: "FK → stg__ventas. Todas las ventas tienen al menos una línea."
         tests:
           - relationships:
-              to: ref('stg_bronze__ventas_raw')
+              to: ref('stg__ventas')
               field: venta_id
 
       - name: isbn
-        description: "FK → stg_bronze__catalogo_productos_raw. 500 títulos únicos."
+        description: "FK → stg__catalogo_productos. 500 títulos únicos."
         tests:
           - relationships:
-              to: ref('stg_bronze__catalogo_productos_raw')
+              to: ref('stg__catalogo_productos')
               field: isbn
 
       - name: num_linea
@@ -177,9 +177,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__CLIENTES_RAW
+  # STG__CLIENTES
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__clientes_raw
+  - name: stg__clientes
     description: >
       Clientes registrados más el registro especial SIN_REGISTRO.
       801 registros: 800 clientes reales (C0001–C0800) y 1 registro anónimo.
@@ -203,7 +203,7 @@ models:
               where: "cliente_id != 'SIN_REGISTRO'"
 
       - name: cod_segmento_edad
-        description: "FK → stg_bronze__segmentos_edad_raw. NULL para SIN_REGISTRO."
+        description: "FK → stg__segmentos_edad. NULL para SIN_REGISTRO."
 
       - name: municipio
         description: "Municipio de residencia del cliente. NULL para SIN_REGISTRO."
@@ -219,7 +219,7 @@ models:
 
       - name: cod_canal_preferido
         description: >
-          FK hacia stg_bronze__canales_raw. Hash generado sobre el canal preferido del cliente.
+          FK hacia stg__canales. Hash generado sobre el canal preferido del cliente.
           NULL para el registro SIN_REGISTRO que no tiene canal preferido definido.
 
       - name: fecha_alta
@@ -235,9 +235,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__TIENDAS_RAW
+  # STG__TIENDAS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__tiendas_raw
+  - name: stg__tiendas
     description: >
       Tiendas físicas de la cadena limpias y tipadas. 12 registros (T001–T012).
       No incluye el canal Online. Campo canal derivado del tienda_id.
@@ -252,7 +252,7 @@ models:
         tests: [unique, not_null]
 
       - name: cod_municipio_ine
-        description: "FK → stg_bronze__municipios_raw. Código INE del municipio de la tienda."
+        description: "FK → stg__municipios. Código INE del municipio de la tienda."
 
       - name: m2
         tests:
@@ -260,15 +260,15 @@ models:
               where: "tienda_id != 'ONLINE'"
 
       - name: cod_canal
-        description: "FK → stg_bronze__canales_raw. Hash generado sobre el canal de la tienda."
+        description: "FK → stg__canales. Hash generado sobre el canal de la tienda."
 
       - name: _loaded_at
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__EMPLEADOS_RAW
+  # STG__EMPLEADOS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__empleados_raw
+  - name: stg__empleados
     description: >
       Empleados de las tiendas físicas más el registro virtual ONLINE.
       66 registros: 65 empleados reales (E0001–E0065) y 1 registro virtual.
@@ -293,13 +293,13 @@ models:
         tests: [unique, not_null]
 
       - name: cod_genero
-        description: "FK → stg_bronze__generos_raw. Hash generado sobre genero."
+        description: "FK → stg__generos. Hash generado sobre genero."
 
       - name: edad
         description: "Edad del empleado en años. Rango: 20–57. NULL para el registro ONLINE."
 
       - name: cod_puesto
-        description: "FK → stg_bronze__puestos_raw. Hash generado sobre puesto." 
+        description: "FK → stg__puestos. Hash generado sobre puesto." 
 
       - name: fecha_contratacion
         description: "Fecha de inicio del contrato. Rango: 2015-02-09 → 2023-12-05. NULL para ONLINE."
@@ -328,9 +328,9 @@ models:
 
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__GENEROS_RAW
+  # STG__GENEROS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__generos_raw
+  - name: stg__generos
     description: >
       Catálogo de géneros únicos extraído de la tabla de empleados.
       2 valores: Hombre y Mujer. Excluye el registro virtual ONLINE.
@@ -348,9 +348,9 @@ models:
 
 
 # ─────────────────────────────────────────────────────────────────
-# STG_BRONZE__PUESTOS_RAW
+# STG__PUESTOS
 # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__puestos_raw
+  - name: stg__puestos
     description: >
       Catálogo de puestos únicos con métricas salariales agregadas.
       6 puestos reales. Excluye el registro virtual ONLINE.
@@ -390,9 +390,9 @@ models:
 
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__MUNICIPIOS_RAW
+  # STG__MUNICIPIOS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__municipios_raw
+  - name: stg__municipios
     description: >
       Catálogo de municipios limpio con datos geográficos y socioeconómicos.
       20 registros. Sin nulos. Cubre 7 CCAA y 8 provincias.
@@ -410,13 +410,13 @@ models:
           cada uno (distritos del mismo municipio censal). Sin nulos.
 
       - name: cod_provincia_ine
-        description: "FK → stg_bronze__provincias_raw."
+        description: "FK → stg__provincias."
 
       - name: cod_ccaa_ine
-        description: "FK → stg_bronze__ccaa_raw."
+        description: "FK → stg__ccaa."
 
       - name: cod_tipo_zona
-        description: "FK → stg_bronze__tipos_zona_raw. Hash generado sobre tipo_zona."
+        description: "FK → stg__tipos_zona. Hash generado sobre tipo_zona."
 
       - name: renta_media
         description: "Renta media anual del municipio en €. Rango: 21.000 € – 68.000 €."
@@ -451,9 +451,9 @@ models:
         description: "Timestamp de carga del registro en la capa staging."
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__PROVINCIAS_RAW
+  # STG__PROVINCIAS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__provincias_raw
+  - name: stg__provincias
     description: >
       Catálogo de provincias únicas extraído de la tabla de municipios.
       8 provincias únicas. Incluye número de municipios del dataset por provincia.
@@ -476,9 +476,9 @@ models:
 
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__CCAAS_RAW
+  # STG__CCAAS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__ccaa_raw
+  - name: stg__ccaa
     description: >
       Catálogo de comunidades autónomas únicas extraído de la tabla de municipios.
       7 comunidades autónomas únicas. Incluye número de municipios y provincias por CCAA.
@@ -503,9 +503,9 @@ models:
 
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__TIPOS_ZONA_RAW
+  # STG__TIPOS_ZONA
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__tipos_zona_raw
+  - name: stg__tipos_zona
     description: >
       Catálogo de tipos de zona únicos con métricas agregadas de renta y población.
       6 tipos de zona únicos. Incluye renta media y población media por tipo de zona.
@@ -530,9 +530,9 @@ models:
 
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__CATALOGO_PRODUCTOS_RAW
+  # STG__CATALOGO_PRODUCTOS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__catalogo_productos_raw
+  - name: stg__catalogo_productos
     description: >
       Catálogo de productos limpio. 500 registros. Sin nulos.
       margen_bruto_pct_original conserva el valor almacenado en Bronze.
@@ -683,7 +683,7 @@ models:
   - name: stg__autores
     description: >
       Catálogo de autores únicos extraído del catálogo de productos.
-      57 autores únicos. Generado con SELECT DISTINCT desde stg_bronze__catalogo_productos_raw.
+      57 autores únicos. Generado con SELECT DISTINCT desde stg__catalogo_productos.
     columns:
       - name: autor
         description: "Nombre completo del autor. Clave natural única. Los más frecuentes: John Berger (18), Mark Manson (17), Alan Moore (17)."
@@ -694,12 +694,12 @@ models:
         tests: [not_null]
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__EDITORIALES_RAW
+  # STG__EDITORIALES
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__editoriales_raw
+  - name: stg__editoriales
     description: >
       Catálogo de editoriales únicas extraído del catálogo de productos.
-      15 editoriales únicas. Generado con SELECT DISTINCT desde stg_bronze__catalogo_productos_raw.
+      15 editoriales únicas. Generado con SELECT DISTINCT desde stg__catalogo_productos.
     columns:
       - name: editorial
         description: "Nombre de la editorial. Clave natural única. 15 valores posibles."
@@ -729,12 +729,12 @@ models:
     tests: [not_null]
   
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__CATEGORIAS_RAW
+  # STG__CATEGORIAS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__categorias_raw
+  - name: stg__categorias
     description: >
       Catálogo de categorías únicas con métricas agregadas de precio y margen.
-      10 categorías únicas. Generado con SELECT DISTINCT desde stg_bronze__catalogo_productos_raw.
+      10 categorías únicas. Generado con SELECT DISTINCT desde stg__catalogo_productos.
       Incluye precio medio y margen medio por categoría como métricas de referencia.
     columns:
       - name: categoria
@@ -769,12 +769,12 @@ models:
 
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__IDIOMAS_RAW
+  # STG__IDIOMAS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__idiomas_raw
+  - name: stg__idiomas
     description: >
       Catálogo de idiomas únicos extraído del catálogo de productos.
-      6 idiomas únicos. Generado con SELECT DISTINCT desde stg_bronze__catalogo_productos_raw.
+      6 idiomas únicos. Generado con SELECT DISTINCT desde stg__catalogo_productos.
     columns:
       - name: idioma
         description: "Nombre del idioma. Clave natural única. 6 valores posibles."
@@ -790,12 +790,12 @@ models:
 
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__FORMATOS_RAW
+  # STG__FORMATOS
   # ─────────────────────────────────────────────────────────────────
-  - name: stg_bronze__formatos_raw
+  - name: stg__formatos
     description: >
       Catálogo de formatos únicos con precio medio por formato.
-      4 formatos únicos. Generado con SELECT DISTINCT desde stg_bronze__catalogo_productos_raw.
+      4 formatos únicos. Generado con SELECT DISTINCT desde stg__catalogo_productos.
       Distribución: Tapa blanda (266), Tapa dura (147), Bolsillo (71), Ebook (16).
     columns:
       - name: formato

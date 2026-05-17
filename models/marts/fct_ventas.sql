@@ -1,6 +1,6 @@
 -- fct_ventas.sql
 -- INCREMENTAL con estrategia MERGE.
--- Filtra por _src_loaded_at propagado desde stg_bronze__ventas_raw,
+-- Filtra por _src_loaded_at propagado desde stg__ventas,
 -- de modo que solo se procesan las ventas nuevas o corregidas en cada carga.
 -- El merge actualiza filas existentes si llegan correcciones.
 --
@@ -11,14 +11,14 @@
     config(
         materialized         = 'incremental',
         unique_key           = 'venta_id',
-        on_schema_change     = 'sync_all_columns',
+        on_schema_change     = 'append_new_columns',
         incremental_strategy = 'merge'
     )
 }}
  
 with ventas as (
  
-    select * from {{ ref('stg_bronze__ventas_raw') }}
+    select * from {{ ref('stg__ventas') }}
  
     {% if is_incremental() %}
         where _src_loaded_at > (select max(_src_loaded_at) from {{ this }})
@@ -54,21 +54,21 @@ clientes as (
         cod_segmento_edad,       
         cod_canal_preferido,
         cod_municipio_ine
-    from {{ ref('stg_bronze__clientes_raw') }}
+    from {{ ref('stg__clientes') }}
 
 ),
 
 segmentos as (
 
     select cod_segmento_edad, segmento_edad
-    from {{ ref('stg_bronze__segmentos_edad_raw') }}
+    from {{ ref('stg__segmentos_edad') }}
 
 ),
 
 canales as (
 
     select cod_canal, canal
-    from {{ ref('stg_bronze__canales_raw') }}
+    from {{ ref('stg__canales') }}
 
 ),
 
@@ -131,7 +131,7 @@ fct as (
     left join canales ca
         on cl.cod_canal_preferido = ca.cod_canal
     left join dim_segmento seg
-        on s_edad.segmento_edad = seg.segmento_edad   -- ✅ resolvemos el texto desde la FK
+        on s_edad.segmento_edad = seg.segmento_edad  
         and ca.canal            = seg.canal_preferido
 
 )

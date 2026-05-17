@@ -1,6 +1,6 @@
 with canales as (
 
-    select * from {{ ref('stg_bronze__canales_raw') }}
+    select * from {{ ref('stg__canales') }}
 
 )
 

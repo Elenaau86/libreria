@@ -1,40 +1,40 @@
 with tiendas as (
 
-    select * from {{ ref('stg_bronze__tiendas_raw') }}
+    select * from {{ ref('stg__tiendas') }}
 
 ),
 
 municipios as (
 
-    select * from {{ ref('stg_bronze__municipios_raw') }}
+    select * from {{ ref('stg__municipios') }}
 
 ),
 
 provincias as (
 
     select cod_provincia_ine, provincia
-    from {{ ref('stg_bronze__provincias_raw') }}
+    from {{ ref('stg__provincias') }}
 
 ),
 
 ccaa as (
 
     select cod_ccaa_ine, ccaa
-    from {{ ref('stg_bronze__ccaa_raw') }}
+    from {{ ref('stg__ccaa') }}
 
 ),
 
 tipos_zona as (
 
     select cod_tipo_zona, tipo_zona, renta_media_zona
-    from {{ ref('stg_bronze__tipos_zona_raw') }}
+    from {{ ref('stg__tipos_zona') }}
 
 ),
 
 canales as (
 
     select cod_canal, canal, es_digital
-    from {{ ref('stg_bronze__canales_raw') }}
+    from {{ ref('stg__canales') }}
 
 ),
 

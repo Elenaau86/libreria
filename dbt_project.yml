@@ -46,14 +46,14 @@ models:
   
   
     staging:
-      +materialized: view  # excepciones incrementales: stg_bronze__ventas_raw, stg_bronze__lineas_venta_raw
+      +materialized: view  # excepciones incrementales: stg__ventas, stg__lineas_venta
       +schema: bookstore #silver
-      +database: "{{ var('env_prefix') }}_SILVER_DB"
+      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB"
 
     marts:
       +materialized: table
       +schema: bookstore #gold
-      +database: "{{ var('env_prefix') }}_GOLD_DB"
+      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_GOLD_DB"
 
 
 snapshots:
