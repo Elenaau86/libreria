@@ -1,4 +1,4 @@
--- stg_bronze__ventas_raw.sql
+-- stg__ventas.sql
 -- INCREMENTAL: solo procesa filas de VENTAS_RAW con _loaded_at
 -- posterior al máximo ya presente en el modelo materializado.
 -- unique_key = venta_id → merge seguro si el mismo fichero se
@@ -12,7 +12,7 @@
     config(
         materialized = 'incremental',
         unique_key   = 'venta_id',
-        on_schema_change = 'sync_all_columns',
+        on_schema_change = 'append_new_columns',
         incremental_strategy = 'merge'
     )
 }}
@@ -30,7 +30,7 @@ with source as (
 canales as (
 
     select cod_canal, canal
-    from {{ ref('stg_bronze__canales_raw') }}
+    from {{ ref('stg__canales') }}
 
 ),
 

@@ -1,7 +1,29 @@
+-- fct_ventas.sql
+-- INCREMENTAL con estrategia MERGE.
+-- Filtra por _src_loaded_at propagado desde stg__ventas,
+-- de modo que solo se procesan las ventas nuevas o corregidas en cada carga.
+-- El merge actualiza filas existentes si llegan correcciones.
+--
+-- _src_loaded_at se incluye en el SELECT para que {{ this }} lo tenga
+-- disponible en la siguiente ejecución incremental.
+ 
+{{
+    config(
+        materialized         = 'incremental',
+        unique_key           = 'venta_id',
+        on_schema_change     = 'append_new_columns',
+        incremental_strategy = 'merge'
+    )
+}}
+ 
 with ventas as (
-
-    select * from {{ ref('stg_bronze__ventas_raw') }}
-
+ 
+    select * from {{ ref('stg__ventas') }}
+ 
+    {% if is_incremental() %}
+        where _src_loaded_at > (select max(_src_loaded_at) from {{ this }})
+    {% endif %}
+ 
 ),
 
 dim_tiempo as (
@@ -29,24 +51,24 @@ clientes as (
 
     select
         cliente_id,
-        cod_segmento_edad,       -- ✅ FK hash, no el texto
+        cod_segmento_edad,       
         cod_canal_preferido,
         cod_municipio_ine
-    from {{ ref('stg_bronze__clientes_raw') }}
+    from {{ ref('stg__clientes') }}
 
 ),
 
 segmentos as (
 
     select cod_segmento_edad, segmento_edad
-    from {{ ref('stg_bronze__segmentos_edad_raw') }}
+    from {{ ref('stg__segmentos_edad') }}
 
 ),
 
 canales as (
 
     select cod_canal, canal
-    from {{ ref('stg_bronze__canales_raw') }}
+    from {{ ref('stg__canales') }}
 
 ),
 
@@ -92,6 +114,7 @@ fct as (
         )                                                        as misma_zona,
 
         -- metadatos
+        v._src_loaded_at,
         current_timestamp()                                      as _loaded_at
 
     from ventas v
@@ -108,7 +131,7 @@ fct as (
     left join canales ca
         on cl.cod_canal_preferido = ca.cod_canal
     left join dim_segmento seg
-        on s_edad.segmento_edad = seg.segmento_edad   -- ✅ resolvemos el texto desde la FK
+        on s_edad.segmento_edad = seg.segmento_edad  
         and ca.canal            = seg.canal_preferido
 
 )

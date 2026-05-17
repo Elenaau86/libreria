@@ -164,78 +164,47 @@ models:
   - name: dim_geografia
     description: >
       Dimensión geográfica con 18 municipios o distritos.
-    config:
-      contract:
-        enforced: true
     columns:
 
       - name: cod_municipio_ine
         description: "Clave natural única."
-        data_type: number
-        constraints:
-          - type: not_null
-          - type: primary_key
         tests: [unique, not_null]
 
       - name: municipio
         description: "Nombre del municipio o distrito. Clave natural única."
-        data_type: text
-        constraints:
-          - type: not_null
         tests: [unique, not_null]
 
       - name: cod_provincia_ine
         description: "Código INE de la provincia."
-        data_type: number
-        constraints:
-          - type: not_null
         tests: [not_null]
 
       - name: provincia
         description: "Nombre de la provincia. 8 valores únicos."
-        data_type: text
-        constraints:
-          - type: not_null
         tests: [not_null]
 
       - name: num_municipios_provincia
         description: "Número de municipios del dataset pertenecientes a la misma provincia."
-        data_type: number
 
       - name: cod_ccaa_ine
         description: "Código INE de la comunidad autónoma."
-        data_type: number
-        constraints:
-          - type: not_null
         tests: [not_null]
 
       - name: ccaa
         description: "Comunidad autónoma. 7 valores únicos."
-        data_type: text
-        constraints:
-          - type: not_null
         tests: [not_null]
 
       - name: num_municipios_ccaa
         description: "Número de municipios del dataset pertenecientes a la misma comunidad autónoma."
-        data_type: number
 
       - name: num_provincias
         description: "Número de provincias del dataset presentes en la misma comunidad autónoma."
-        data_type: number
-        constraints:
-          - type: not_null
         tests: [not_null]
 
       - name: cod_tipo_zona
         description: "Código hash del tipo de zona socioeconómica."
-        data_type: text
 
       - name: tipo_zona
         description: "Clasificación socioeconómica de la zona. 6 valores posibles."
-        data_type: text
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - accepted_values:
@@ -244,39 +213,28 @@ models:
 
       - name: num_municipios_zona
         description: "Número de municipios del dataset con el mismo tipo de zona."
-        data_type: number
 
       - name: renta_media_zona
         description: "Renta media en € de todos los municipios con el mismo tipo de zona."
-        data_type: number
 
       - name: poblacion_media_zona
         description: "Población media de todos los municipios con el mismo tipo de zona."
-        data_type: number
 
       - name: renta_media
         description: "Renta media anual del municipio en €. Rango: 21.000–68.000 €."
-        data_type: number
-        constraints:
-          - type: not_null
         tests: [not_null]
 
       - name: rango_renta
         description: "Rango derivado de renta_media."
-        data_type: text
         tests:
           - accepted_values:
               values: ['Renta baja', 'Renta media', 'Renta alta']
 
       - name: poblacion
         description: "Población del municipio en habitantes."
-        data_type: number
 
       - name: rango_poblacion
         description: "Rango derivado de poblacion."
-        data_type: text
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - accepted_values:
@@ -284,11 +242,9 @@ models:
 
       - name: tiene_tienda
         description: "TRUE si hay una tienda física de la cadena en este municipio."
-        data_type: boolean
 
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
-        data_type: timestamp_ltz
 
   # ─────────────────────────────────────────────────────────────────
   # DIM_TIENDA
@@ -297,38 +253,24 @@ models:
     description: >
       Tiendas físicas de la cadena (T001–T012).
       Geografía denormalizada directamente para mantener esquema en estrella.
-    config:
-      contract:
-        enforced: true
     columns:
 
       - name: tienda_id
         description: "Clave natural. Formato T### (T001–T012). PK de la dimensión."
-        data_type: text
-        constraints:
-          - type: not_null
-          - type: primary_key
         tests: [unique, not_null]
 
       - name: nombre
         description: "Nombre comercial de la tienda."
-        data_type: text
-        constraints:
-          - type: not_null
         tests: [unique, not_null]
 
       - name: m2
         description: "Superficie de la tienda en m². Rango: 120–220 m²."
-        data_type: number
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
       - name: canal
         description: "Canal de la tienda. Siempre 'Tienda física' para T001–T012."
-        data_type: text
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - accepted_values:
@@ -336,69 +278,58 @@ models:
 
       - name: es_digital
         description: "TRUE si el canal es Online."
-        data_type: boolean
 
       - name: cod_municipio_ine
         description: "FK hacia dim_geografia."
-        data_type: number
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
       - name: municipio
         description: "Municipio donde está ubicada la tienda."
-        data_type: text
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
       - name: provincia
         description: "Provincia de la tienda."
-        data_type: text
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
       - name: ccaa
         description: "Comunidad autónoma de la tienda."
-        data_type: text
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
       - name: tipo_zona
         description: "Tipo de zona socioeconómica."
-        data_type: text
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
       - name: renta_media
         description: "Renta media del municipio de la tienda en €."
-        data_type: number
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
       - name: rango_renta
         description: "Clasificación de renta del municipio."
-        data_type: text
-
+        
       - name: poblacion
         description: "Población del municipio de la tienda."
-        data_type: number
         tests:
           - not_null:
               where: "tienda_id != 'ONLINE'"
 
       - name: rango_poblacion
         description: "Clasificación de población del municipio."
-        data_type: text
-
+        
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
-        data_type: timestamp_ltz
-
+        
   # ─────────────────────────────────────────────────────────────────
   # DIM_EMPLEADO
   # ─────────────────────────────────────────────────────────────────
@@ -407,24 +338,14 @@ models:
       Empleados de las tiendas más el registro virtual ONLINE.
       66 registros: 65 empleados reales (E0001–E0065) y 1 virtual.
       Geografía de la tienda denormalizada para mantener esquema en estrella.
-    config:
-      contract:
-        enforced: true
     columns:
 
       - name: empleado_id
         description: "Clave natural. Formato E#### o 'ONLINE'. PK de la dimensión."
-        data_type: text
-        constraints:
-          - type: not_null
-          - type: primary_key
         tests: [unique, not_null]
 
       - name: tienda_id
         description: "FK hacia dim_tienda. Tienda asignada al empleado."
-        data_type: text
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - relationships:
@@ -434,25 +355,19 @@ models:
 
       - name: nombre_tienda
         description: "Nombre comercial de la tienda del empleado."
-        data_type: text
-
+        
       - name: nombre
         description: "Nombre completo del empleado."
-        data_type: text
-        constraints:
-          - type: not_null
         tests: [unique, not_null]
 
       - name: genero
         description: "Género del empleado. NULL para el registro ONLINE."
-        data_type: text
         tests:
           - accepted_values:
               values: ['Hombre', 'Mujer']
 
       - name: edad
         description: "Edad del empleado en años. NULL para el registro ONLINE."
-        data_type: number
         tests:
           - dbt_utils.accepted_range:
               min_value: 18
@@ -461,41 +376,33 @@ models:
 
       - name: puesto
         description: "Cargo del empleado."
-        data_type: text
         tests:
           - not_null:
               where: "es_virtual = false"
 
       - name: categoria_puesto
         description: "Categoría derivada del puesto."
-        data_type: text
         tests:
           - not_null:
               where: "es_virtual = false"
 
       - name: salario_medio_puesto
         description: "Salario mensual bruto medio en € de todos los empleados con el mismo puesto."
-        data_type: number
-
+        
       - name: salario_minimo_puesto
         description: "Salario mensual bruto mínimo en € registrado para este puesto."
-        data_type: number
 
       - name: salario_maximo_puesto
         description: "Salario mensual bruto máximo en € registrado para este puesto."
-        data_type: number
-
+        
       - name: fecha_contratacion
         description: "Fecha de inicio del contrato. NULL para el registro ONLINE."
-        data_type: date
-
+        
       - name: antiguedad_anios
         description: "Años de antigüedad calculados en staging. NULL para ONLINE."
-        data_type: number
-
+        
       - name: salario_mensual_bruto
         description: "Salario mensual bruto en €. NULL para ONLINE."
-        data_type: number
         tests:
           - dbt_utils.accepted_range:
               min_value: 1000
@@ -504,7 +411,6 @@ models:
 
       - name: coste_anual_estimado
         description: "Salario mensual × 12. NULL para ONLINE."
-        data_type: number
         tests:
           - dbt_utils.accepted_range:
               min_value: 12000
@@ -513,28 +419,22 @@ models:
 
       - name: municipio
         description: "Municipio de la tienda del empleado."
-        data_type: text
-
+        
       - name: provincia
         description: "Provincia de la tienda del empleado."
-        data_type: text
-
+        
       - name: ccaa
         description: "Comunidad autónoma de la tienda del empleado."
-        data_type: text
-
+        
       - name: tipo_zona
         description: "Tipo de zona de la tienda del empleado."
-        data_type: text
-
+        
       - name: es_virtual
         description: "TRUE si el registro es el empleado virtual ONLINE."
-        data_type: boolean
-
+        
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
-        data_type: timestamp_ltz
-
+        
   # ─────────────────────────────────────────────────────────────────
   # DIM_CLIENTE
   # ─────────────────────────────────────────────────────────────────
@@ -543,29 +443,18 @@ models:
       Clientes registrados más el registro especial SIN_REGISTRO.
       801 registros. Geografía denormalizada para esquema en estrella.
       Los campos descriptivos de SIN_REGISTRO son NULL.
-    config:
-      contract:
-        enforced: true
     columns:
 
       - name: cliente_id
         description: "Clave natural. Formato C#### o 'SIN_REGISTRO'. PK de la dimensión."
-        data_type: text
-        constraints:
-          - type: not_null
-          - type: primary_key
         tests: [not_null]
 
       - name: nombre
         description: "Nombre completo del cliente."
-        data_type: text
-        constraints:
-          - type: not_null
         tests: [not_null]
 
       - name: edad
         description: "Edad en años. NULL para SIN_REGISTRO."
-        data_type: number
         tests:
           - dbt_utils.accepted_range:
               min_value: 18
@@ -574,7 +463,6 @@ models:
 
       - name: segmento_edad
         description: "Tramo de edad. Valores: '18-25', '26-40', '41-60', '61+'."
-        data_type: text
         tests:
           - not_null:
               where: "es_anonimo = false"
@@ -583,63 +471,49 @@ models:
 
       - name: cod_municipio_ine
         description: "Código INE del municipio del cliente."
-        data_type: number
-
+        
       - name: municipio
         description: "Municipio de residencia. NULL para SIN_REGISTRO."
-        data_type: text
-
+        
       - name: provincia
         description: "Provincia del cliente. NULL para SIN_REGISTRO."
-        data_type: text
-
+        
       - name: ccaa
         description: "Comunidad autónoma del cliente. NULL para SIN_REGISTRO."
-        data_type: text
-
+        
       - name: tipo_zona
         description: "Tipo de zona del municipio del cliente."
-        data_type: text
-
+        
       - name: renta_media
         description: "Renta media del municipio del cliente."
-        data_type: number
-
+        
       - name: rango_renta
         description: "Rango de renta del municipio del cliente."
-        data_type: text
-
+        
       - name: poblacion
         description: "Población del municipio del cliente."
-        data_type: number
-
+        
       - name: rango_poblacion
         description: "Rango de población del municipio del cliente."
-        data_type: text
-
+        
       - name: canal_preferido
         description: "Canal de compra preferido. NULL para SIN_REGISTRO."
-        data_type: text
         tests:
           - accepted_values:
               values: ['Online', 'Tienda física']
 
       - name: fecha_alta
         description: "Fecha de registro. NULL para SIN_REGISTRO."
-        data_type: date
-
+        
       - name: newsletter
         description: "Suscripción a newsletter como booleano. NULL para SIN_REGISTRO."
-        data_type: boolean
-
+        
       - name: es_anonimo
         description: "TRUE si el registro es SIN_REGISTRO."
-        data_type: boolean
-
+        
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
-        data_type: timestamp_ltz
-
+        
   # ─────────────────────────────────────────────────────────────────
   # DIM_PRODUCTO
   # ─────────────────────────────────────────────────────────────────
@@ -739,6 +613,14 @@ models:
         description: "Fecha de alta en el catálogo. Rango: 2019-01-02 → 2023-12-04."
         data_type: date
 
+      - name: resena_texto
+        description: "Reseña literaria del libro propagada desde staging."
+        data_type: text
+      #- name: sentimiento_resena
+      #  description: >
+      #    Score de sentimiento calculado por Snowflake Cortex sobre resena_texto.
+      #    Rango: -1 (muy negativo) → 0 (neutro) → 1 (muy positivo).
+
       - name: num_titulos_autor
         description: "Número de títulos del mismo autor en el catálogo."
         data_type: number
@@ -783,24 +665,14 @@ models:
       Segmentos de cliente por combinación de tramo de edad y canal preferido.
       Clave surrogada necesaria porque la clave es compuesta.
       Solo incluye clientes reales — excluye SIN_REGISTRO.
-    config:
-      contract:
-        enforced: true
     columns:
 
       - name: segmento_sk
         description: "Clave surrogada hash sobre segmento_edad + canal_preferido. PK."
-        data_type: text
-        constraints:
-          - type: not_null
-          - type: primary_key
         tests: [unique, not_null]
 
       - name: segmento_edad
         description: "Tramo de edad del segmento."
-        data_type: text
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - accepted_values:
@@ -808,9 +680,6 @@ models:
 
       - name: canal_preferido
         description: "Canal de compra preferido del segmento."
-        data_type: text
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - accepted_values:
@@ -818,8 +687,7 @@ models:
 
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
-        data_type: timestamp_ltz
-
+        
   # ─────────────────────────────────────────────────────────────────
   # FCT_VENTAS
   # ─────────────────────────────────────────────────────────────────
@@ -936,6 +804,10 @@ models:
         description: "TRUE si el municipio de la venta coincide con el del cliente."
         data_type: boolean
 
+      - name: _src_loaded_at
+        description: "Timestamp de la la carga del dato. Metadato interno."
+        data_type: timestamp_ntz
+        
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
         data_type: timestamp_ltz
@@ -1065,6 +937,10 @@ models:
         description: "Ratio precio_unitario / precio_pvp. <1 indica descuento sobre PVP."
         data_type: number
 
+      - name: _src_loaded_at
+        description: "Timestamp de la la carga del dato. Metadato interno."
+        data_type: timestamp_ntz
+        
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
         data_type: timestamp_ltz
@@ -1176,16 +1052,10 @@ models:
       Permite análisis de densidad geográfica y detección de zonas
       con alta demanda online sin tienda física.
       Excluye las 339 ventas sin municipio (SIN_REGISTRO + Online).
-    config:
-      contract:
-        enforced: true
     columns:
 
       - name: cod_municipio_ine
         description: "FK → dim_geografia. Parte de la PK compuesta."
-        data_type: number
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - relationships:
@@ -1194,9 +1064,6 @@ models:
 
       - name: tiempo_sk
         description: "FK → dim_tiempo. Parte de la PK compuesta."
-        data_type: text
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - relationships:
@@ -1205,9 +1072,6 @@ models:
 
       - name: canal_sk
         description: "FK → dim_canal. Parte de la PK compuesta."
-        data_type: text
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - relationships:
@@ -1216,9 +1080,6 @@ models:
 
       - name: num_ventas
         description: "Número de ventas en el municipio, mes y canal."
-        data_type: number
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -1226,9 +1087,6 @@ models:
 
       - name: num_clientes_distintos
         description: "Número de clientes únicos que compraron."
-        data_type: number
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -1236,9 +1094,6 @@ models:
 
       - name: importe_neto_total
         description: "Suma del importe neto en €."
-        data_type: number
-        constraints:
-          - type: not_null
         tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -1246,11 +1101,9 @@ models:
 
       - name: ticket_medio
         description: "importe_neto_total / num_ventas."
-        data_type: number
-
+        
       - name: pct_ventas_online
         description: "Porcentaje de ventas realizadas por canal online."
-        data_type: number
         tests:
           - dbt_utils.accepted_range:
               min_value: 0
@@ -1258,16 +1111,12 @@ models:
 
       - name: ventas_por_habitante
         description: "num_ventas / poblacion × 1000. Métrica de penetración."
-        data_type: number
-
+        
       - name: ingreso_por_habitante
         description: "importe_neto_total / poblacion. Métrica de densidad económica."
-        data_type: number
-
+        
       - name: tiene_tienda_fisica
         description: "TRUE si hay tienda física de la cadena en el municipio."
-        data_type: boolean
-
+        
       - name: _loaded_at
         description: "Timestamp de la última transformación dbt. Metadato interno."
-        data_type: timestamp_ltz

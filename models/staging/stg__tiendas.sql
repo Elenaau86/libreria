@@ -14,7 +14,7 @@ municipios as (
 canales as (
 
     select cod_canal, canal
-    from {{ ref('stg_bronze__canales_raw') }}
+    from {{ ref('stg__canales') }}
 
 ),
 

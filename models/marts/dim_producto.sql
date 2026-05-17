@@ -1,20 +1,20 @@
 with catalogo as (
 
-    select * from {{ ref('stg_bronze__catalogo_productos_raw') }}
+    select * from {{ ref('stg__catalogo_productos') }}
 
 ),
 
 autores as (
 
     select autor, num_titulos as num_titulos_autor
-    from {{ ref('stg_bronze__autores_raw') }}
+    from {{ ref('stg__autores') }}
 
 ),
 
 editoriales as (
 
     select editorial, num_titulos as num_titulos_editorial
-    from {{ ref('stg_bronze__editoriales_raw') }}
+    from {{ ref('stg__editoriales') }}
 
 ),
 
@@ -25,21 +25,21 @@ categorias as (
         num_titulos        as num_titulos_categoria,
         precio_pvp_medio   as precio_pvp_medio_categoria,
         margen_medio_pct   as margen_medio_categoria
-    from {{ ref('stg_bronze__categorias_raw') }}
+    from {{ ref('stg__categorias') }}
 
 ),
 
 idiomas as (
 
     select idioma, num_titulos as num_titulos_idioma
-    from {{ ref('stg_bronze__idiomas_raw') }}
+    from {{ ref('stg__idiomas') }}
 
 ),
 
 formatos as (
 
     select formato, num_titulos as num_titulos_formato, precio_pvp_medio as precio_pvp_medio_formato
-    from {{ ref('stg_bronze__formatos_raw') }}
+    from {{ ref('stg__formatos') }}
 
 ),
 
@@ -75,6 +75,10 @@ dim as (
         c.disponible_tienda,
         c.activo,
         c.fecha_alta_catalogo,
+
+        -- reseña e IA
+        c.resena_texto,
+        --snowflake.cortex.sentiment(c.resena_texto)               as sentimiento_resena,
 
         -- enriquecimiento desde catálogos Silver
         a.num_titulos_autor,

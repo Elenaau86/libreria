@@ -7,7 +7,8 @@ sources:
       Todas las columnas son VARCHAR sin transformación.
       La database se resuelve dinámicamente según el entorno activo
       (DEV_BRONZE_DB en desarrollo, PRO_BRONZE_DB en producción)."
-    database: "{{ target.name | upper }}_BRONZE_DB"
+      # "{{ target.name | upper }}_BRONZE_DB" #
+    database: "{{ env_var('DBT_BRONZE_DB', target.name | upper ~ '_BRONZE_DB') }}"
     schema: BOOKSTORE
 
     tables:
@@ -337,18 +338,6 @@ sources:
             tests:
               - not_null:
                   where: "cliente_id != 'SIN_REGISTRO'"
-              #- accepted_values:
-                  #values:
-                  #  - 'Andalucía'
-                  #  - 'Aragón'
-                  #  - 'C. Valenciana'
-                  #  - 'Castilla y León'
-                  #  - 'Cataluña'
-                  #  - 'Madrid'
-                  #  - 'País Vasco'
-                  #  - '-'
-                   # - not_null:
-                    #    where: "cliente_id != 'SIN_REGISTRO'"
  
           - name: canal_preferido
             description: >
@@ -566,26 +555,6 @@ sources:
             tests:
               - unique
               - not_null
-             # - accepted_values:
-             #     values:
-             #       - 'Alcobendas'
-             #       - 'Badalona'
-             #       - 'Barcelona Eixample'
-             #       - 'Bilbao'
-             #       - 'Dos Hermanas'
-             #       - 'Getafe'
-             #       - 'Getxo'
-             #       - 'Leganés'
-             #       - 'Madrid Centro'
-             #       - 'Mairena del Aljarafe'
-             #       - 'Marbella'
-             #       - 'Málaga Centro'
-             #       - 'Paterna'
-             #       - 'Pozuelo de Alarcón'
-             #       - 'Sevilla Centro'
-             #       - 'Valencia Centro'
-             #       - 'Valladolid'
-             #       - 'Zaragoza'
  
           - name: cod_municipio_ine
             description: >
@@ -632,15 +601,6 @@ sources:
               Nombre de la comunidad autónoma. 7 valores únicos. Sin nulos.
             tests:
               - not_null
-              #- accepted_values:
-              #    values:
-              #      - 'Andalucía'
-              #      - 'Aragón'
-              #      - 'C. Valenciana'
-              #      - 'Castilla y León'
-              #      - 'Cataluña'
-              #      - 'Madrid'
-              #      - 'País Vasco'
  
           - name: renta_media
             description: >

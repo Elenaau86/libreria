@@ -1,20 +1,20 @@
 with clientes as (
 
-    select * from {{ ref('stg_bronze__clientes_raw') }}
+    select * from {{ ref('stg__clientes') }}
 
 ),
 
 canales as (
 
     select cod_canal, canal
-    from {{ ref('stg_bronze__canales_raw') }}
+    from {{ ref('stg__canales') }}
 
 ),
 
 segmentos as (
 
     select cod_segmento_edad, segmento_edad
-    from {{ ref('stg_bronze__segmentos_edad_raw') }}
+    from {{ ref('stg__segmentos_edad') }}
 
 ),
 

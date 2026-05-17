@@ -1,6 +1,6 @@
 with clientes as (
 
-    select * from {{ ref('stg_bronze__clientes_raw') }}
+    select * from {{ ref('stg__clientes') }}
 
 ),
 
@@ -16,42 +16,42 @@ municipios as (
         rango_renta,
         poblacion,
         rango_poblacion
-    from {{ ref('stg_bronze__municipios_raw') }}
+    from {{ ref('stg__municipios') }}
 
 ),
 
 provincias as (
 
     select cod_provincia_ine, provincia
-    from {{ ref('stg_bronze__provincias_raw') }}
+    from {{ ref('stg__provincias') }}
 
 ),
 
 ccaa as (
 
     select cod_ccaa_ine, ccaa
-    from {{ ref('stg_bronze__ccaa_raw') }}
+    from {{ ref('stg__ccaa') }}
 
 ),
 
 tipos_zona as (
 
     select cod_tipo_zona, tipo_zona
-    from {{ ref('stg_bronze__tipos_zona_raw') }}
+    from {{ ref('stg__tipos_zona') }}
 
 ),
 
 canales as (
 
     select cod_canal, canal
-    from {{ ref('stg_bronze__canales_raw') }}
+    from {{ ref('stg__canales') }}
 
 ),
 
 segmentos as (
 
     select cod_segmento_edad, segmento_edad
-    from {{ ref('stg_bronze__segmentos_edad_raw') }}
+    from {{ ref('stg__segmentos_edad') }}
 
 ),
 
