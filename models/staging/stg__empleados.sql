@@ -4,20 +4,6 @@ with source as (
 
 ),
 
-generos as (
-
-    select cod_genero, genero
-    from {{ ref('stg__generos') }}
-
-),
-
-puestos as (
-
-    select cod_puesto, puesto
-    from {{ ref('stg__puestos') }}
-
-),
-
 renamed as (
 
     select
@@ -30,8 +16,8 @@ renamed as (
         edad                                                             as edad,
 
         -- FKs hacia tablas normalizadas
-        g.cod_genero,
-        p.cod_puesto,
+        {{ dbt_utils.generate_surrogate_key(['trim(genero)']) }}         as cod_genero,
+        {{ dbt_utils.generate_surrogate_key(['trim(puesto)']) }}         as cod_puesto,
 
         -- fechas y antigüedad
         fecha_contratacion                                              as fecha_contratacion,
@@ -58,10 +44,6 @@ renamed as (
         dbt_valid_to
 
     from source s
-    left join generos g
-        on nullif(trim(s.genero), '-') = g.genero
-    left join puestos p
-        on nullif(trim(s.puesto), '-') = p.puesto
 
 )
 

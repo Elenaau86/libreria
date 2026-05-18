@@ -7,9 +7,9 @@ with source as (
 dim as (
 
     select distinct
-        {{ dbt_utils.generate_surrogate_key(['genero']) }}        as cod_genero,
-        trim(genero)                                              as genero,
-        count(*) over (partition by trim(genero))                 as num_empleados
+        {{ dbt_utils.generate_surrogate_key(['trim(genero)']) }}        as cod_genero,
+        trim(genero)                                                    as genero,
+        count(*) over (partition by trim(genero))                       as num_empleados
 
     from source
     where genero is not null

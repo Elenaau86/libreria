@@ -7,7 +7,7 @@ with source as (
 dim as (
 
     select distinct
-        {{ dbt_utils.generate_surrogate_key(['autor']) }}        as cod_autor,
+        {{ dbt_utils.generate_surrogate_key(['trim(autor)']) }}  as cod_autor,
         trim(autor)                                              as autor,
         count(*) over (partition by trim(autor))                 as num_titulos
 

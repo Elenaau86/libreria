@@ -7,7 +7,7 @@ with source as (
 dim as (
 
     select distinct
-        {{ dbt_utils.generate_surrogate_key(['canal']) }}         as cod_canal,
+        {{ dbt_utils.generate_surrogate_key(['trim(canal)']) }}   as cod_canal,
         trim(canal)                                               as canal,
         iff(trim(canal) = 'Online', true, false)                  as es_digital
 

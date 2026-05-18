@@ -18,12 +18,7 @@ canales as (
 
 ),
 
-segmentos as (
 
-    select cod_segmento_edad, segmento_edad
-    from {{ ref('stg__segmentos_edad') }}
-
-),
 
 renamed as (
 
@@ -36,7 +31,7 @@ renamed as (
         try_cast(nullif(s.edad, '-') as integer)                         as edad,
 
         -- FK segmento edad
-        seg.cod_segmento_edad,
+        {{ dbt_utils.generate_surrogate_key(['segmento_edad']) }}        as cod_segmento_edad,
 
         -- FK municipio
         m.cod_municipio_ine,
@@ -59,8 +54,6 @@ renamed as (
         current_timestamp()                                              as _loaded_at
 
     from source s
-    left join segmentos seg
-        on nullif(trim(s.segmento_edad), '-') = seg.segmento_edad
     left join municipios m
         on nullif(trim(s.municipio), '-') = trim(m.municipio)
     left join canales c

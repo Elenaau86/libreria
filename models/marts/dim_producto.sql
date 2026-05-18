@@ -6,14 +6,14 @@ with catalogo as (
 
 autores as (
 
-    select autor, num_titulos as num_titulos_autor
+    select autor, cod_autor, num_titulos as num_titulos_autor
     from {{ ref('stg__autores') }}
 
 ),
 
 editoriales as (
 
-    select editorial, num_titulos as num_titulos_editorial
+    select editorial, cod_editorial, num_titulos as num_titulos_editorial
     from {{ ref('stg__editoriales') }}
 
 ),
@@ -22,6 +22,7 @@ categorias as (
 
     select
         categoria,
+        cod_categoria,
         num_titulos        as num_titulos_categoria,
         precio_pvp_medio   as precio_pvp_medio_categoria,
         margen_medio_pct   as margen_medio_categoria
@@ -31,14 +32,14 @@ categorias as (
 
 idiomas as (
 
-    select idioma, num_titulos as num_titulos_idioma
+    select idioma, cod_idioma, num_titulos as num_titulos_idioma
     from {{ ref('stg__idiomas') }}
 
 ),
 
 formatos as (
 
-    select formato, num_titulos as num_titulos_formato, precio_pvp_medio as precio_pvp_medio_formato
+    select formato, cod_formato, num_titulos as num_titulos_formato, precio_pvp_medio as precio_pvp_medio_formato
     from {{ ref('stg__formatos') }}
 
 ),
@@ -52,11 +53,11 @@ dim as (
         -- datos bibliográficos
         c.titulo,
         c.autor,
-        c.editorial,
-        c.categoria,
+        e.editorial,
+        cat.categoria,
         c.anio_publicacion,
-        c.idioma,
-        c.formato,
+        i.idioma,
+        f.formato,
         c.paginas,
 
         -- precios y margen
@@ -95,15 +96,15 @@ dim as (
 
     from catalogo c
     left join autores a
-        on c.autor = a.autor
+        on c.cod_autor = a.cod_autor
     left join editoriales e
-        on c.editorial = e.editorial
+        on c.cod_editorial = e.cod_editorial
     left join categorias cat
-        on c.categoria = cat.categoria
+        on c.cod_categoria = cat.cod_categoria
     left join idiomas i
-        on c.idioma = i.idioma
+        on c.cod_idioma = i.cod_idioma
     left join formatos f
-        on c.formato = f.formato
+        on c.cod_formato = f.cod_formato
 
 )
 

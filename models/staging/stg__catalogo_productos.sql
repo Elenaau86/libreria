@@ -12,12 +12,13 @@ renamed as (
 
         -- datos bibliográficos (texto limpio — sin códigos FK, eso va en marts)
         trim(titulo)                                                                     as titulo,
+        {{ dbt_utils.generate_surrogate_key(['trim(autor)']) }}                          as cod_autor,
         trim(autor)                                                                      as autor,
-        trim(editorial)                                                                  as editorial,
-        trim(categoria)                                                                  as categoria,
+        {{ dbt_utils.generate_surrogate_key(['trim(editorial)']) }}                      as cod_editorial,
+        {{ dbt_utils.generate_surrogate_key(['trim(categoria)']) }}                      as cod_categoria,
         try_cast(anio_publicacion as integer)                                            as anio_publicacion,
-        trim(idioma)                                                                     as idioma,
-        trim(formato)                                                                    as formato,
+        {{ dbt_utils.generate_surrogate_key(['trim(idioma)']) }}                         as cod_idioma,
+        {{ dbt_utils.generate_surrogate_key(['trim(formato)']) }}                        as cod_formato,
         try_cast(paginas as integer)                                                     as paginas,
 
         -- precios
