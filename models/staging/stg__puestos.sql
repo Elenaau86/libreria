@@ -7,7 +7,7 @@ with source as (
 dim as (
 
     select distinct
-        {{ dbt_utils.generate_surrogate_key(['puesto']) }}        as cod_puesto,
+        {{ dbt_utils.generate_surrogate_key(['trim(puesto)']) }}  as cod_puesto,
         trim(puesto)                                              as puesto,
         case
             when trim(puesto) ilike '%director%'    then 'Dirección'

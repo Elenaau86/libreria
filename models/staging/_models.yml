@@ -549,45 +549,29 @@ models:
         description: "Título del libro. 500 valores únicos."
         tests: [unique]
 
-      - name: autor
-        description: "Autor principal del libro. 57 autores únicos."
-
-      - name: editorial
-        description: "Editorial del libro. 15 editoriales únicas."
+      - name: cod_autor
+        description: "FK → stg__autores."
         tests:
-          - accepted_values:
-              values:
-                - 'Alfaguara'
-                - 'Alianza Editorial'
-                - 'Anagrama'
-                - 'Ariel'
-                - 'Crítica'
-                - 'Destino'
-                - 'Ediciones B'
-                - 'Espasa'
-                - 'Paidós'
-                - 'Penguin Clásicos'
-                - 'Planeta'
-                - 'Random House'
-                - 'Salamandra'
-                - 'Siruela'
-                - 'Tusquets'
+          - not_null
+          - relationships:
+              to: ref('stg__autores')
+              field: cod_autor
 
-      - name: categoria
-        description: "Categoría principal del producto. 10 valores posibles."
+      - name: cod_editorial
+        description: "FK → stg__editoriales."
         tests:
-          - accepted_values:
-              values:
-                - 'Arte y Fotografía'
-                - 'Autoayuda'
-                - 'Ciencia y Tecnología'
-                - 'Cómics/Manga'
-                - 'Economía/Negocios'
-                - 'Ficción'
-                - 'Historia'
-                - 'Idiomas'
-                - 'Infantil/Juvenil'
-                - 'No Ficción'
+          - not_null
+          - relationships:
+              to: ref('stg__editoriales')
+              field: cod_editorial
+
+      - name: cod_categoria
+        description: "FK → stg__categorias."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg__categorias')
+              field: cod_categoria  # ← el campo PK de stg__categorias
 
       - name: anio_publicacion
         description: "Año de publicación original. Rango: 1980–2024."
@@ -597,17 +581,21 @@ models:
               min_value: 1900
               max_value: 2025
 
-      - name: idioma
-        description: "Idioma del libro. 6 valores posibles."
+      - name: cod_idioma
+        description: "FK → stg__idiomas."
         tests:
-          - accepted_values:
-              values: ['Alemán', 'Catalán', 'Español', 'Euskera', 'Gallego', 'Inglés']
+          - not_null
+          - relationships:
+              to: ref('stg__idiomas')
+              field: cod_idioma
 
-      - name: formato
-        description: "Formato del libro. 4 valores: 'Tapa blanda' (266), 'Tapa dura' (147), 'Bolsillo' (71), 'Ebook' (16)."
+      - name: cod_formato
+        description: "FK → stg__formatos."
         tests:
-          - accepted_values:
-              values: ['Bolsillo', 'Ebook', 'Tapa blanda', 'Tapa dura']
+          - not_null
+          - relationships:
+              to: ref('stg__formatos')
+              field: cod_formato
 
       - name: paginas
         description: "Número de páginas. Rango: 73–698. Media: 326."
@@ -685,6 +673,10 @@ models:
       Catálogo de autores únicos extraído del catálogo de productos.
       57 autores únicos. Generado con SELECT DISTINCT desde stg__catalogo_productos.
     columns:
+      - name: cod_autor
+        description: "Clave surrogada hash generada sobre autor. PK del catálogo."
+        tests: [unique, not_null]
+
       - name: autor
         description: "Nombre completo del autor. Clave natural única. Los más frecuentes: John Berger (18), Mark Manson (17), Alan Moore (17)."
         tests: [unique, not_null]
@@ -693,7 +685,7 @@ models:
         description: "Número de títulos de este autor presentes en el catálogo."
         tests: [not_null]
 
-  # ─────────────────────────────────────────────────────────────────
+ # ─────────────────────────────────────────────────────────────────
   # STG__EDITORIALES
   # ─────────────────────────────────────────────────────────────────
   - name: stg__editoriales
@@ -701,6 +693,10 @@ models:
       Catálogo de editoriales únicas extraído del catálogo de productos.
       15 editoriales únicas. Generado con SELECT DISTINCT desde stg__catalogo_productos.
     columns:
+      - name: cod_editorial
+        description: "Clave surrogada hash generada sobre editorial. PK del catálogo."
+        tests: [unique, not_null]
+
       - name: editorial
         description: "Nombre de la editorial. Clave natural única. 15 valores posibles."
         tests:
@@ -723,11 +719,11 @@ models:
                 - 'Salamandra'
                 - 'Siruela'
                 - 'Tusquets'
-      
-  - name: num_titulos
-    description: "Número de títulos publicados por esta editorial en el catálogo."
-    tests: [not_null]
-  
+
+      - name: num_titulos
+        description: "Número de títulos publicados por esta editorial en el catálogo."
+        tests: [not_null]
+
   # ─────────────────────────────────────────────────────────────────
   # STG__CATEGORIAS
   # ─────────────────────────────────────────────────────────────────
@@ -737,6 +733,10 @@ models:
       10 categorías únicas. Generado con SELECT DISTINCT desde stg__catalogo_productos.
       Incluye precio medio y margen medio por categoría como métricas de referencia.
     columns:
+      - name: cod_categoria
+        description: "Clave surrogada hash generada sobre categoria. PK del catálogo."
+        tests: [unique, not_null]
+
       - name: categoria
         description: "Nombre de la categoría. Clave natural única. 10 valores posibles."
         tests:
@@ -754,7 +754,7 @@ models:
                 - 'Idiomas'
                 - 'Infantil/Juvenil'
                 - 'No Ficción'
-     
+
       - name: num_titulos
         description: "Número de títulos pertenecientes a esta categoría en el catálogo."
         tests: [not_null]
@@ -767,7 +767,6 @@ models:
         description: "Margen bruto medio en % de todos los títulos de la categoría."
         tests: [not_null]
 
-
   # ─────────────────────────────────────────────────────────────────
   # STG__IDIOMAS
   # ─────────────────────────────────────────────────────────────────
@@ -776,6 +775,10 @@ models:
       Catálogo de idiomas únicos extraído del catálogo de productos.
       6 idiomas únicos. Generado con SELECT DISTINCT desde stg__catalogo_productos.
     columns:
+      - name: cod_idioma
+        description: "Clave surrogada hash generada sobre idioma. PK del catálogo."
+        tests: [unique, not_null]
+
       - name: idioma
         description: "Nombre del idioma. Clave natural única. 6 valores posibles."
         tests:
@@ -788,7 +791,6 @@ models:
         description: "Número de títulos en este idioma en el catálogo."
         tests: [not_null]
 
-
   # ─────────────────────────────────────────────────────────────────
   # STG__FORMATOS
   # ─────────────────────────────────────────────────────────────────
@@ -798,6 +800,10 @@ models:
       4 formatos únicos. Generado con SELECT DISTINCT desde stg__catalogo_productos.
       Distribución: Tapa blanda (266), Tapa dura (147), Bolsillo (71), Ebook (16).
     columns:
+      - name: cod_formato
+        description: "Clave surrogada hash generada sobre formato. PK del catálogo."
+        tests: [unique, not_null]
+
       - name: formato
         description: "Nombre del formato. Clave natural única. 4 valores posibles."
         tests:

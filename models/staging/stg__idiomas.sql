@@ -1,15 +1,15 @@
 with source as (
 
-    select * from {{ ref('stg__catalogo_productos') }}
+    select * from {{ source('bronze', 'catalogo_productos_raw') }}
 
 ),
 
 dim as (
 
     select distinct
-        {{ dbt_utils.generate_surrogate_key(['idioma']) }}       as cod_idioma,
-        trim(idioma)                                             as idioma,
-        count(*) over (partition by trim(idioma))                as num_titulos
+        {{ dbt_utils.generate_surrogate_key(['trim(idioma)']) }}        as cod_idioma,
+        trim(idioma)                                                    as idioma,
+        count(*) over (partition by trim(idioma))                       as num_titulos
 
     from source
     where idioma is not null
