@@ -52,7 +52,7 @@ dim as (
 
         -- datos bibliográficos
         c.titulo,
-        c.autor,
+        a.autor,
         e.editorial,
         cat.categoria,
         c.anio_publicacion,
@@ -86,7 +86,7 @@ dim as (
         e.num_titulos_editorial,
         cat.num_titulos_categoria,
         cat.precio_pvp_medio_categoria,
-        cat.margen_medio_categoria,
+        CAST(cat.margen_medio_categoria AS NUMBER(10,4))  AS margen_medio_categoria,
         i.num_titulos_idioma,
         f.num_titulos_formato,
         f.precio_pvp_medio_formato,

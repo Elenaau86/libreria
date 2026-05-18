@@ -1,6 +1,6 @@
 with source as (
 
-    select * from {{ ref('stg__catalogo_productos') }}
+    select * from {{ source('bronze', 'catalogo_productos_raw') }}
 
 ),
 
