@@ -3,7 +3,7 @@ version: 2
 models:
 
   # ─────────────────────────────────────────────────────────────────
-  # STG_BRONZE__VENTAS_RAW
+  # STG_BRONZE__VENTAS_RAW 
   # ─────────────────────────────────────────────────────────────────
   - name: stg__ventas
     description: >
