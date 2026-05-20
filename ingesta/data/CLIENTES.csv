@@ -1,0 +1,802 @@
+cliente_id;nombre;edad;segmento_edad;municipio;provincia;ccaa;canal_preferido;fecha_alta;newsletter
+C0001;Sofía Herrera;26;26-40;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-10-13;Sí
+C0002;Alejandro Medina;35;26-40;Madrid Centro;Madrid;Madrid;Online;2021-07-11;Sí
+C0003;Antonio Pérez;18;18-25;Getxo;Vizcaya;País Vasco;Tienda física;2022-03-28;No
+C0004;Cristina Vázquez;22;18-25;Getxo;Vizcaya;País Vasco;Tienda física;2022-11-28;No
+C0005;Laura González;51;41-60;Madrid Centro;Madrid;Madrid;Online;2023-02-18;Sí
+C0006;Manuel Moreno;35;26-40;Zaragoza;Zaragoza;Aragón;Tienda física;2024-01-04;Sí
+C0007;Elena Jiménez;34;26-40;Paterna;Valencia;C. Valenciana;Online;2024-03-28;Sí
+C0008;Patricia Aguilar;26;26-40;Madrid Centro;Madrid;Madrid;Online;2022-04-22;Sí
+C0009;Elena Jiménez;33;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2022-12-29;Sí
+C0010;Alejandro Medina;43;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2023-12-30;Sí
+C0011;Miguel Rodríguez;49;41-60;Sevilla Centro;Sevilla;Andalucía;Online;2024-11-03;No
+C0012;Beatriz Santos;42;41-60;Bilbao;Vizcaya;País Vasco;Tienda física;2022-07-03;Sí
+C0013;Isabel Sánchez;23;18-25;Zaragoza;Zaragoza;Aragón;Tienda física;2021-10-20;No
+C0014;Laura González;37;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-04-12;No
+C0015;Cristina Vázquez;48;41-60;Marbella;Málaga;Andalucía;Online;2023-10-08;Sí
+C0016;Beatriz Santos;18;18-25;Barcelona Eixample;Barcelona;Cataluña;Online;2024-10-25;No
+C0017;Óscar Ramos;19;18-25;Zaragoza;Zaragoza;Aragón;Online;2023-12-20;No
+C0018;Pablo Domínguez;44;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Online;2024-08-05;No
+C0019;José Fernández;32;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2022-06-24;Sí
+C0020;Marta Torres;19;18-25;Leganés;Madrid;Madrid;Tienda física;2022-02-12;Sí
+C0021;Manuel Moreno;57;41-60;Leganés;Madrid;Madrid;Online;2022-10-26;No
+C0022;Ana García;52;41-60;Sevilla Centro;Sevilla;Andalucía;Online;2021-04-29;Sí
+C0023;Cristina Vázquez;27;26-40;Valladolid;Valladolid;Castilla y León;Online;2021-09-15;Sí
+C0024;Alejandro Medina;34;26-40;Marbella;Málaga;Andalucía;Online;2024-05-27;No
+C0025;Isabel Sánchez;37;26-40;Paterna;Valencia;C. Valenciana;Online;2023-06-17;No
+C0026;José Fernández;71;61+;Madrid Centro;Madrid;Madrid;Tienda física;2024-04-19;Sí
+C0027;Cristina Vázquez;21;18-25;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-05-19;Sí
+C0028;Lucía Álvarez;48;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2022-03-15;Sí
+C0029;Roberto Castillo;56;41-60;Badalona;Barcelona;Cataluña;Tienda física;2021-07-13;Sí
+C0030;Alejandro Medina;31;26-40;Zaragoza;Zaragoza;Aragón;Tienda física;2021-04-21;Sí
+C0031;Carlos López;64;61+;Sevilla Centro;Sevilla;Andalucía;Online;2022-01-28;Sí
+C0032;Pablo Domínguez;28;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Online;2023-08-06;Sí
+C0033;María Martínez;38;26-40;Pozuelo de Alarcón;Madrid;Madrid;Online;2024-08-28;Sí
+C0034;María Martínez;54;41-60;Málaga Centro;Málaga;Andalucía;Online;2022-03-14;No
+C0035;Carlos López;73;61+;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2023-07-21;No
+C0036;David Ruiz;28;26-40;Badalona;Barcelona;Cataluña;Tienda física;2021-04-30;Sí
+C0037;Roberto Castillo;42;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2023-10-27;Sí
+C0038;Carlos López;39;26-40;Leganés;Madrid;Madrid;Online;2021-05-20;Sí
+C0039;Elena Jiménez;19;18-25;Alcobendas;Madrid;Madrid;Online;2024-05-02;Sí
+C0040;Óscar Ramos;59;41-60;Marbella;Málaga;Andalucía;Tienda física;2022-10-10;No
+C0041;Isabel Sánchez;29;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-10-07;No
+C0042;Sara Romero;40;26-40;Zaragoza;Zaragoza;Aragón;Online;2024-06-26;Sí
+C0043;María Martínez;49;41-60;Paterna;Valencia;C. Valenciana;Tienda física;2021-05-21;Sí
+C0044;Manuel Moreno;22;18-25;Dos Hermanas;Sevilla;Andalucía;Tienda física;2024-06-06;Sí
+C0045;Alejandro Medina;65;61+;Mairena del Aljarafe;Sevilla;Andalucía;Online;2021-08-25;Sí
+C0046;Roberto Castillo;30;26-40;Badalona;Barcelona;Cataluña;Tienda física;2022-12-04;Sí
+C0047;Alejandro Medina;34;26-40;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2021-07-09;No
+C0048;Carmen Gómez;18;18-25;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2021-11-27;No
+C0049;Pablo Domínguez;34;26-40;Madrid Centro;Madrid;Madrid;Online;2024-11-16;Sí
+C0050;Pablo Domínguez;52;41-60;Valladolid;Valladolid;Castilla y León;Online;2021-10-31;No
+C0051;Laura González;52;41-60;Paterna;Valencia;C. Valenciana;Online;2022-03-07;Sí
+C0052;Alejandro Medina;58;41-60;Leganés;Madrid;Madrid;Online;2021-11-13;Sí
+C0053;Miguel Rodríguez;61;61+;Barcelona Eixample;Barcelona;Cataluña;Online;2022-11-12;No
+C0054;Alejandro Medina;64;61+;Bilbao;Vizcaya;País Vasco;Tienda física;2021-03-21;No
+C0055;Antonio Pérez;39;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2022-04-12;Sí
+C0056;Ana García;51;41-60;Madrid Centro;Madrid;Madrid;Online;2022-07-26;No
+C0057;Sofía Herrera;24;18-25;Madrid Centro;Madrid;Madrid;Tienda física;2021-08-25;No
+C0058;Miguel Rodríguez;26;26-40;Getxo;Vizcaya;País Vasco;Online;2022-12-09;No
+C0059;David Ruiz;59;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2021-04-01;No
+C0060;Ana García;54;41-60;Valencia Centro;Valencia;C. Valenciana;Online;2024-06-30;No
+C0061;Alejandro Medina;37;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2024-09-27;No
+C0062;Lucía Álvarez;24;18-25;Barcelona Eixample;Barcelona;Cataluña;Online;2022-01-28;No
+C0063;Alejandro Medina;46;41-60;Alcobendas;Madrid;Madrid;Tienda física;2022-09-09;No
+C0064;Pablo Domínguez;50;41-60;Getxo;Vizcaya;País Vasco;Online;2024-04-02;No
+C0065;Sara Romero;33;26-40;Málaga Centro;Málaga;Andalucía;Tienda física;2021-12-14;Sí
+C0066;Francisco Díaz;48;41-60;Sevilla Centro;Sevilla;Andalucía;Tienda física;2022-02-12;Sí
+C0067;Ana García;18;18-25;Madrid Centro;Madrid;Madrid;Online;2023-07-22;No
+C0068;Sofía Herrera;76;61+;Bilbao;Vizcaya;País Vasco;Online;2022-05-15;Sí
+C0069;Sofía Herrera;74;61+;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-12-27;No
+C0070;Carlos López;44;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-08-10;No
+C0071;Beatriz Santos;35;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2023-07-03;Sí
+C0072;Roberto Castillo;68;61+;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2023-12-04;No
+C0073;Sofía Herrera;63;61+;Dos Hermanas;Sevilla;Andalucía;Online;2022-04-26;No
+C0074;Lucía Álvarez;63;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-11-05;Sí
+C0075;Elena Jiménez;37;26-40;Getxo;Vizcaya;País Vasco;Online;2023-04-15;No
+C0076;Pablo Domínguez;32;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2023-03-09;Sí
+C0077;Beatriz Santos;72;61+;Dos Hermanas;Sevilla;Andalucía;Tienda física;2023-03-10;No
+C0078;Pablo Domínguez;48;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2023-09-22;Sí
+C0079;Elena Jiménez;23;18-25;Zaragoza;Zaragoza;Aragón;Tienda física;2021-09-19;Sí
+C0080;Elena Jiménez;54;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2022-01-08;Sí
+C0081;Carmen Gómez;31;26-40;Valencia Centro;Valencia;C. Valenciana;Online;2022-11-23;No
+C0082;Carmen Gómez;76;61+;Madrid Centro;Madrid;Madrid;Tienda física;2024-01-10;Sí
+C0083;Manuel Moreno;43;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2022-05-22;Sí
+C0084;Ana García;45;41-60;Getafe;Madrid;Madrid;Tienda física;2024-03-01;Sí
+C0085;Sara Romero;66;61+;Leganés;Madrid;Madrid;Online;2024-05-28;Sí
+C0086;Beatriz Santos;44;41-60;Madrid Centro;Madrid;Madrid;Online;2022-10-01;No
+C0087;Elena Jiménez;27;26-40;Getafe;Madrid;Madrid;Tienda física;2024-11-28;No
+C0088;Alejandro Medina;19;18-25;Paterna;Valencia;C. Valenciana;Online;2023-12-28;No
+C0089;Alejandro Medina;57;41-60;Madrid Centro;Madrid;Madrid;Online;2023-05-11;No
+C0090;José Fernández;55;41-60;Getxo;Vizcaya;País Vasco;Online;2021-12-27;No
+C0091;Óscar Ramos;54;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Online;2022-10-23;Sí
+C0092;María Martínez;55;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2024-03-13;No
+C0093;Lucía Álvarez;51;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2022-03-11;No
+C0094;Carmen Gómez;60;41-60;Valladolid;Valladolid;Castilla y León;Online;2021-01-21;Sí
+C0095;María Martínez;37;26-40;Valladolid;Valladolid;Castilla y León;Online;2022-05-08;No
+C0096;Sofía Herrera;33;26-40;Dos Hermanas;Sevilla;Andalucía;Online;2022-03-30;No
+C0097;Patricia Aguilar;30;26-40;Málaga Centro;Málaga;Andalucía;Online;2024-02-08;No
+C0098;David Ruiz;55;41-60;Dos Hermanas;Sevilla;Andalucía;Online;2022-05-30;Sí
+C0099;José Fernández;78;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-01-28;Sí
+C0100;Roberto Castillo;30;26-40;Leganés;Madrid;Madrid;Online;2022-08-03;Sí
+C0101;Isabel Sánchez;29;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2021-01-29;Sí
+C0102;Carmen Gómez;26;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2024-07-30;No
+C0103;José Fernández;35;26-40;Málaga Centro;Málaga;Andalucía;Tienda física;2023-06-22;No
+C0104;Miguel Rodríguez;30;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2023-04-01;No
+C0105;María Martínez;45;41-60;Dos Hermanas;Sevilla;Andalucía;Online;2021-06-24;Sí
+C0106;José Fernández;60;41-60;Sevilla Centro;Sevilla;Andalucía;Tienda física;2023-12-07;No
+C0107;Sara Romero;59;41-60;Dos Hermanas;Sevilla;Andalucía;Online;2024-03-10;Sí
+C0108;Óscar Ramos;19;18-25;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-09-14;Sí
+C0109;Miguel Rodríguez;63;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-01-06;No
+C0110;Sara Romero;30;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2024-12-18;No
+C0111;Patricia Aguilar;69;61+;Alcobendas;Madrid;Madrid;Online;2024-09-16;Sí
+C0112;David Ruiz;19;18-25;Mairena del Aljarafe;Sevilla;Andalucía;Online;2021-10-19;Sí
+C0113;Carlos López;50;41-60;Alcobendas;Madrid;Madrid;Online;2022-08-15;No
+C0114;José Fernández;25;18-25;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2023-10-22;No
+C0115;Sara Romero;42;41-60;Valencia Centro;Valencia;C. Valenciana;Tienda física;2024-05-21;No
+C0116;Ana García;29;26-40;Madrid Centro;Madrid;Madrid;Online;2024-10-08;No
+C0117;Cristina Vázquez;46;41-60;Marbella;Málaga;Andalucía;Tienda física;2024-08-27;No
+C0118;Carmen Gómez;35;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2023-08-21;No
+C0119;David Ruiz;31;26-40;Valencia Centro;Valencia;C. Valenciana;Tienda física;2023-04-24;No
+C0120;Francisco Díaz;58;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2021-06-30;No
+C0121;Carmen Gómez;23;18-25;Madrid Centro;Madrid;Madrid;Tienda física;2024-09-08;No
+C0122;David Ruiz;29;26-40;Leganés;Madrid;Madrid;Tienda física;2023-10-18;No
+C0123;Beatriz Santos;29;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2022-08-13;No
+C0124;Patricia Aguilar;80;61+;Sevilla Centro;Sevilla;Andalucía;Tienda física;2024-12-24;Sí
+C0125;Francisco Díaz;54;41-60;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-08-21;No
+C0126;José Fernández;50;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2023-05-01;No
+C0127;Jorge Navarro;58;41-60;Bilbao;Vizcaya;País Vasco;Tienda física;2022-01-26;Sí
+C0128;María Martínez;22;18-25;Marbella;Málaga;Andalucía;Tienda física;2022-07-02;Sí
+C0129;Francisco Díaz;39;26-40;Málaga Centro;Málaga;Andalucía;Tienda física;2021-11-01;No
+C0130;Pablo Domínguez;25;18-25;Valladolid;Valladolid;Castilla y León;Tienda física;2023-02-12;No
+C0131;Lucía Álvarez;48;41-60;Bilbao;Vizcaya;País Vasco;Online;2022-04-24;No
+C0132;Carlos López;23;18-25;Bilbao;Vizcaya;País Vasco;Tienda física;2024-09-21;Sí
+C0133;Jorge Navarro;57;41-60;Valencia Centro;Valencia;C. Valenciana;Online;2021-07-25;No
+C0134;José Fernández;45;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-06-03;No
+C0135;Carmen Gómez;63;61+;Valencia Centro;Valencia;C. Valenciana;Tienda física;2024-10-13;No
+C0136;Lucía Álvarez;58;41-60;Leganés;Madrid;Madrid;Tienda física;2021-05-21;Sí
+C0137;Sofía Herrera;29;26-40;Getafe;Madrid;Madrid;Tienda física;2024-07-21;Sí
+C0138;Sara Romero;20;18-25;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2022-10-27;Sí
+C0139;Francisco Díaz;23;18-25;Sevilla Centro;Sevilla;Andalucía;Online;2023-12-24;No
+C0140;Cristina Vázquez;46;41-60;Leganés;Madrid;Madrid;Tienda física;2023-02-23;Sí
+C0141;Jorge Navarro;69;61+;Zaragoza;Zaragoza;Aragón;Online;2022-06-07;Sí
+C0142;Sara Romero;36;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2023-06-24;No
+C0143;Cristina Vázquez;22;18-25;Zaragoza;Zaragoza;Aragón;Tienda física;2022-09-11;Sí
+C0144;Elena Jiménez;25;18-25;Alcobendas;Madrid;Madrid;Tienda física;2023-01-06;No
+C0145;Patricia Aguilar;69;61+;Madrid Centro;Madrid;Madrid;Tienda física;2024-03-05;Sí
+C0146;Óscar Ramos;39;26-40;Leganés;Madrid;Madrid;Tienda física;2022-12-23;Sí
+C0147;Sofía Herrera;49;41-60;Getafe;Madrid;Madrid;Tienda física;2024-07-09;Sí
+C0148;Francisco Díaz;26;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2021-07-04;No
+C0149;Lucía Álvarez;28;26-40;Valladolid;Valladolid;Castilla y León;Online;2023-01-20;No
+C0150;Miguel Rodríguez;70;61+;Valencia Centro;Valencia;C. Valenciana;Tienda física;2021-08-24;No
+C0151;María Martínez;48;41-60;Valladolid;Valladolid;Castilla y León;Tienda física;2023-01-20;Sí
+C0152;Elena Jiménez;58;41-60;Zaragoza;Zaragoza;Aragón;Online;2023-01-25;No
+C0153;Cristina Vázquez;64;61+;Sevilla Centro;Sevilla;Andalucía;Tienda física;2023-08-24;Sí
+C0154;Óscar Ramos;68;61+;Madrid Centro;Madrid;Madrid;Tienda física;2024-07-25;No
+C0155;Patricia Aguilar;22;18-25;Barcelona Eixample;Barcelona;Cataluña;Online;2021-04-03;Sí
+C0156;Francisco Díaz;68;61+;Valladolid;Valladolid;Castilla y León;Online;2021-10-05;No
+C0157;Sara Romero;58;41-60;Alcobendas;Madrid;Madrid;Online;2021-11-13;No
+C0158;Sofía Herrera;39;26-40;Getxo;Vizcaya;País Vasco;Online;2022-07-27;Sí
+C0159;Patricia Aguilar;23;18-25;Sevilla Centro;Sevilla;Andalucía;Tienda física;2023-01-13;Sí
+C0160;Alejandro Medina;52;41-60;Bilbao;Vizcaya;País Vasco;Tienda física;2022-07-20;Sí
+C0161;José Fernández;47;41-60;Madrid Centro;Madrid;Madrid;Online;2021-04-14;No
+C0162;Antonio Pérez;67;61+;Madrid Centro;Madrid;Madrid;Tienda física;2024-02-10;Sí
+C0163;Cristina Vázquez;39;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-05-05;Sí
+C0164;Carmen Gómez;20;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-08-14;Sí
+C0165;Laura González;48;41-60;Valencia Centro;Valencia;C. Valenciana;Tienda física;2021-02-02;Sí
+C0166;Carmen Gómez;54;41-60;Getafe;Madrid;Madrid;Tienda física;2021-05-11;No
+C0167;Sara Romero;64;61+;Zaragoza;Zaragoza;Aragón;Online;2023-10-29;Sí
+C0168;Óscar Ramos;57;41-60;Zaragoza;Zaragoza;Aragón;Online;2024-08-10;Sí
+C0169;Carlos López;25;18-25;Getafe;Madrid;Madrid;Online;2023-10-02;No
+C0170;María Martínez;31;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2021-09-16;No
+C0171;Óscar Ramos;77;61+;Dos Hermanas;Sevilla;Andalucía;Online;2023-07-19;No
+C0172;José Fernández;39;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2023-07-14;Sí
+C0173;David Ruiz;73;61+;Getxo;Vizcaya;País Vasco;Tienda física;2021-07-14;No
+C0174;David Ruiz;36;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-11-07;No
+C0175;María Martínez;39;26-40;Getxo;Vizcaya;País Vasco;Online;2021-07-17;No
+C0176;Laura González;18;18-25;Valencia Centro;Valencia;C. Valenciana;Online;2024-10-04;Sí
+C0177;David Ruiz;23;18-25;Dos Hermanas;Sevilla;Andalucía;Online;2024-05-14;No
+C0178;Manuel Moreno;35;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2024-09-06;No
+C0179;Antonio Pérez;72;61+;Getafe;Madrid;Madrid;Tienda física;2022-07-25;Sí
+C0180;David Ruiz;35;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2022-07-14;No
+C0181;Lucía Álvarez;26;26-40;Alcobendas;Madrid;Madrid;Online;2024-09-08;No
+C0182;María Martínez;37;26-40;Marbella;Málaga;Andalucía;Online;2022-03-17;No
+C0183;David Ruiz;46;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2022-10-27;Sí
+C0184;Carlos López;62;61+;Madrid Centro;Madrid;Madrid;Tienda física;2022-07-12;No
+C0185;Alejandro Medina;24;18-25;Getxo;Vizcaya;País Vasco;Online;2022-07-14;Sí
+C0186;Beatriz Santos;31;26-40;Dos Hermanas;Sevilla;Andalucía;Online;2024-10-20;No
+C0187;Marta Torres;26;26-40;Leganés;Madrid;Madrid;Tienda física;2021-04-23;Sí
+C0188;Isabel Sánchez;29;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2022-11-03;Sí
+C0189;Ana García;25;18-25;Barcelona Eixample;Barcelona;Cataluña;Online;2023-02-18;Sí
+C0190;Marta Torres;53;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2021-02-08;No
+C0191;María Martínez;23;18-25;Bilbao;Vizcaya;País Vasco;Tienda física;2024-12-24;No
+C0192;Francisco Díaz;32;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2024-06-19;No
+C0193;Patricia Aguilar;23;18-25;Sevilla Centro;Sevilla;Andalucía;Online;2023-06-12;No
+C0194;Marta Torres;19;18-25;Sevilla Centro;Sevilla;Andalucía;Tienda física;2022-11-14;Sí
+C0195;María Martínez;57;41-60;Paterna;Valencia;C. Valenciana;Tienda física;2022-12-21;Sí
+C0196;Antonio Pérez;19;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-05-18;Sí
+C0197;Beatriz Santos;56;41-60;Alcobendas;Madrid;Madrid;Tienda física;2024-04-01;No
+C0198;Alejandro Medina;39;26-40;Zaragoza;Zaragoza;Aragón;Online;2021-05-20;No
+C0199;Sara Romero;49;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2022-12-22;Sí
+C0200;Francisco Díaz;25;18-25;Paterna;Valencia;C. Valenciana;Online;2022-08-11;Sí
+C0201;Sofía Herrera;35;26-40;Bilbao;Vizcaya;País Vasco;Online;2023-08-06;Sí
+C0202;Sara Romero;31;26-40;Marbella;Málaga;Andalucía;Tienda física;2021-11-05;Sí
+C0203;Sara Romero;19;18-25;Marbella;Málaga;Andalucía;Tienda física;2024-08-16;Sí
+C0204;Carlos López;21;18-25;Marbella;Málaga;Andalucía;Online;2023-12-07;Sí
+C0205;Manuel Moreno;73;61+;Getxo;Vizcaya;País Vasco;Tienda física;2022-11-24;Sí
+C0206;Sofía Herrera;27;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2024-10-21;No
+C0207;Francisco Díaz;65;61+;Valencia Centro;Valencia;C. Valenciana;Tienda física;2021-06-16;Sí
+C0208;Manuel Moreno;53;41-60;Leganés;Madrid;Madrid;Online;2024-12-22;Sí
+C0209;Francisco Díaz;36;26-40;Marbella;Málaga;Andalucía;Tienda física;2021-07-11;No
+C0210;Marta Torres;23;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-03-15;No
+C0211;Beatriz Santos;29;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-06-08;No
+C0212;José Fernández;51;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2024-05-08;No
+C0213;Laura González;28;26-40;Zaragoza;Zaragoza;Aragón;Online;2021-03-31;No
+C0214;Manuel Moreno;33;26-40;Zaragoza;Zaragoza;Aragón;Tienda física;2022-04-25;Sí
+C0215;Francisco Díaz;47;41-60;Alcobendas;Madrid;Madrid;Tienda física;2023-06-22;No
+C0216;Beatriz Santos;38;26-40;Marbella;Málaga;Andalucía;Tienda física;2023-05-08;Sí
+C0217;Isabel Sánchez;49;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2023-01-31;Sí
+C0218;Patricia Aguilar;66;61+;Mairena del Aljarafe;Sevilla;Andalucía;Online;2023-07-10;Sí
+C0219;David Ruiz;19;18-25;Paterna;Valencia;C. Valenciana;Tienda física;2021-02-24;No
+C0220;Carlos López;24;18-25;Bilbao;Vizcaya;País Vasco;Tienda física;2021-06-17;No
+C0221;Antonio Pérez;31;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2021-10-09;Sí
+C0222;Francisco Díaz;45;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2024-06-14;Sí
+C0223;María Martínez;30;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2024-05-31;No
+C0224;José Fernández;29;26-40;Pozuelo de Alarcón;Madrid;Madrid;Online;2022-05-04;No
+C0225;Sofía Herrera;27;26-40;Leganés;Madrid;Madrid;Online;2024-01-03;Sí
+C0226;Sofía Herrera;37;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2021-01-04;No
+C0227;Antonio Pérez;28;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2021-05-19;Sí
+C0228;Elena Jiménez;25;18-25;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2021-02-03;No
+C0229;María Martínez;44;41-60;Valencia Centro;Valencia;C. Valenciana;Online;2021-10-01;Sí
+C0230;Manuel Moreno;46;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2024-07-17;Sí
+C0231;Laura González;62;61+;Dos Hermanas;Sevilla;Andalucía;Tienda física;2022-02-17;Sí
+C0232;Isabel Sánchez;31;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2024-01-18;No
+C0233;Carmen Gómez;18;18-25;Paterna;Valencia;C. Valenciana;Tienda física;2021-04-08;No
+C0234;Carmen Gómez;38;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2023-06-20;No
+C0235;Lucía Álvarez;20;18-25;Marbella;Málaga;Andalucía;Tienda física;2022-07-01;Sí
+C0236;Roberto Castillo;54;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2024-01-23;No
+C0237;Lucía Álvarez;27;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2023-07-03;No
+C0238;Miguel Rodríguez;55;41-60;Paterna;Valencia;C. Valenciana;Tienda física;2024-06-13;No
+C0239;Carmen Gómez;27;26-40;Marbella;Málaga;Andalucía;Online;2024-10-23;Sí
+C0240;Ana García;39;26-40;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2021-09-16;Sí
+C0241;Antonio Pérez;31;26-40;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2024-05-24;Sí
+C0242;Alejandro Medina;25;18-25;Madrid Centro;Madrid;Madrid;Tienda física;2024-03-21;Sí
+C0243;Marta Torres;69;61+;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-08-21;Sí
+C0244;Roberto Castillo;57;41-60;Valladolid;Valladolid;Castilla y León;Online;2021-08-30;No
+C0245;Beatriz Santos;55;41-60;Leganés;Madrid;Madrid;Tienda física;2022-08-08;No
+C0246;Isabel Sánchez;75;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-12-31;No
+C0247;María Martínez;36;26-40;Valladolid;Valladolid;Castilla y León;Online;2024-01-16;No
+C0248;Francisco Díaz;46;41-60;Marbella;Málaga;Andalucía;Online;2022-04-05;Sí
+C0249;Isabel Sánchez;20;18-25;Paterna;Valencia;C. Valenciana;Online;2024-02-09;No
+C0250;Sara Romero;43;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2023-03-27;No
+C0251;Marta Torres;38;26-40;Madrid Centro;Madrid;Madrid;Online;2021-09-14;No
+C0252;Sofía Herrera;33;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2021-09-20;Sí
+C0253;Beatriz Santos;20;18-25;Getafe;Madrid;Madrid;Online;2023-11-28;Sí
+C0254;Francisco Díaz;68;61+;Paterna;Valencia;C. Valenciana;Online;2023-11-29;No
+C0255;María Martínez;58;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-07-04;No
+C0256;Óscar Ramos;19;18-25;Alcobendas;Madrid;Madrid;Tienda física;2021-11-12;Sí
+C0257;Alejandro Medina;59;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2021-06-16;Sí
+C0258;Sofía Herrera;36;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2024-06-19;Sí
+C0259;Jorge Navarro;36;26-40;Sevilla Centro;Sevilla;Andalucía;Online;2024-11-03;No
+C0260;Francisco Díaz;42;41-60;Zaragoza;Zaragoza;Aragón;Online;2023-05-02;No
+C0261;Sara Romero;60;41-60;Valencia Centro;Valencia;C. Valenciana;Tienda física;2022-10-16;No
+C0262;Elena Jiménez;38;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2021-08-06;No
+C0263;Antonio Pérez;27;26-40;Sevilla Centro;Sevilla;Andalucía;Online;2021-10-16;Sí
+C0264;Carlos López;60;41-60;Sevilla Centro;Sevilla;Andalucía;Online;2021-11-24;No
+C0265;Cristina Vázquez;23;18-25;Marbella;Málaga;Andalucía;Online;2023-08-15;No
+C0266;Francisco Díaz;25;18-25;Marbella;Málaga;Andalucía;Online;2023-07-26;Sí
+C0267;Isabel Sánchez;26;26-40;Málaga Centro;Málaga;Andalucía;Tienda física;2024-05-08;No
+C0268;Francisco Díaz;44;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2022-06-26;No
+C0269;Beatriz Santos;24;18-25;Pozuelo de Alarcón;Madrid;Madrid;Online;2024-03-13;Sí
+C0270;Manuel Moreno;53;41-60;Zaragoza;Zaragoza;Aragón;Online;2024-02-01;No
+C0271;Óscar Ramos;44;41-60;Paterna;Valencia;C. Valenciana;Online;2022-11-26;No
+C0272;Beatriz Santos;20;18-25;Bilbao;Vizcaya;País Vasco;Online;2023-10-22;Sí
+C0273;Carlos López;28;26-40;Marbella;Málaga;Andalucía;Online;2023-07-25;Sí
+C0274;Óscar Ramos;31;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-03-16;No
+C0275;Cristina Vázquez;57;41-60;Málaga Centro;Málaga;Andalucía;Online;2024-12-22;No
+C0276;Jorge Navarro;51;41-60;Getxo;Vizcaya;País Vasco;Online;2024-04-10;No
+C0277;Roberto Castillo;56;41-60;Alcobendas;Madrid;Madrid;Online;2024-03-28;Sí
+C0278;Roberto Castillo;35;26-40;Marbella;Málaga;Andalucía;Tienda física;2024-07-12;No
+C0279;Laura González;59;41-60;Badalona;Barcelona;Cataluña;Online;2021-02-08;No
+C0280;Lucía Álvarez;67;61+;Getxo;Vizcaya;País Vasco;Tienda física;2023-10-25;No
+C0281;Roberto Castillo;37;26-40;Badalona;Barcelona;Cataluña;Online;2024-02-23;No
+C0282;Alejandro Medina;53;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2023-07-31;No
+C0283;Pablo Domínguez;23;18-25;Málaga Centro;Málaga;Andalucía;Tienda física;2022-01-29;Sí
+C0284;Carmen Gómez;29;26-40;Badalona;Barcelona;Cataluña;Online;2024-11-14;No
+C0285;Lucía Álvarez;25;18-25;Dos Hermanas;Sevilla;Andalucía;Tienda física;2021-09-07;No
+C0286;Elena Jiménez;38;26-40;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2022-08-13;Sí
+C0287;Manuel Moreno;49;41-60;Badalona;Barcelona;Cataluña;Tienda física;2022-02-18;No
+C0288;Pablo Domínguez;44;41-60;Alcobendas;Madrid;Madrid;Tienda física;2022-05-06;Sí
+C0289;Carlos López;36;26-40;Getafe;Madrid;Madrid;Tienda física;2023-04-27;No
+C0290;Patricia Aguilar;45;41-60;Valladolid;Valladolid;Castilla y León;Online;2021-11-20;No
+C0291;Sofía Herrera;33;26-40;Valencia Centro;Valencia;C. Valenciana;Tienda física;2022-08-08;Sí
+C0292;Beatriz Santos;36;26-40;Valladolid;Valladolid;Castilla y León;Online;2021-03-18;Sí
+C0293;David Ruiz;40;26-40;Málaga Centro;Málaga;Andalucía;Online;2022-01-17;No
+C0294;Carlos López;59;41-60;Getafe;Madrid;Madrid;Tienda física;2022-11-18;No
+C0295;Sara Romero;45;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2022-07-13;Sí
+C0296;José Fernández;23;18-25;Barcelona Eixample;Barcelona;Cataluña;Online;2021-01-29;No
+C0297;Francisco Díaz;60;41-60;Getxo;Vizcaya;País Vasco;Online;2023-11-22;No
+C0298;María Martínez;36;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-09-05;No
+C0299;Antonio Pérez;18;18-25;Zaragoza;Zaragoza;Aragón;Online;2022-07-01;No
+C0300;Francisco Díaz;52;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2024-09-29;Sí
+C0301;Sara Romero;28;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2024-11-14;Sí
+C0302;Sofía Herrera;31;26-40;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-10-01;No
+C0303;Laura González;37;26-40;Getxo;Vizcaya;País Vasco;Online;2024-12-08;No
+C0304;Beatriz Santos;38;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2023-12-13;No
+C0305;Marta Torres;64;61+;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2024-01-27;Sí
+C0306;Cristina Vázquez;51;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2021-08-27;Sí
+C0307;Patricia Aguilar;27;26-40;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2023-07-18;Sí
+C0308;Marta Torres;33;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2023-08-05;No
+C0309;Roberto Castillo;61;61+;Badalona;Barcelona;Cataluña;Online;2024-03-30;Sí
+C0310;Carlos López;78;61+;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2021-05-22;No
+C0311;Carlos López;65;61+;Getxo;Vizcaya;País Vasco;Tienda física;2023-02-06;No
+C0312;Sara Romero;32;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-08-31;No
+C0313;José Fernández;20;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-04-02;Sí
+C0314;Beatriz Santos;18;18-25;Getxo;Vizcaya;País Vasco;Tienda física;2023-12-26;No
+C0315;Antonio Pérez;33;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2022-01-22;Sí
+C0316;Carlos López;41;41-60;Badalona;Barcelona;Cataluña;Tienda física;2021-05-18;Sí
+C0317;Óscar Ramos;33;26-40;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-04-01;No
+C0318;Sara Romero;34;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2023-10-29;No
+C0319;Antonio Pérez;71;61+;Sevilla Centro;Sevilla;Andalucía;Online;2022-09-11;Sí
+C0320;Alejandro Medina;69;61+;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2024-02-15;Sí
+C0321;Sofía Herrera;62;61+;Paterna;Valencia;C. Valenciana;Online;2024-08-10;No
+C0322;Marta Torres;37;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-09-07;No
+C0323;Miguel Rodríguez;70;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-08-07;Sí
+C0324;Pablo Domínguez;32;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-03-07;Sí
+C0325;Carmen Gómez;31;26-40;Paterna;Valencia;C. Valenciana;Online;2021-07-09;Sí
+C0326;Carlos López;32;26-40;Pozuelo de Alarcón;Madrid;Madrid;Online;2021-05-30;Sí
+C0327;Beatriz Santos;21;18-25;Dos Hermanas;Sevilla;Andalucía;Online;2021-02-01;Sí
+C0328;Isabel Sánchez;37;26-40;Leganés;Madrid;Madrid;Tienda física;2024-12-12;Sí
+C0329;Elena Jiménez;34;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2023-08-13;No
+C0330;Francisco Díaz;76;61+;Zaragoza;Zaragoza;Aragón;Tienda física;2021-07-21;No
+C0331;Beatriz Santos;47;41-60;Valencia Centro;Valencia;C. Valenciana;Online;2023-04-28;Sí
+C0332;Cristina Vázquez;45;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-02-08;No
+C0333;Francisco Díaz;29;26-40;Bilbao;Vizcaya;País Vasco;Online;2024-03-12;Sí
+C0334;Jorge Navarro;56;41-60;Zaragoza;Zaragoza;Aragón;Online;2021-12-11;No
+C0335;Miguel Rodríguez;20;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-01-16;Sí
+C0336;Marta Torres;43;41-60;Madrid Centro;Madrid;Madrid;Online;2023-04-25;Sí
+C0337;Sofía Herrera;45;41-60;Badalona;Barcelona;Cataluña;Online;2023-11-02;No
+C0338;Manuel Moreno;60;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2021-02-02;Sí
+C0339;Pablo Domínguez;24;18-25;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-01-03;No
+C0340;Ana García;64;61+;Getafe;Madrid;Madrid;Tienda física;2023-12-10;Sí
+C0341;Antonio Pérez;69;61+;Paterna;Valencia;C. Valenciana;Tienda física;2022-07-02;No
+C0342;María Martínez;23;18-25;Sevilla Centro;Sevilla;Andalucía;Online;2024-11-28;Sí
+C0343;Francisco Díaz;36;26-40;Bilbao;Vizcaya;País Vasco;Online;2023-02-16;No
+C0344;Pablo Domínguez;25;18-25;Madrid Centro;Madrid;Madrid;Online;2023-10-21;No
+C0345;Sofía Herrera;44;41-60;Pozuelo de Alarcón;Madrid;Madrid;Online;2022-04-16;Sí
+C0346;Patricia Aguilar;30;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-01-18;Sí
+C0347;Miguel Rodríguez;47;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2024-12-30;No
+C0348;María Martínez;28;26-40;Alcobendas;Madrid;Madrid;Tienda física;2023-03-08;No
+C0349;Elena Jiménez;43;41-60;Paterna;Valencia;C. Valenciana;Tienda física;2021-04-20;Sí
+C0350;David Ruiz;43;41-60;Leganés;Madrid;Madrid;Tienda física;2024-06-11;No
+C0351;Beatriz Santos;49;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2022-04-13;No
+C0352;Pablo Domínguez;32;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2021-06-25;No
+C0353;Antonio Pérez;27;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2024-12-28;Sí
+C0354;Roberto Castillo;24;18-25;Madrid Centro;Madrid;Madrid;Online;2021-01-11;No
+C0355;Sara Romero;49;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-06-28;Sí
+C0356;David Ruiz;58;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2021-07-31;Sí
+C0357;María Martínez;43;41-60;Leganés;Madrid;Madrid;Online;2022-10-27;No
+C0358;Ana García;63;61+;Valladolid;Valladolid;Castilla y León;Online;2022-05-13;Sí
+C0359;Alejandro Medina;45;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2022-07-04;No
+C0360;Laura González;28;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2022-09-06;No
+C0361;María Martínez;23;18-25;Leganés;Madrid;Madrid;Tienda física;2024-06-16;Sí
+C0362;Sara Romero;19;18-25;Bilbao;Vizcaya;País Vasco;Tienda física;2022-11-12;No
+C0363;Lucía Álvarez;80;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-09-08;No
+C0364;Óscar Ramos;51;41-60;Bilbao;Vizcaya;País Vasco;Online;2022-10-16;No
+C0365;Roberto Castillo;25;18-25;Bilbao;Vizcaya;País Vasco;Online;2022-07-29;No
+C0366;Manuel Moreno;59;41-60;Alcobendas;Madrid;Madrid;Tienda física;2024-01-23;Sí
+C0367;Alejandro Medina;37;26-40;Zaragoza;Zaragoza;Aragón;Tienda física;2022-08-20;Sí
+C0368;David Ruiz;28;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-09-10;Sí
+C0369;Patricia Aguilar;53;41-60;Zaragoza;Zaragoza;Aragón;Online;2024-05-09;No
+C0370;Cristina Vázquez;57;41-60;Valladolid;Valladolid;Castilla y León;Online;2021-03-17;No
+C0371;Patricia Aguilar;72;61+;Barcelona Eixample;Barcelona;Cataluña;Online;2024-08-18;Sí
+C0372;Cristina Vázquez;38;26-40;Getafe;Madrid;Madrid;Tienda física;2021-01-22;Sí
+C0373;Carmen Gómez;34;26-40;Alcobendas;Madrid;Madrid;Online;2024-11-09;Sí
+C0374;Sara Romero;79;61+;Marbella;Málaga;Andalucía;Online;2021-11-05;No
+C0375;Ana García;27;26-40;Madrid Centro;Madrid;Madrid;Online;2021-08-26;Sí
+C0376;Manuel Moreno;67;61+;Marbella;Málaga;Andalucía;Tienda física;2023-09-17;No
+C0377;Jorge Navarro;71;61+;Madrid Centro;Madrid;Madrid;Online;2022-09-07;Sí
+C0378;Patricia Aguilar;51;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-05-15;Sí
+C0379;Pablo Domínguez;58;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2022-04-20;No
+C0380;Sofía Herrera;54;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2024-06-11;Sí
+C0381;Sara Romero;24;18-25;Badalona;Barcelona;Cataluña;Online;2022-07-25;Sí
+C0382;Cristina Vázquez;38;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2022-10-30;Sí
+C0383;Sara Romero;19;18-25;Valencia Centro;Valencia;C. Valenciana;Tienda física;2024-05-07;No
+C0384;Óscar Ramos;35;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2023-07-27;Sí
+C0385;Alejandro Medina;22;18-25;Madrid Centro;Madrid;Madrid;Online;2024-10-08;Sí
+C0386;Lucía Álvarez;50;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2023-02-04;Sí
+C0387;Marta Torres;60;41-60;Alcobendas;Madrid;Madrid;Tienda física;2023-02-25;No
+C0388;Miguel Rodríguez;36;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2021-12-08;No
+C0389;Francisco Díaz;20;18-25;Leganés;Madrid;Madrid;Tienda física;2021-04-20;No
+C0390;Ana García;47;41-60;Valladolid;Valladolid;Castilla y León;Online;2023-11-02;No
+C0391;David Ruiz;32;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-06-19;Sí
+C0392;Beatriz Santos;21;18-25;Sevilla Centro;Sevilla;Andalucía;Online;2024-01-07;No
+C0393;Miguel Rodríguez;35;26-40;Marbella;Málaga;Andalucía;Online;2021-08-20;Sí
+C0394;Carmen Gómez;42;41-60;Valladolid;Valladolid;Castilla y León;Online;2022-03-24;No
+C0395;José Fernández;30;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Online;2022-12-15;Sí
+C0396;Sara Romero;19;18-25;Alcobendas;Madrid;Madrid;Tienda física;2024-11-12;No
+C0397;Patricia Aguilar;24;18-25;Badalona;Barcelona;Cataluña;Tienda física;2022-02-28;Sí
+C0398;Cristina Vázquez;49;41-60;Valladolid;Valladolid;Castilla y León;Tienda física;2021-12-11;No
+C0399;Patricia Aguilar;30;26-40;Marbella;Málaga;Andalucía;Tienda física;2024-10-23;Sí
+C0400;Laura González;40;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-12-07;Sí
+C0401;Antonio Pérez;51;41-60;Bilbao;Vizcaya;País Vasco;Tienda física;2023-09-30;Sí
+C0402;Cristina Vázquez;73;61+;Zaragoza;Zaragoza;Aragón;Online;2021-06-04;Sí
+C0403;Elena Jiménez;75;61+;Málaga Centro;Málaga;Andalucía;Online;2022-11-02;Sí
+C0404;Beatriz Santos;55;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2023-12-31;No
+C0405;Isabel Sánchez;47;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2022-10-24;No
+C0406;Lucía Álvarez;35;26-40;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2021-04-05;Sí
+C0407;Sofía Herrera;25;18-25;Zaragoza;Zaragoza;Aragón;Online;2023-07-24;Sí
+C0408;David Ruiz;70;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-07-16;Sí
+C0409;Sofía Herrera;43;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-04-17;No
+C0410;Sofía Herrera;74;61+;Madrid Centro;Madrid;Madrid;Online;2024-12-12;Sí
+C0411;Ana García;65;61+;Alcobendas;Madrid;Madrid;Tienda física;2022-04-09;No
+C0412;Ana García;37;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2024-11-22;Sí
+C0413;Jorge Navarro;63;61+;Getafe;Madrid;Madrid;Tienda física;2021-07-31;No
+C0414;Manuel Moreno;65;61+;Barcelona Eixample;Barcelona;Cataluña;Online;2021-05-21;Sí
+C0415;Óscar Ramos;52;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-04-24;No
+C0416;Isabel Sánchez;44;41-60;Getafe;Madrid;Madrid;Tienda física;2024-04-22;No
+C0417;Manuel Moreno;31;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Online;2024-08-13;Sí
+C0418;Antonio Pérez;38;26-40;Badalona;Barcelona;Cataluña;Tienda física;2023-11-27;Sí
+C0419;Roberto Castillo;30;26-40;Málaga Centro;Málaga;Andalucía;Tienda física;2023-03-02;Sí
+C0420;Antonio Pérez;36;26-40;Marbella;Málaga;Andalucía;Online;2021-01-25;No
+C0421;Lucía Álvarez;74;61+;Paterna;Valencia;C. Valenciana;Online;2024-01-24;Sí
+C0422;Beatriz Santos;43;41-60;Alcobendas;Madrid;Madrid;Online;2021-05-19;Sí
+C0423;Carmen Gómez;73;61+;Marbella;Málaga;Andalucía;Tienda física;2022-08-10;No
+C0424;David Ruiz;27;26-40;Leganés;Madrid;Madrid;Tienda física;2021-11-09;No
+C0425;María Martínez;27;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2024-01-04;No
+C0426;Elena Jiménez;30;26-40;Pozuelo de Alarcón;Madrid;Madrid;Online;2022-05-16;Sí
+C0427;David Ruiz;19;18-25;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2022-09-26;Sí
+C0428;José Fernández;45;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-10-14;No
+C0429;Marta Torres;52;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2021-08-30;Sí
+C0430;Lucía Álvarez;30;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Online;2024-12-29;Sí
+C0431;Jorge Navarro;52;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2024-03-06;Sí
+C0432;Manuel Moreno;30;26-40;Getafe;Madrid;Madrid;Tienda física;2022-04-13;Sí
+C0433;Carlos López;18;18-25;Paterna;Valencia;C. Valenciana;Online;2023-02-24;Sí
+C0434;Miguel Rodríguez;34;26-40;Valencia Centro;Valencia;C. Valenciana;Tienda física;2022-05-24;No
+C0435;Roberto Castillo;30;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2021-09-02;Sí
+C0436;Miguel Rodríguez;38;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2021-05-22;No
+C0437;Francisco Díaz;78;61+;Zaragoza;Zaragoza;Aragón;Online;2021-01-17;No
+C0438;Isabel Sánchez;80;61+;Sevilla Centro;Sevilla;Andalucía;Online;2023-08-09;No
+C0439;Cristina Vázquez;47;41-60;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-11-05;Sí
+C0440;David Ruiz;29;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2022-11-18;Sí
+C0441;Beatriz Santos;64;61+;Badalona;Barcelona;Cataluña;Tienda física;2023-12-22;Sí
+C0442;David Ruiz;26;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2021-03-31;Sí
+C0443;Marta Torres;37;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2024-04-04;Sí
+C0444;Marta Torres;63;61+;Alcobendas;Madrid;Madrid;Online;2024-03-08;Sí
+C0445;David Ruiz;69;61+;Valencia Centro;Valencia;C. Valenciana;Online;2023-03-16;No
+C0446;Lucía Álvarez;48;41-60;Badalona;Barcelona;Cataluña;Tienda física;2021-10-06;Sí
+C0447;Laura González;75;61+;Valencia Centro;Valencia;C. Valenciana;Online;2023-04-13;Sí
+C0448;Pablo Domínguez;47;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2023-08-07;No
+C0449;José Fernández;50;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2022-03-17;No
+C0450;Laura González;48;41-60;Bilbao;Vizcaya;País Vasco;Online;2023-11-18;Sí
+C0451;Alejandro Medina;30;26-40;Bilbao;Vizcaya;País Vasco;Online;2023-07-16;Sí
+C0452;José Fernández;27;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2021-05-07;Sí
+C0453;Laura González;39;26-40;Madrid Centro;Madrid;Madrid;Online;2024-04-07;No
+C0454;María Martínez;47;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-07-08;No
+C0455;José Fernández;33;26-40;Alcobendas;Madrid;Madrid;Tienda física;2023-06-07;No
+C0456;Jorge Navarro;18;18-25;Paterna;Valencia;C. Valenciana;Online;2022-03-16;Sí
+C0457;Carmen Gómez;33;26-40;Leganés;Madrid;Madrid;Online;2024-06-22;Sí
+C0458;Sofía Herrera;54;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2021-05-05;Sí
+C0459;Carmen Gómez;54;41-60;Marbella;Málaga;Andalucía;Tienda física;2022-05-26;Sí
+C0460;Elena Jiménez;33;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2024-03-04;No
+C0461;Elena Jiménez;22;18-25;Leganés;Madrid;Madrid;Tienda física;2022-03-25;Sí
+C0462;Beatriz Santos;26;26-40;Paterna;Valencia;C. Valenciana;Online;2024-04-11;Sí
+C0463;Miguel Rodríguez;29;26-40;Valladolid;Valladolid;Castilla y León;Online;2021-04-25;Sí
+C0464;Cristina Vázquez;31;26-40;Sevilla Centro;Sevilla;Andalucía;Tienda física;2024-04-28;No
+C0465;Roberto Castillo;59;41-60;Paterna;Valencia;C. Valenciana;Online;2024-03-08;Sí
+C0466;Cristina Vázquez;39;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2021-12-26;No
+C0467;Carlos López;26;26-40;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-02-10;No
+C0468;Ana García;60;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2022-11-29;Sí
+C0469;Lucía Álvarez;79;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-08-16;No
+C0470;María Martínez;23;18-25;Getafe;Madrid;Madrid;Tienda física;2022-11-21;No
+C0471;Lucía Álvarez;76;61+;Valencia Centro;Valencia;C. Valenciana;Tienda física;2021-12-23;No
+C0472;Antonio Pérez;32;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2021-12-30;Sí
+C0473;Patricia Aguilar;59;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2024-05-18;No
+C0474;Óscar Ramos;59;41-60;Málaga Centro;Málaga;Andalucía;Online;2021-10-16;No
+C0475;Roberto Castillo;52;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-07-26;Sí
+C0476;Patricia Aguilar;41;41-60;Badalona;Barcelona;Cataluña;Tienda física;2022-05-27;Sí
+C0477;Manuel Moreno;44;41-60;Pozuelo de Alarcón;Madrid;Madrid;Online;2023-03-02;No
+C0478;Roberto Castillo;28;26-40;Bilbao;Vizcaya;País Vasco;Online;2022-12-21;No
+C0479;José Fernández;25;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-07-14;Sí
+C0480;Carlos López;26;26-40;Getafe;Madrid;Madrid;Online;2021-06-01;No
+C0481;Miguel Rodríguez;43;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2022-11-24;No
+C0482;Patricia Aguilar;32;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2021-11-18;Sí
+C0483;José Fernández;47;41-60;Valladolid;Valladolid;Castilla y León;Tienda física;2024-01-12;No
+C0484;Alejandro Medina;30;26-40;Pozuelo de Alarcón;Madrid;Madrid;Online;2023-03-16;No
+C0485;Laura González;18;18-25;Madrid Centro;Madrid;Madrid;Tienda física;2022-08-27;No
+C0486;Isabel Sánchez;26;26-40;Dos Hermanas;Sevilla;Andalucía;Online;2021-06-17;No
+C0487;José Fernández;22;18-25;Málaga Centro;Málaga;Andalucía;Tienda física;2024-09-15;No
+C0488;María Martínez;73;61+;Paterna;Valencia;C. Valenciana;Tienda física;2022-01-18;No
+C0489;Carlos López;55;41-60;Sevilla Centro;Sevilla;Andalucía;Online;2022-07-05;Sí
+C0490;Laura González;78;61+;Getxo;Vizcaya;País Vasco;Tienda física;2024-04-22;Sí
+C0491;Pablo Domínguez;53;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2024-01-02;No
+C0492;Cristina Vázquez;50;41-60;Bilbao;Vizcaya;País Vasco;Tienda física;2021-03-13;Sí
+C0493;José Fernández;28;26-40;Badalona;Barcelona;Cataluña;Tienda física;2021-09-16;Sí
+C0494;David Ruiz;19;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-05-03;No
+C0495;Lucía Álvarez;53;41-60;Bilbao;Vizcaya;País Vasco;Online;2024-02-05;No
+C0496;Carmen Gómez;80;61+;Alcobendas;Madrid;Madrid;Online;2023-12-07;No
+C0497;José Fernández;28;26-40;Alcobendas;Madrid;Madrid;Online;2024-04-08;Sí
+C0498;José Fernández;50;41-60;Paterna;Valencia;C. Valenciana;Tienda física;2023-04-22;No
+C0499;Elena Jiménez;25;18-25;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2021-12-19;No
+C0500;Elena Jiménez;60;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2023-03-22;No
+C0501;Patricia Aguilar;21;18-25;Paterna;Valencia;C. Valenciana;Online;2021-02-11;No
+C0502;Francisco Díaz;22;18-25;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-10-03;No
+C0503;Roberto Castillo;51;41-60;Getxo;Vizcaya;País Vasco;Online;2024-05-23;Sí
+C0504;Isabel Sánchez;54;41-60;Marbella;Málaga;Andalucía;Tienda física;2023-02-05;Sí
+C0505;Marta Torres;77;61+;Bilbao;Vizcaya;País Vasco;Tienda física;2021-10-05;Sí
+C0506;Miguel Rodríguez;40;26-40;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-03-09;No
+C0507;Carlos López;69;61+;Paterna;Valencia;C. Valenciana;Tienda física;2023-08-09;No
+C0508;Sofía Herrera;19;18-25;Paterna;Valencia;C. Valenciana;Online;2023-09-29;No
+C0509;Miguel Rodríguez;35;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2021-12-01;No
+C0510;Roberto Castillo;41;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2021-11-30;Sí
+C0511;Antonio Pérez;21;18-25;Getxo;Vizcaya;País Vasco;Tienda física;2023-11-18;Sí
+C0512;Beatriz Santos;45;41-60;Leganés;Madrid;Madrid;Tienda física;2021-01-18;Sí
+C0513;Carmen Gómez;37;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2022-12-16;No
+C0514;Carmen Gómez;33;26-40;Leganés;Madrid;Madrid;Online;2023-03-25;Sí
+C0515;Ana García;23;18-25;Dos Hermanas;Sevilla;Andalucía;Online;2022-09-04;Sí
+C0516;Jorge Navarro;71;61+;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2022-06-19;No
+C0517;Isabel Sánchez;34;26-40;Leganés;Madrid;Madrid;Tienda física;2023-04-08;No
+C0518;Alejandro Medina;41;41-60;Dos Hermanas;Sevilla;Andalucía;Online;2022-06-16;No
+C0519;Elena Jiménez;42;41-60;Alcobendas;Madrid;Madrid;Tienda física;2022-01-24;No
+C0520;Roberto Castillo;21;18-25;Paterna;Valencia;C. Valenciana;Tienda física;2023-11-05;No
+C0521;Miguel Rodríguez;20;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-06-14;Sí
+C0522;Alejandro Medina;43;41-60;Paterna;Valencia;C. Valenciana;Online;2022-04-03;No
+C0523;David Ruiz;49;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2023-08-08;Sí
+C0524;Jorge Navarro;39;26-40;Leganés;Madrid;Madrid;Tienda física;2021-05-26;No
+C0525;Isabel Sánchez;53;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2023-04-27;Sí
+C0526;Laura González;29;26-40;Alcobendas;Madrid;Madrid;Online;2023-07-27;Sí
+C0527;Lucía Álvarez;43;41-60;Valencia Centro;Valencia;C. Valenciana;Tienda física;2024-07-16;Sí
+C0528;Lucía Álvarez;18;18-25;Badalona;Barcelona;Cataluña;Online;2021-12-12;Sí
+C0529;Jorge Navarro;60;41-60;Getxo;Vizcaya;País Vasco;Online;2023-04-07;No
+C0530;Jorge Navarro;24;18-25;Badalona;Barcelona;Cataluña;Online;2023-02-04;Sí
+C0531;Lucía Álvarez;68;61+;Sevilla Centro;Sevilla;Andalucía;Tienda física;2024-11-21;No
+C0532;Francisco Díaz;20;18-25;Alcobendas;Madrid;Madrid;Tienda física;2022-09-19;Sí
+C0533;María Martínez;30;26-40;Marbella;Málaga;Andalucía;Tienda física;2024-05-06;No
+C0534;David Ruiz;31;26-40;Badalona;Barcelona;Cataluña;Online;2021-12-04;No
+C0535;Ana García;45;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2024-04-22;Sí
+C0536;José Fernández;37;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-01-01;Sí
+C0537;Óscar Ramos;61;61+;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2024-11-13;Sí
+C0538;David Ruiz;44;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2023-08-30;Sí
+C0539;Isabel Sánchez;30;26-40;Marbella;Málaga;Andalucía;Tienda física;2022-07-07;Sí
+C0540;David Ruiz;60;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2021-08-22;Sí
+C0541;Jorge Navarro;47;41-60;Marbella;Málaga;Andalucía;Tienda física;2022-02-18;No
+C0542;Patricia Aguilar;30;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2023-10-14;Sí
+C0543;Patricia Aguilar;48;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2024-10-07;Sí
+C0544;José Fernández;25;18-25;Madrid Centro;Madrid;Madrid;Online;2021-07-27;No
+C0545;Sofía Herrera;69;61+;Zaragoza;Zaragoza;Aragón;Tienda física;2021-04-13;Sí
+C0546;Miguel Rodríguez;39;26-40;Valencia Centro;Valencia;C. Valenciana;Tienda física;2023-05-23;Sí
+C0547;José Fernández;45;41-60;Valencia Centro;Valencia;C. Valenciana;Online;2023-01-03;No
+C0548;Óscar Ramos;40;26-40;Valencia Centro;Valencia;C. Valenciana;Online;2022-01-10;Sí
+C0549;Elena Jiménez;24;18-25;Málaga Centro;Málaga;Andalucía;Tienda física;2023-05-14;Sí
+C0550;José Fernández;42;41-60;Getafe;Madrid;Madrid;Online;2023-05-03;No
+C0551;Cristina Vázquez;28;26-40;Paterna;Valencia;C. Valenciana;Online;2024-06-06;Sí
+C0552;Alejandro Medina;56;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2023-06-22;Sí
+C0553;María Martínez;22;18-25;Marbella;Málaga;Andalucía;Tienda física;2024-03-26;Sí
+C0554;Alejandro Medina;80;61+;Getafe;Madrid;Madrid;Tienda física;2023-06-06;Sí
+C0555;Jorge Navarro;53;41-60;Valladolid;Valladolid;Castilla y León;Tienda física;2024-06-09;Sí
+C0556;Ana García;20;18-25;Barcelona Eixample;Barcelona;Cataluña;Online;2021-06-03;No
+C0557;Lucía Álvarez;62;61+;Marbella;Málaga;Andalucía;Online;2022-04-02;No
+C0558;Elena Jiménez;27;26-40;Alcobendas;Madrid;Madrid;Tienda física;2023-07-07;Sí
+C0559;Jorge Navarro;76;61+;Madrid Centro;Madrid;Madrid;Online;2021-07-30;No
+C0560;David Ruiz;61;61+;Madrid Centro;Madrid;Madrid;Tienda física;2024-05-22;No
+C0561;Marta Torres;36;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2021-04-22;Sí
+C0562;Sara Romero;60;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2024-09-07;No
+C0563;Patricia Aguilar;44;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2022-12-01;No
+C0564;Sofía Herrera;34;26-40;Getafe;Madrid;Madrid;Tienda física;2021-04-04;Sí
+C0565;Jorge Navarro;64;61+;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-06-05;Sí
+C0566;Isabel Sánchez;53;41-60;Zaragoza;Zaragoza;Aragón;Online;2022-01-26;No
+C0567;José Fernández;59;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2023-07-26;Sí
+C0568;Jorge Navarro;42;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2024-04-13;No
+C0569;Marta Torres;37;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-08-01;No
+C0570;Alejandro Medina;53;41-60;Leganés;Madrid;Madrid;Tienda física;2024-11-19;Sí
+C0571;Carmen Gómez;31;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-10-10;No
+C0572;Óscar Ramos;58;41-60;Valladolid;Valladolid;Castilla y León;Online;2024-07-19;Sí
+C0573;Isabel Sánchez;50;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-12-25;Sí
+C0574;Marta Torres;37;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2023-09-11;No
+C0575;Alejandro Medina;54;41-60;Marbella;Málaga;Andalucía;Online;2021-08-07;Sí
+C0576;Elena Jiménez;67;61+;Mairena del Aljarafe;Sevilla;Andalucía;Online;2021-11-26;No
+C0577;Alejandro Medina;28;26-40;Badalona;Barcelona;Cataluña;Online;2024-01-14;Sí
+C0578;Manuel Moreno;78;61+;Sevilla Centro;Sevilla;Andalucía;Online;2024-08-18;No
+C0579;Antonio Pérez;37;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2023-05-04;No
+C0580;Pablo Domínguez;26;26-40;Leganés;Madrid;Madrid;Online;2023-06-27;Sí
+C0581;Sofía Herrera;59;41-60;Leganés;Madrid;Madrid;Online;2022-02-07;Sí
+C0582;Francisco Díaz;43;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2023-11-19;Sí
+C0583;Elena Jiménez;49;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2021-09-24;Sí
+C0584;Cristina Vázquez;51;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2021-03-23;Sí
+C0585;Lucía Álvarez;60;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2024-03-18;No
+C0586;María Martínez;34;26-40;Marbella;Málaga;Andalucía;Tienda física;2021-05-20;Sí
+C0587;David Ruiz;27;26-40;Badalona;Barcelona;Cataluña;Online;2024-09-20;No
+C0588;Lucía Álvarez;47;41-60;Marbella;Málaga;Andalucía;Tienda física;2023-08-31;Sí
+C0589;José Fernández;48;41-60;Leganés;Madrid;Madrid;Tienda física;2022-05-15;Sí
+C0590;Alejandro Medina;32;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-01-12;No
+C0591;Ana García;23;18-25;Málaga Centro;Málaga;Andalucía;Online;2021-03-31;No
+C0592;Sofía Herrera;63;61+;Getafe;Madrid;Madrid;Tienda física;2021-12-09;Sí
+C0593;Sofía Herrera;47;41-60;Getafe;Madrid;Madrid;Tienda física;2022-02-26;No
+C0594;Sofía Herrera;19;18-25;Zaragoza;Zaragoza;Aragón;Online;2022-11-11;Sí
+C0595;María Martínez;46;41-60;Valladolid;Valladolid;Castilla y León;Online;2021-05-25;Sí
+C0596;Carmen Gómez;32;26-40;Getxo;Vizcaya;País Vasco;Online;2022-10-10;Sí
+C0597;Elena Jiménez;34;26-40;Madrid Centro;Madrid;Madrid;Online;2024-04-14;Sí
+C0598;Patricia Aguilar;31;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2024-11-05;No
+C0599;Óscar Ramos;30;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2024-09-15;Sí
+C0600;Jorge Navarro;34;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2024-01-23;No
+C0601;Sofía Herrera;20;18-25;Valladolid;Valladolid;Castilla y León;Online;2024-02-11;Sí
+C0602;José Fernández;26;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2024-01-06;Sí
+C0603;Francisco Díaz;52;41-60;Getxo;Vizcaya;País Vasco;Online;2024-08-15;Sí
+C0604;Miguel Rodríguez;60;41-60;Badalona;Barcelona;Cataluña;Tienda física;2021-08-23;Sí
+C0605;Alejandro Medina;75;61+;Valladolid;Valladolid;Castilla y León;Online;2021-05-30;No
+C0606;Alejandro Medina;30;26-40;Alcobendas;Madrid;Madrid;Online;2023-09-25;No
+C0607;Manuel Moreno;64;61+;Dos Hermanas;Sevilla;Andalucía;Online;2024-06-22;Sí
+C0608;Isabel Sánchez;33;26-40;Leganés;Madrid;Madrid;Tienda física;2024-09-12;No
+C0609;Patricia Aguilar;20;18-25;Valencia Centro;Valencia;C. Valenciana;Tienda física;2023-05-28;Sí
+C0610;Ana García;29;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2023-01-07;Sí
+C0611;Alejandro Medina;23;18-25;Zaragoza;Zaragoza;Aragón;Tienda física;2023-01-05;No
+C0612;Jorge Navarro;63;61+;Mairena del Aljarafe;Sevilla;Andalucía;Online;2021-10-14;Sí
+C0613;Carmen Gómez;37;26-40;Marbella;Málaga;Andalucía;Online;2024-07-17;Sí
+C0614;Cristina Vázquez;38;26-40;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2024-02-04;No
+C0615;Pablo Domínguez;36;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2022-04-03;No
+C0616;Laura González;25;18-25;Bilbao;Vizcaya;País Vasco;Online;2023-01-16;Sí
+C0617;Alejandro Medina;39;26-40;Marbella;Málaga;Andalucía;Online;2021-10-15;No
+C0618;Miguel Rodríguez;59;41-60;Málaga Centro;Málaga;Andalucía;Online;2023-01-05;Sí
+C0619;Antonio Pérez;69;61+;Paterna;Valencia;C. Valenciana;Tienda física;2022-04-25;Sí
+C0620;Alejandro Medina;52;41-60;Málaga Centro;Málaga;Andalucía;Online;2023-07-21;Sí
+C0621;Carlos López;27;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-03-31;Sí
+C0622;Elena Jiménez;31;26-40;Marbella;Málaga;Andalucía;Online;2022-05-31;No
+C0623;Antonio Pérez;52;41-60;Málaga Centro;Málaga;Andalucía;Tienda física;2024-05-22;Sí
+C0624;Marta Torres;46;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2023-11-20;No
+C0625;Isabel Sánchez;20;18-25;Leganés;Madrid;Madrid;Tienda física;2021-08-31;Sí
+C0626;David Ruiz;37;26-40;Málaga Centro;Málaga;Andalucía;Online;2023-09-09;Sí
+C0627;Cristina Vázquez;54;41-60;Sevilla Centro;Sevilla;Andalucía;Tienda física;2021-03-30;Sí
+C0628;Cristina Vázquez;62;61+;Alcobendas;Madrid;Madrid;Tienda física;2021-10-28;Sí
+C0629;Miguel Rodríguez;40;26-40;Bilbao;Vizcaya;País Vasco;Tienda física;2024-05-12;Sí
+C0630;Roberto Castillo;47;41-60;Leganés;Madrid;Madrid;Tienda física;2023-08-24;No
+C0631;Miguel Rodríguez;21;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-04-08;Sí
+C0632;Óscar Ramos;51;41-60;Leganés;Madrid;Madrid;Tienda física;2024-04-24;Sí
+C0633;Antonio Pérez;32;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2022-02-19;No
+C0634;Laura González;56;41-60;Leganés;Madrid;Madrid;Tienda física;2021-03-21;Sí
+C0635;María Martínez;45;41-60;Valladolid;Valladolid;Castilla y León;Online;2021-01-03;No
+C0636;Marta Torres;31;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2022-04-15;No
+C0637;Beatriz Santos;59;41-60;Getafe;Madrid;Madrid;Online;2023-05-22;Sí
+C0638;Carmen Gómez;38;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2024-05-10;No
+C0639;Carmen Gómez;41;41-60;Marbella;Málaga;Andalucía;Online;2021-08-30;Sí
+C0640;Elena Jiménez;21;18-25;Paterna;Valencia;C. Valenciana;Tienda física;2021-08-07;Sí
+C0641;David Ruiz;58;41-60;Alcobendas;Madrid;Madrid;Tienda física;2023-01-19;No
+C0642;Alejandro Medina;74;61+;Valladolid;Valladolid;Castilla y León;Tienda física;2024-02-16;No
+C0643;Miguel Rodríguez;58;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Online;2022-09-21;No
+C0644;Beatriz Santos;37;26-40;Sevilla Centro;Sevilla;Andalucía;Online;2023-07-04;Sí
+C0645;José Fernández;53;41-60;Valladolid;Valladolid;Castilla y León;Tienda física;2024-06-11;Sí
+C0646;Miguel Rodríguez;24;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-08-24;No
+C0647;María Martínez;30;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2024-06-01;Sí
+C0648;Roberto Castillo;53;41-60;Marbella;Málaga;Andalucía;Online;2022-08-10;Sí
+C0649;Beatriz Santos;36;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2022-02-18;No
+C0650;Isabel Sánchez;38;26-40;Marbella;Málaga;Andalucía;Tienda física;2024-12-01;Sí
+C0651;Óscar Ramos;36;26-40;Sevilla Centro;Sevilla;Andalucía;Online;2024-09-03;Sí
+C0652;Miguel Rodríguez;19;18-25;Bilbao;Vizcaya;País Vasco;Online;2023-04-11;Sí
+C0653;Marta Torres;18;18-25;Valladolid;Valladolid;Castilla y León;Online;2022-08-06;No
+C0654;Manuel Moreno;60;41-60;Zaragoza;Zaragoza;Aragón;Tienda física;2023-04-08;Sí
+C0655;Carmen Gómez;32;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2021-05-29;No
+C0656;Lucía Álvarez;57;41-60;Valladolid;Valladolid;Castilla y León;Online;2024-03-23;No
+C0657;Patricia Aguilar;59;41-60;Sevilla Centro;Sevilla;Andalucía;Online;2022-11-27;No
+C0658;Alejandro Medina;40;26-40;Málaga Centro;Málaga;Andalucía;Tienda física;2021-08-27;No
+C0659;María Martínez;36;26-40;Valencia Centro;Valencia;C. Valenciana;Tienda física;2023-04-25;No
+C0660;Marta Torres;49;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2021-07-10;No
+C0661;Alejandro Medina;27;26-40;Málaga Centro;Málaga;Andalucía;Online;2022-10-05;No
+C0662;Isabel Sánchez;76;61+;Badalona;Barcelona;Cataluña;Tienda física;2022-04-26;Sí
+C0663;Carmen Gómez;47;41-60;Leganés;Madrid;Madrid;Tienda física;2022-12-31;Sí
+C0664;Beatriz Santos;43;41-60;Leganés;Madrid;Madrid;Tienda física;2021-01-14;Sí
+C0665;Jorge Navarro;23;18-25;Alcobendas;Madrid;Madrid;Tienda física;2022-07-17;No
+C0666;Miguel Rodríguez;48;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2021-04-21;No
+C0667;Jorge Navarro;73;61+;Barcelona Eixample;Barcelona;Cataluña;Online;2023-07-26;Sí
+C0668;Patricia Aguilar;41;41-60;Badalona;Barcelona;Cataluña;Tienda física;2023-02-17;Sí
+C0669;Lucía Álvarez;35;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2022-06-23;Sí
+C0670;Carmen Gómez;51;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-10-19;No
+C0671;Isabel Sánchez;24;18-25;Bilbao;Vizcaya;País Vasco;Tienda física;2022-07-27;No
+C0672;Miguel Rodríguez;48;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Online;2022-04-28;No
+C0673;Elena Jiménez;76;61+;Madrid Centro;Madrid;Madrid;Online;2021-12-28;No
+C0674;Jorge Navarro;20;18-25;Valencia Centro;Valencia;C. Valenciana;Online;2023-09-24;No
+C0675;Carmen Gómez;18;18-25;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2022-03-18;No
+C0676;Jorge Navarro;33;26-40;Paterna;Valencia;C. Valenciana;Online;2023-01-08;No
+C0677;Manuel Moreno;44;41-60;Leganés;Madrid;Madrid;Online;2022-02-12;Sí
+C0678;Beatriz Santos;77;61+;Málaga Centro;Málaga;Andalucía;Online;2023-07-05;Sí
+C0679;Elena Jiménez;22;18-25;Valencia Centro;Valencia;C. Valenciana;Online;2023-05-14;No
+C0680;María Martínez;19;18-25;Valencia Centro;Valencia;C. Valenciana;Tienda física;2022-10-11;No
+C0681;Patricia Aguilar;53;41-60;Zaragoza;Zaragoza;Aragón;Online;2023-01-14;No
+C0682;David Ruiz;65;61+;Sevilla Centro;Sevilla;Andalucía;Tienda física;2024-09-17;No
+C0683;Roberto Castillo;46;41-60;Getafe;Madrid;Madrid;Tienda física;2021-07-15;Sí
+C0684;Jorge Navarro;53;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2021-08-01;No
+C0685;Óscar Ramos;70;61+;Sevilla Centro;Sevilla;Andalucía;Tienda física;2022-05-22;No
+C0686;Sara Romero;57;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2021-03-13;No
+C0687;Lucía Álvarez;33;26-40;Valladolid;Valladolid;Castilla y León;Tienda física;2023-07-01;Sí
+C0688;Patricia Aguilar;35;26-40;Alcobendas;Madrid;Madrid;Tienda física;2023-06-10;No
+C0689;Manuel Moreno;63;61+;Zaragoza;Zaragoza;Aragón;Tienda física;2022-09-23;No
+C0690;David Ruiz;50;41-60;Madrid Centro;Madrid;Madrid;Online;2023-12-08;Sí
+C0691;Manuel Moreno;33;26-40;Málaga Centro;Málaga;Andalucía;Online;2023-09-05;No
+C0692;Ana García;24;18-25;Sevilla Centro;Sevilla;Andalucía;Online;2021-01-15;No
+C0693;Isabel Sánchez;74;61+;Bilbao;Vizcaya;País Vasco;Online;2022-05-27;Sí
+C0694;Patricia Aguilar;53;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Online;2021-06-12;No
+C0695;Sofía Herrera;34;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2024-08-21;No
+C0696;David Ruiz;43;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-08-17;Sí
+C0697;Sofía Herrera;55;41-60;Leganés;Madrid;Madrid;Online;2023-10-05;Sí
+C0698;Lucía Álvarez;18;18-25;Madrid Centro;Madrid;Madrid;Tienda física;2022-01-16;Sí
+C0699;Francisco Díaz;22;18-25;Sevilla Centro;Sevilla;Andalucía;Online;2021-07-04;Sí
+C0700;Ana García;29;26-40;Dos Hermanas;Sevilla;Andalucía;Tienda física;2023-10-18;No
+C0701;Sara Romero;65;61+;Pozuelo de Alarcón;Madrid;Madrid;Online;2022-06-30;No
+C0702;María Martínez;28;26-40;Bilbao;Vizcaya;País Vasco;Online;2021-01-26;Sí
+C0703;Beatriz Santos;68;61+;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2022-02-12;No
+C0704;Roberto Castillo;47;41-60;Bilbao;Vizcaya;País Vasco;Tienda física;2024-10-27;No
+C0705;Lucía Álvarez;42;41-60;Marbella;Málaga;Andalucía;Online;2021-09-08;No
+C0706;Jorge Navarro;29;26-40;Badalona;Barcelona;Cataluña;Online;2021-08-20;Sí
+C0707;Sofía Herrera;41;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2024-04-12;Sí
+C0708;Elena Jiménez;26;26-40;Málaga Centro;Málaga;Andalucía;Online;2024-11-10;Sí
+C0709;Manuel Moreno;19;18-25;Madrid Centro;Madrid;Madrid;Online;2024-11-05;No
+C0710;Beatriz Santos;18;18-25;Valladolid;Valladolid;Castilla y León;Online;2021-08-08;Sí
+C0711;Jorge Navarro;72;61+;Zaragoza;Zaragoza;Aragón;Tienda física;2022-01-31;Sí
+C0712;Patricia Aguilar;45;41-60;Pozuelo de Alarcón;Madrid;Madrid;Online;2023-09-21;No
+C0713;Pablo Domínguez;56;41-60;Alcobendas;Madrid;Madrid;Tienda física;2022-01-18;No
+C0714;Lucía Álvarez;60;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2021-05-22;Sí
+C0715;Sara Romero;78;61+;Paterna;Valencia;C. Valenciana;Online;2023-07-19;Sí
+C0716;Beatriz Santos;24;18-25;Leganés;Madrid;Madrid;Tienda física;2023-01-16;Sí
+C0717;Lucía Álvarez;36;26-40;Badalona;Barcelona;Cataluña;Tienda física;2023-12-10;No
+C0718;Beatriz Santos;20;18-25;Getxo;Vizcaya;País Vasco;Tienda física;2024-08-05;No
+C0719;José Fernández;34;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-01-01;Sí
+C0720;Isabel Sánchez;47;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2024-03-15;No
+C0721;Alejandro Medina;60;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Online;2021-04-11;No
+C0722;Antonio Pérez;26;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2023-08-17;Sí
+C0723;Manuel Moreno;52;41-60;Leganés;Madrid;Madrid;Tienda física;2022-06-29;Sí
+C0724;Roberto Castillo;39;26-40;Badalona;Barcelona;Cataluña;Tienda física;2023-11-30;Sí
+C0725;José Fernández;34;26-40;Badalona;Barcelona;Cataluña;Tienda física;2023-12-14;Sí
+C0726;Cristina Vázquez;34;26-40;Getafe;Madrid;Madrid;Online;2024-07-31;No
+C0727;Alejandro Medina;37;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2022-01-05;No
+C0728;Marta Torres;36;26-40;Leganés;Madrid;Madrid;Online;2023-06-27;No
+C0729;Lucía Álvarez;52;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2022-10-25;Sí
+C0730;Cristina Vázquez;32;26-40;Paterna;Valencia;C. Valenciana;Online;2023-07-16;No
+C0731;Elena Jiménez;42;41-60;Leganés;Madrid;Madrid;Tienda física;2021-02-03;Sí
+C0732;Francisco Díaz;67;61+;Valencia Centro;Valencia;C. Valenciana;Tienda física;2021-02-14;No
+C0733;Pablo Domínguez;42;41-60;Paterna;Valencia;C. Valenciana;Online;2021-11-16;Sí
+C0734;Carmen Gómez;59;41-60;Sevilla Centro;Sevilla;Andalucía;Tienda física;2022-06-09;No
+C0735;María Martínez;35;26-40;Valencia Centro;Valencia;C. Valenciana;Online;2023-09-16;Sí
+C0736;Jorge Navarro;35;26-40;Alcobendas;Madrid;Madrid;Online;2023-02-21;Sí
+C0737;Beatriz Santos;51;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2023-05-04;Sí
+C0738;Beatriz Santos;21;18-25;Bilbao;Vizcaya;País Vasco;Tienda física;2021-04-21;No
+C0739;Marta Torres;31;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-11-01;Sí
+C0740;Laura González;75;61+;Leganés;Madrid;Madrid;Online;2024-03-24;Sí
+C0741;Antonio Pérez;65;61+;Barcelona Eixample;Barcelona;Cataluña;Online;2022-11-20;Sí
+C0742;Jorge Navarro;53;41-60;Madrid Centro;Madrid;Madrid;Online;2023-03-28;No
+C0743;Beatriz Santos;45;41-60;Valladolid;Valladolid;Castilla y León;Tienda física;2022-02-10;No
+C0744;Elena Jiménez;34;26-40;Sevilla Centro;Sevilla;Andalucía;Online;2022-05-12;Sí
+C0745;Carmen Gómez;31;26-40;Getafe;Madrid;Madrid;Online;2024-10-07;No
+C0746;David Ruiz;31;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2024-05-01;Sí
+C0747;Beatriz Santos;52;41-60;Zaragoza;Zaragoza;Aragón;Online;2024-06-30;Sí
+C0748;Sara Romero;40;26-40;Paterna;Valencia;C. Valenciana;Tienda física;2021-11-16;Sí
+C0749;José Fernández;29;26-40;Dos Hermanas;Sevilla;Andalucía;Online;2021-01-29;No
+C0750;Patricia Aguilar;55;41-60;Madrid Centro;Madrid;Madrid;Online;2022-11-11;Sí
+C0751;Roberto Castillo;29;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Online;2024-01-29;No
+C0752;Óscar Ramos;37;26-40;Alcobendas;Madrid;Madrid;Tienda física;2024-09-20;Sí
+C0753;Carmen Gómez;67;61+;Leganés;Madrid;Madrid;Tienda física;2022-07-10;Sí
+C0754;Sara Romero;18;18-25;Paterna;Valencia;C. Valenciana;Tienda física;2021-08-09;Sí
+C0755;Francisco Díaz;24;18-25;Getafe;Madrid;Madrid;Tienda física;2022-10-09;No
+C0756;Óscar Ramos;77;61+;Zaragoza;Zaragoza;Aragón;Online;2024-02-23;Sí
+C0757;Carlos López;40;26-40;Valencia Centro;Valencia;C. Valenciana;Tienda física;2023-10-01;No
+C0758;Roberto Castillo;52;41-60;Paterna;Valencia;C. Valenciana;Online;2024-07-04;No
+C0759;Antonio Pérez;38;26-40;Bilbao;Vizcaya;País Vasco;Online;2021-03-02;No
+C0760;Antonio Pérez;53;41-60;Madrid Centro;Madrid;Madrid;Tienda física;2023-02-22;Sí
+C0761;David Ruiz;45;41-60;Dos Hermanas;Sevilla;Andalucía;Tienda física;2024-05-24;No
+C0762;Sara Romero;45;41-60;Valladolid;Valladolid;Castilla y León;Tienda física;2024-11-01;Sí
+C0763;Laura González;57;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2021-10-25;Sí
+C0764;Lucía Álvarez;64;61+;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-10-13;Sí
+C0765;Roberto Castillo;51;41-60;Getxo;Vizcaya;País Vasco;Tienda física;2022-09-14;No
+C0766;Roberto Castillo;47;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-01-14;Sí
+C0767;Beatriz Santos;22;18-25;Sevilla Centro;Sevilla;Andalucía;Tienda física;2024-05-06;Sí
+C0768;Antonio Pérez;43;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2023-10-26;No
+C0769;Patricia Aguilar;28;26-40;Málaga Centro;Málaga;Andalucía;Online;2021-10-09;Sí
+C0770;Isabel Sánchez;26;26-40;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2023-04-26;Sí
+C0771;Roberto Castillo;21;18-25;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2023-06-19;No
+C0772;Patricia Aguilar;39;26-40;Getxo;Vizcaya;País Vasco;Online;2023-04-10;Sí
+C0773;Óscar Ramos;51;41-60;Leganés;Madrid;Madrid;Tienda física;2024-03-17;Sí
+C0774;Marta Torres;55;41-60;Sevilla Centro;Sevilla;Andalucía;Tienda física;2023-11-29;No
+C0775;Roberto Castillo;53;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2022-01-24;No
+C0776;Sara Romero;24;18-25;Zaragoza;Zaragoza;Aragón;Tienda física;2021-12-07;No
+C0777;Francisco Díaz;18;18-25;Zaragoza;Zaragoza;Aragón;Online;2024-08-16;No
+C0778;María Martínez;28;26-40;Barcelona Eixample;Barcelona;Cataluña;Online;2023-03-17;No
+C0779;Lucía Álvarez;46;41-60;Alcobendas;Madrid;Madrid;Tienda física;2024-12-30;Sí
+C0780;Sara Romero;19;18-25;Getafe;Madrid;Madrid;Tienda física;2021-07-06;Sí
+C0781;Patricia Aguilar;52;41-60;Marbella;Málaga;Andalucía;Tienda física;2024-12-19;No
+C0782;Roberto Castillo;32;26-40;Pozuelo de Alarcón;Madrid;Madrid;Online;2021-12-16;No
+C0783;Cristina Vázquez;45;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2023-05-10;No
+C0784;Francisco Díaz;30;26-40;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2022-02-20;Sí
+C0785;Óscar Ramos;26;26-40;Málaga Centro;Málaga;Andalucía;Tienda física;2024-01-19;Sí
+C0786;Óscar Ramos;29;26-40;Málaga Centro;Málaga;Andalucía;Tienda física;2023-07-19;No
+C0787;Sara Romero;19;18-25;Sevilla Centro;Sevilla;Andalucía;Tienda física;2024-01-26;No
+C0788;Óscar Ramos;46;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2024-08-30;No
+C0789;Carlos López;20;18-25;Leganés;Madrid;Madrid;Tienda física;2022-09-04;No
+C0790;María Martínez;54;41-60;Barcelona Eixample;Barcelona;Cataluña;Tienda física;2024-10-08;No
+C0791;Óscar Ramos;59;41-60;Pozuelo de Alarcón;Madrid;Madrid;Tienda física;2021-07-10;No
+C0792;Lucía Álvarez;40;26-40;Getxo;Vizcaya;País Vasco;Tienda física;2024-02-02;Sí
+C0793;Francisco Díaz;28;26-40;Valencia Centro;Valencia;C. Valenciana;Online;2023-12-16;No
+C0794;Marta Torres;47;41-60;Pozuelo de Alarcón;Madrid;Madrid;Online;2021-08-12;Sí
+C0795;Jorge Navarro;22;18-25;Mairena del Aljarafe;Sevilla;Andalucía;Tienda física;2023-12-13;No
+C0796;Laura González;56;41-60;Barcelona Eixample;Barcelona;Cataluña;Online;2024-06-02;Sí
+C0797;Patricia Aguilar;29;26-40;Madrid Centro;Madrid;Madrid;Tienda física;2023-08-11;Sí
+C0798;Roberto Castillo;38;26-40;Getxo;Vizcaya;País Vasco;Online;2021-04-04;No
+C0799;Manuel Moreno;47;41-60;Mairena del Aljarafe;Sevilla;Andalucía;Online;2021-05-19;No
+C0800;Francisco Díaz;38;26-40;Valencia Centro;Valencia;C. Valenciana;Tienda física;2022-12-01;No
+SIN_REGISTRO;Cliente no registrado;-;-;-;-;-;-;-;-

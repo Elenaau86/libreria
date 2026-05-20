@@ -1,0 +1,67 @@
+empleado_id;tienda_id;nombre;genero;edad;puesto;fecha_contratacion;salario_mensual_bruto
+E0001;T001;Carlos Ramos Gómez;Hombre;35;Director/a de tienda;2023-04-05;2.891,44 €
+E0002;T001;Manuel López Álvarez;Hombre;47;Responsable de sección;2016-01-19;2.019,52 €
+E0003;T001;Andrés Romero Navarro;Hombre;21;Librero/a;2019-09-15;1.757,13 €
+E0004;T001;Alberto Álvarez Gómez;Hombre;20;Librero/a;2018-10-25;1.676,96 €
+E0005;T001;Lucía Fernández Gil;Mujer;41;Librero/a senior;2019-04-06;1.760,78 €
+E0006;T001;Rubén Hernández Navarro;Hombre;36;Librero/a senior;2021-01-05;2.001,08 €
+E0007;T002;Jorge López Torres;Hombre;38;Director/a de tienda;2017-02-26;3.178,37 €
+E0008;T002;Javier Domínguez Pérez;Hombre;38;Responsable de sección;2016-02-18;2.152,56 €
+E0009;T002;Paula Alonso Molina;Mujer;43;Librero/a;2018-12-26;1.642,60 €
+E0010;T002;Marcos Vázquez Domínguez;Hombre;24;Librero/a;2023-03-06;1.750,05 €
+E0011;T002;Pablo Alonso Moreno;Hombre;37;Librero/a;2023-08-14;1.612,52 €
+E0012;T002;Andrés Martínez Díaz;Hombre;45;Auxiliar de tienda;2017-05-14;1.221,68 €
+E0013;T002;Marta Molina Gutiérrez;Mujer;45;Cajero/a;2017-12-20;1.246,81 €
+E0014;T003;Andrés Ramos Torres;Hombre;54;Director/a de tienda;2021-07-22;3.289,56 €
+E0015;T003;Nuria Moreno Hernández;Mujer;34;Responsable de sección;2020-07-14;2.333,92 €
+E0016;T003;Javier Sánchez González;Hombre;30;Cajero/a;2015-09-18;1.395,43 €
+E0017;T003;Cristina Navarro Alonso;Mujer;53;Auxiliar de tienda;2015-02-17;1.381,28 €
+E0018;T004;Manuel Gil Gómez;Hombre;41;Director/a de tienda;2019-11-16;2.992,34 €
+E0019;T004;Alberto García Ramos;Hombre;36;Responsable de sección;2016-03-11;2.332,71 €
+E0020;T004;Teresa Navarro Fernández;Mujer;29;Auxiliar de tienda;2016-10-23;1.449,85 €
+E0021;T004;Pedro Díaz Gutiérrez;Hombre;21;Librero/a senior;2018-06-13;1.937,88 €
+E0022;T004;Javier Pérez Álvarez;Hombre;25;Librero/a senior;2015-10-11;2.018,49 €
+E0023;T004;David Domínguez Gutiérrez;Hombre;55;Librero/a;2020-12-01;1.573,70 €
+E0024;T004;Marta Torres Gil;Mujer;32;Auxiliar de tienda;2022-07-14;1.330,74 €
+E0025;T005;Raquel Romero Alonso;Mujer;27;Director/a de tienda;2015-09-20;2.947,25 €
+E0026;T005;María Álvarez Torres;Mujer;34;Responsable de sección;2015-10-18;2.004,71 €
+E0027;T005;Andrés López Martínez;Hombre;41;Librero/a senior;2017-09-01;2.036,95 €
+E0028;T005;Beatriz Fernández Torres;Mujer;28;Cajero/a;2023-10-19;1.279,62 €
+E0029;T005;Natalia Fernández Sánchez;Mujer;26;Cajero/a;2019-10-01;1.316,09 €
+E0030;T006;Raquel Ramos Martínez;Mujer;26;Director/a de tienda;2023-03-02;3.063,86 €
+E0031;T006;Sofía Pérez Fernández;Mujer;32;Responsable de sección;2019-09-25;2.091,86 €
+E0032;T006;Marcos Alonso Pérez;Hombre;24;Cajero/a;2021-03-04;1.464,77 €
+E0033;T006;Javier Molina Torres;Hombre;20;Librero/a senior;2016-11-12;1.854,91 €
+E0034;T006;Beatriz Gutiérrez Fernández;Mujer;45;Librero/a senior;2019-04-02;1.807,89 €
+E0035;T007;Jorge Gómez Alonso;Hombre;38;Director/a de tienda;2023-03-12;3.256,51 €
+E0036;T007;Lucía Fernández Ruiz;Mujer;33;Responsable de sección;2023-04-02;2.379,57 €
+E0037;T007;Diego Martínez Martínez;Hombre;57;Cajero/a;2020-12-15;1.364,77 €
+E0038;T007;Javier Romero López;Hombre;31;Librero/a senior;2015-10-06;2.089,96 €
+E0039;T007;Jorge Sánchez Álvarez;Hombre;35;Librero/a senior;2019-09-14;1.753,72 €
+E0040;T008;Paula Fernández Domínguez;Mujer;40;Director/a de tienda;2019-06-10;2.974,07 €
+E0041;T008;Luis Alonso Díaz;Hombre;24;Responsable de sección;2021-12-19;2.300,34 €
+E0042;T008;Miguel Torres Fernández;Hombre;52;Auxiliar de tienda;2018-11-30;1.243,40 €
+E0043;T008;Andrés Hernández Ruiz;Hombre;30;Cajero/a;2021-02-03;1.473,20 €
+E0044;T008;Rosa Molina Romero;Mujer;20;Auxiliar de tienda;2016-02-29;1.417,37 €
+E0045;T008;Marcos Sánchez Sánchez;Hombre;55;Librero/a;2018-02-28;1.578,48 €
+E0046;T009;Diego Fernández Domínguez;Hombre;36;Director/a de tienda;2015-07-28;2.964,57 €
+E0047;T009;Iván Gómez Martínez;Hombre;20;Responsable de sección;2022-02-22;2.085,73 €
+E0048;T009;Elena Ramos Alonso;Mujer;55;Cajero/a;2015-02-09;1.383,79 €
+E0049;T009;Miguel Vázquez González;Hombre;54;Librero/a senior;2021-07-13;1.941,96 €
+E0050;T010;Iván González Martínez;Hombre;39;Director/a de tienda;2023-12-05;3.389,15 €
+E0051;T010;Rubén Fernández Domínguez;Hombre;35;Responsable de sección;2023-10-01;2.231,78 €
+E0052;T010;Rosa Ramos González;Mujer;35;Librero/a;2019-08-16;1.516,03 €
+E0053;T010;Pablo Ramos Díaz;Hombre;46;Librero/a;2016-10-14;1.574,85 €
+E0054;T010;Jorge Martínez Gutiérrez;Hombre;34;Librero/a;2018-12-03;1.701,66 €
+E0055;T010;Carmen Pérez García;Mujer;32;Cajero/a;2018-02-15;1.307,56 €
+E0056;T011;Marcos Hernández Molina;Hombre;52;Director/a de tienda;2021-01-05;3.245,32 €
+E0057;T011;María Sánchez Gómez;Mujer;31;Responsable de sección;2016-03-20;2.025,07 €
+E0058;T011;Patricia Ramos Díaz;Mujer;47;Librero/a senior;2021-06-19;1.952,44 €
+E0059;T011;Marcos Martínez Vázquez;Hombre;47;Librero/a senior;2021-01-14;2.040,73 €
+E0060;T011;Rubén Muñoz López;Hombre;41;Auxiliar de tienda;2016-05-25;1.417,37 €
+E0061;T012;Teresa Ruiz Domínguez;Mujer;46;Director/a de tienda;2022-10-26;3.063,71 €
+E0062;T012;Alicia González Fernández;Mujer;46;Responsable de sección;2023-05-23;2.443,88 €
+E0063;T012;Pedro Álvarez Ruiz;Hombre;45;Librero/a senior;2018-03-21;1.899,14 €
+E0064;T012;Iván Álvarez Navarro;Hombre;40;Cajero/a;2019-12-17;1.344,76 €
+E0065;T012;Rafael Gutiérrez Ramos;Hombre;30;Librero/a senior;2020-10-12;1.885,98 €
+ONLINE;ONLINE;Canal Online (sin empleado físico);-;-;Vendedor/a Online;-;-

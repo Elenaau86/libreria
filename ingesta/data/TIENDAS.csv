@@ -1,0 +1,13 @@
+tienda_id;nombre;municipio;m2
+T001;Librería Clásicos Madrid;Madrid Centro;180.0
+T002;Librería Pozuelo Books;Pozuelo de Alarcón;220.0
+T003;Librería Vallecas Popular;Madrid Centro;120.0
+T004;Librería Barcelona Cultura;Barcelona Eixample;200.0
+T005;Librería Sarrià Premium;Barcelona Eixample;160.0
+T006;Librería Sevilla Letras;Sevilla Centro;140.0
+T007;Librería Valencia Mediterráneo;Valencia Centro;155.0
+T008;Librería Bilbao Norte;Bilbao;170.0
+T009;Librería Getxo Élite;Getxo;130.0
+T010;Librería Marbella Luxury;Marbella;190.0
+T011;Librería Zaragoza Central;Zaragoza;150.0
+T012;Librería Alcobendas;Alcobendas;165.0

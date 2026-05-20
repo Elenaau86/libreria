@@ -1,0 +1,19 @@
+municipio;cod_municipio_ine;cod_provincia_ine;cod_ccaa_ine;provincia;ccaa;renta_media;poblacion;tipo_zona
+Madrid Centro;28079;28;13;Madrid;Madrid;42000;320000;Urbana rica
+Pozuelo de Alarcón;28115;28;13;Madrid;Madrid;68000;85000;Suburbana rica
+Getafe;28065;28;13;Madrid;Madrid;24000;185000;Urbana popular
+Barcelona Eixample;8019;8;9;Barcelona;Cataluña;46000;270000;Urbana rica
+Badalona;8015;8;9;Barcelona;Cataluña;23000;220000;Urbana popular
+Sevilla Centro;41091;41;1;Sevilla;Andalucía;26000;180000;Urbana media
+Mairena del Aljarafe;41059;41;1;Sevilla;Andalucía;31000;45000;Suburbana media
+Dos Hermanas;41038;41;1;Sevilla;Andalucía;21000;135000;Urbana popular
+Valencia Centro;46250;46;10;Valencia;C. Valenciana;28000;240000;Urbana media
+Paterna;46192;46;10;Valencia;C. Valenciana;27000;70000;Suburbana media
+Bilbao;48020;48;16;Vizcaya;País Vasco;38000;350000;Urbana media
+Getxo;48044;48;16;Vizcaya;País Vasco;52000;80000;Suburbana rica
+Zaragoza;50297;50;2;Zaragoza;Aragón;27000;680000;Urbana media
+Málaga Centro;29067;29;1;Málaga;Andalucía;24000;200000;Urbana media
+Marbella;29069;29;1;Málaga;Andalucía;45000;145000;Turística rica
+Valladolid;47186;47;7;Valladolid;Castilla y León;25000;300000;Urbana media
+Alcobendas;28006;28;13;Madrid;Madrid;44000;115000;Suburbana rica
+Leganés;28074;28;13;Madrid;Madrid;23000;190000;Urbana popular
